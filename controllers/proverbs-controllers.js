@@ -23,72 +23,73 @@ const postProverb = async (req, res, next) => {
 		return next(errors);
 	}
 
-	const { proverb, translation, explanation, userId } = req.body;
+	const { proverb, translation, explanation } = req.body;
 
-	if (userId) {
-		const postedProverb = new Proverb({
-			proverb,
-			translation,
-			explanation,
-			userId
+	const postedProverb = new Proverb({
+		proverb,
+		translation,
+		explanation
+	});
+	try {
+		await postedProverb.save();
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Could not save user in database '
 		});
-		let user;
-		try {
-			user = await User.findById(userId);
-		} catch (error) {
-			console.log(error);
-			res.status(500).json({
-				msg: 'Could not find user in database'
-			});
-			return next(error);
-		}
-
-		if (!user) {
-			res.status(500).json({
-				msg: 'Could not find user'
-			});
-			throw new Error('Invalid credentials.');
-		}
-
-		try {
-			const session = await mongoose.startSession();
-			session.startTransaction();
-			await postedProverb.save({ session });
-			user.proverbs.push(postedProverb);
-			await user.save({ session });
-			await session.commitTransaction();
-		} catch (error) {
-			res.status(500).json({
-				msg: 'Could not save proverb for user'
-			});
-			return next(error);
-		}
-		res.status(201).json({ user_proverbs: user.proverbs });
-	} else {
-		const postedProverb = new Proverb({
-			proverb,
-			translation,
-			explanation
-		});
-		try {
-			await postedProverb.save();
-		} catch (error) {
-			console.log(error);
-			res.status(500).json({
-				msg: 'Could not save user in database '
-			});
-			return next(error);
-		}
-		res.status(201).json({ proverb: postedProverb });
+		return next(error);
 	}
+	res.status(201).json({ proverb: postedProverb });
 };
 
-const getProverbsByUserId = async (req, res, next) => {
-	const userId = req.params.uid;
+const postUserProverb = async (req, res, next) => {
+	const { proverb, translation, explanation } = req.body;
+
+	const postedProverb = new Proverb({
+		proverb,
+		translation,
+		explanation,
+		userId: req.userData.userId
+	});
 
 	let user;
 	try {
-		user = await User.findById(userId);
+		user = await User.findById(req.userData.userId);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Could not find user in database'
+		});
+		return next(error);
+	}
+
+	if (!user) {
+		res.status(500).json({
+			msg: 'Could not find user'
+		});
+		throw new Error('Invalid credentials.');
+	}
+
+	try {
+		const session = await mongoose.startSession();
+		session.startTransaction();
+		await postedProverb.save({ session });
+		user.proverbs.push(postedProverb);
+		await user.save({ session });
+		await session.commitTransaction();
+	} catch (error) {
+		res.status(500).json({
+			msg: 'Could not save proverb for user'
+		});
+		return next(error);
+	}
+	res.status(201).json({ user_proverbs: user.proverbs });
+};
+
+const getProverbsByUserId = async (req, res, next) => {
+	let user;
+	try {
+		user = await User.findById(req.userData.userId);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
@@ -104,3 +105,4 @@ const getProverbsByUserId = async (req, res, next) => {
 exports.postProverb = postProverb;
 exports.getProverbsByUserId = getProverbsByUserId;
 exports.getProverbs = getProverbs;
+exports.postUserProverb = postUserProverb;
