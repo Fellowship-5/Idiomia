@@ -7,10 +7,10 @@ const userSchema = new Schema({
 	name: { type: String, required: true },
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true, minlength: 6 },
-	Country: { type: String, required: false },
-	Phone: { type: Number, required: false },
-	Newsletters: { type: Boolean, required: false },
-	Proverbs: []
+	country: { type: String, required: false },
+	phone: { type: Number, required: false },
+	newsletters: { type: Boolean, required: false },
+	proverbs: []
 });
 
 userSchema.plugin(uniqueValidator);
