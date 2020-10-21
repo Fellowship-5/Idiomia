@@ -12,11 +12,12 @@ router.post(
 	proverbsController.postProverb
 );
 router.use(checkAuth);
+router.get('/my-proverbs', proverbsController.getProverbsByUserId);
 router.post(
 	'/post-my-proverb',
 	[ (check('proverb').not().isEmpty(), check('translation').not().isEmpty(), check('explanation').not().isEmpty()) ],
 	proverbsController.postUserProverb
 );
-router.get('/my-proverbs', proverbsController.getProverbsByUserId);
+router.patch('/edit-my-proverb/:pid', proverbsController.editUserProverb);
 
 module.exports = router;

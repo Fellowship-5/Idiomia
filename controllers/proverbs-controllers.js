@@ -102,7 +102,46 @@ const getProverbsByUserId = async (req, res, next) => {
 	});
 };
 
+const editUserProverb = async (req, res, next) => {
+	const { translation, explanation } = req.body;
+	const proverbId = req.params.pid;
+
+	let user;
+	try {
+		user = await User.findById(req.userData.userId);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Could not save user in database '
+		});
+		return next(error);
+	}
+
+	if (!user) {
+		res.status(500).json({
+			msg: 'Could not find user'
+		});
+		throw new Error('Invalid credentials.');
+	}
+
+	const proverbToEdit = user.proverbs.find((proverb) => proverb.id === proverbId);
+	proverbToEdit.translation = translation;
+	proverbToEdit.explanation = explanation;
+
+	try {
+		await User.save();
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Could not save proverb in database '
+		});
+		return next(error);
+	}
+	res.status(200).json({ user_proverbs: user.proverbs.toObject({ getters: true }) });
+};
+
 exports.postProverb = postProverb;
 exports.getProverbsByUserId = getProverbsByUserId;
 exports.getProverbs = getProverbs;
 exports.postUserProverb = postUserProverb;
+exports.editUserProverb = editUserProverb;
