@@ -14,6 +14,7 @@ const getProverbs = async (req, res, next) => {
 		res.status(500).json({
 			msg: 'could not retrieve proverbs from database'
 		});
+		return next(error);
 	}
 	res.json({ proverbs: proverbs.map((proverb) => proverb.toObject({ getters: true })) });
 };
@@ -59,7 +60,7 @@ const postUserProverb = async (req, res, next) => {
 		res.status(500).json({
 			msg: 'Could not find user'
 		});
-		throw new Error('Invalid credentials.');
+		return next(new Error('Invalid credentials.'));
 	}
 
 	try {
