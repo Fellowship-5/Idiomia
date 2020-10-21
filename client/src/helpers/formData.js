@@ -2,7 +2,7 @@ export const REGISTER_INITIAL_DATA = {
   name: "",
   email: "",
   password: "",
-  password2: "",
+  confirmPassword: "",
   country: "",
   newsletter: true,
 };

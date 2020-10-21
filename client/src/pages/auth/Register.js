@@ -21,10 +21,10 @@ const Register = () => {
   const [formData, setFormData] = useState(REGISTER_INITIAL_DATA);
   const [disabled, setDisabled] = useState(true);
 
-  const { name, email, password, password2, country, newsletter } = formData;
+  const { name, email, password, confirmPassword, country, newsletter } = formData;
 
   useEffect(() => {
-    const isFilled = [name, email, password, password2, country].every((data) =>
+    const isFilled = [name, email, password, confirmPassword, country].every((data) =>
       Boolean(data)
     );
     isFilled ? setDisabled(false) : setDisabled(true);
@@ -39,7 +39,7 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (password !== password2) {
+    if (password !== confirmPassword) {
       toast.error("Passwords do not match");
     } else {
       registerUser(formData);
@@ -96,8 +96,8 @@ const Register = () => {
           label="Password"
           id="register-password-2"
           type="password"
-          value={password2}
-          name="password2"
+          value={confirmPassword}
+          name="confirmPassword"
           onChange={(e) => onChange(e)}
           placeholder="Confirm Password"
           autoComplete="off"

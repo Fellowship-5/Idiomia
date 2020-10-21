@@ -29,26 +29,22 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: AUTH_ERROR,
     });
+    localStorage.removeItem("token");
   }
 };
 
 // Register User
 export const register = (data) => async (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
   const body = JSON.stringify(data);
 
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await axios.post("/api/users", body);
 
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
+    localStorage.setItem("token", res.data.token);
     toast.success("You have registered successfully");
     dispatch(loadUser());
   } catch (err) {
@@ -61,28 +57,23 @@ export const register = (data) => async (dispatch) => {
     dispatch({
       type: REGISTER_FAIL,
     });
+    localStorage.removeItem("token");
   }
 };
 
 // Login User
 export const login = (email, password) => async (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post("/api/auth", body);
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
     dispatch(loadUser());
-
+    localStorage.setItem("token", res.data.token);
     toast.success("You have logined successfully");
   } catch (err) {
     const errors = err.response.data.errors;
@@ -94,6 +85,7 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({
       type: LOGIN_FAIL,
     });
+    localStorage.removeItem("token");
   }
 };
 
@@ -101,4 +93,5 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
+  localStorage.removeItem("token");
 };

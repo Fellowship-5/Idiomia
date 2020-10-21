@@ -1,35 +1,21 @@
-import React from 'react';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-
+import React from "react";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 
 export default function Input({
-  id,
-  name,
-  type = 'text',
-  required = false,
-  placeholder,
-  autoComplete,
-  onChange = undefined,
-  onClick = undefined,
-  onBlur = undefined,
-  onKeyDown = undefined,
   plaintext = false,
-  readOnly = false,
-  className,
-  pClassName,
-  value,
   disabled = false,
-  as,
+  required = false,
+  readOnly = false,
+  pClassName,
   label,
-  size,
   controlId,
   children,
   error,
   inputTextLeft,
   inputTextRight,
   inputTextRightOnClick,
-  minLength
+  ...props
 }) {
   return (
     <Form.Group className={pClassName} controlId={controlId}>
@@ -44,24 +30,10 @@ export default function Input({
           )}
         </InputGroup.Prepend>
         <Form.Control
-          as={as}
-          id={id}
-          name={name}
-          type={type}
           required={required}
-          placeholder={placeholder}
-          onChange={onChange}
-          onClick={onClick}
-          onBlur={onBlur}
-          onKeyDown={onKeyDown}
-          className={className}
           disabled={disabled}
-          size={size}
-          value={value}
-          readOnly={readOnly}
           plaintext={plaintext}
-          autoComplete={autoComplete}
-          minLength={minLength}
+          {...props}
         >
           {children}
         </Form.Control>

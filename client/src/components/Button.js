@@ -1,32 +1,24 @@
-import React from 'react';
-import { Button as ButtonB } from 'react-bootstrap';
-import Icon from './Icon';
+import React from "react";
+import { Button as ButtonBootstrap } from "react-bootstrap";
+import Icon from "./Icon";
 
 export default function Button({
-  id,
   text,
   disabled = false,
   onClick = undefined,
-  type = 'button',
-  className,
-  variant,
-  color,
+  type = "button",
   icon,
-  size
+  ...props
 }) {
   return (
-    <ButtonB
-      id={id}
+    <ButtonBootstrap
       disabled={disabled}
       onClick={onClick}
       type={type}
-      variant={variant}
-      size={size}
-      color={color}
-      className={className}
+      {...props}
     >
       {icon && <Icon icon={icon} />}
-      <span>{text}</span> 
-    </ButtonB>
+      <span>{text}</span>
+    </ButtonBootstrap>
   );
 }
