@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-
+const finderUserById = require('../services/user_methods.js');
 const Proverb = require('../models/proverb');
 const user = require('../models/user');
 
@@ -23,24 +23,14 @@ const postProverb = async (req, res, next) => {
 	});
 
 	if (userId) {
-		let user;
-		try {
-			user = await user.findById(userId);
-		} catch (error) {
-			console.log(error);
-			res.status(500).json({
-				msg: 'Could not find user in database'
-			});
-			return next(error);
-		}
-
+		const user = finderUserById(userId);
 		if (!user) {
 			res.status(500).json({
 				msg: 'Could not find user'
 			});
 			throw new Error('Invalid credentials.');
 		}
-		console.log(user);
+
 		try {
 			const session = await mongoose.startSession();
 			session.startTransaction();
