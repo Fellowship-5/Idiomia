@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import Navbar from "./pages/layout/Navbar";
 
 import "./App.css";
 
@@ -17,7 +17,8 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-      <ToastContainer newestOnTop autoClose={2000} />
+        <ToastContainer newestOnTop autoClose={2000} />
+        <Navbar />
         <Switch>
           <Route exact path="/">
             <div className="App">This is a homepage</div>
