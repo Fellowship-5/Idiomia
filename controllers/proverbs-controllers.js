@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const { findUserById } = require('../services/user_methods');
 
 const Proverb = require('../models/proverb');
 const User = require('../models/user');
@@ -52,16 +53,7 @@ const postUserProverb = async (req, res, next) => {
 		userId: req.userData.userId
 	});
 
-	let user;
-	try {
-		user = await User.findById(req.userData.userId);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({
-			msg: 'Could not find user in database'
-		});
-		return next(error);
-	}
+	const user = await findUserById(req.userData.userId);
 
 	if (!user) {
 		res.status(500).json({
@@ -87,16 +79,7 @@ const postUserProverb = async (req, res, next) => {
 };
 
 const getProverbsByUserId = async (req, res, next) => {
-	let user;
-	try {
-		user = await User.findById(req.userData.userId);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({
-			msg: 'Could not save user in database '
-		});
-		return next(error);
-	}
+	const user = await findUserById(req.userData.userId);
 	res.json({
 		user_proverbs: user.proverbs
 	});
