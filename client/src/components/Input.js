@@ -9,6 +9,7 @@ export default function Input({
   readOnly = false,
   pClassName,
   label,
+  labelClassName,
   controlId,
   children,
   error,
@@ -19,7 +20,7 @@ export default function Input({
 }) {
   return (
     <Form.Group className={pClassName} controlId={controlId}>
-      <Form.Label>
+      <Form.Label className={labelClassName}>
         {label}
         {error}
       </Form.Label>

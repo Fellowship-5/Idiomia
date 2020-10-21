@@ -1,4 +1,31 @@
 select#country {
-  height: calc(1.5em + .75rem + 5px);
+  height: calc(1.5em + 0.75rem + 5px);
   font-size: 1rem;
+}
+
+.register-container {
+  position: relative;
+  padding: 80px 0;
+  max-width: 550px;
+}
+
+.register-title {
+  color: #444;
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 1.35rem;
+}
+
+#user-register-button {
+  background-color: #111;
+}
+
+#user-register-button:disabled,
+#user-register-button:disabled:hover,
+#user-register-button[disabled] {
+  background-color: #111;
+  border-radius: 3px;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.15);
+  color: #fff;
+  opacity: .5;
 }

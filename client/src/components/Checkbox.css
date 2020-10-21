@@ -1,0 +1,5 @@
+.input-form-label.form-check {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}

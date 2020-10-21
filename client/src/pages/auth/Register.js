@@ -8,6 +8,8 @@ import Input from "./../../components/Input";
 import Button from "./../../components/Button";
 import Icon from "./../../components/Icon";
 import Checkbox from "./../../components/Checkbox";
+import Section from "./../../components/Section";
+import Breadcrumb from "./../../components/Breadcrumb";
 
 import { REGISTER_INITIAL_DATA } from "./../../helpers/formData";
 
@@ -53,100 +55,120 @@ const Register = () => {
   const countries = [{ code: "ZERO" }].concat(countryList.getData());
 
   return (
-    <Container>
-      <h1 className="large text-primary">Sign Up</h1>
-      <p className="lead">
-        <Icon icon={"faUser"} fixedWidth /> Create Your Account
-      </p>
-      <Form>
-        <Input
-          label="Name"
-          id="register-name"
-          type="text"
-          value={name}
-          name="name"
-          onChange={(e) => onChange(e)}
-          placeholder="Name"
-          autoComplete="off"
-        />
-        <Input
-          label="Email"
-          id="register-email"
-          type="email"
-          value={email}
-          name="email"
-          onChange={(e) => onChange(e)}
-          placeholder="Email Address"
-          required
-          autoComplete="off"
-        />
+    <>
+      <Section
+        id="page-title"
+        title="MY ACCOUNT"
+        containerClass="d-flex justify-content-between mx-5 align-items-center"
+      >
+        <Breadcrumb activePage="Register" />
+      </Section>
+      <Container className="register-container">
+        <p className="register-title">
+          <Icon icon={"faUser"} fixedWidth /> New Signup? Register for an
+          Account
+        </p>
+        <Form>
+          <Input
+            label="Name"
+            id="register-name"
+            type="text"
+            value={name}
+            name="name"
+            onChange={(e) => onChange(e)}
+            placeholder="Name"
+            autoComplete="off"
+            labelClassName="input-form-label my-3"
+            className="rounded"
+          />
+          <Input
+            label="Email"
+            id="register-email"
+            type="email"
+            value={email}
+            name="email"
+            onChange={(e) => onChange(e)}
+            placeholder="Email Address"
+            required
+            autoComplete="off"
+            labelClassName="input-form-label my-3"
+            className="rounded"
+          />
 
-        <Input
-          label="Password"
-          id="register-password"
-          type="password"
-          value={password}
-          name="password"
-          onChange={(e) => onChange(e)}
-          placeholder="Create a password"
-          autoComplete="off"
-          minLength="6"
-        />
-        <Input
-          label="Password"
-          id="register-password-2"
-          type="password"
-          value={confirmPassword}
-          name="confirmPassword"
-          onChange={(e) => onChange(e)}
-          placeholder="Confirm Password"
-          autoComplete="off"
-          minLength="6"
-        />
-        <Input
-          as="select"
-          size="sm"
-          id="country"
-          label="Country"
-          onChange={(e) => onChange(e)}
-          value={country}
-          name="country"
-          autoComplete="off"
-        >
-          <>
-            {countries.map((country) => {
-              return (
-                <option disabled={country.code === "ZERO"} key={country.code}>
-                  {country.name}
-                </option>
-              );
-            })}
-          </>
-        </Input>
+          <Input
+            label="Password"
+            id="register-password"
+            type="password"
+            value={password}
+            name="password"
+            onChange={(e) => onChange(e)}
+            placeholder="Create a password"
+            autoComplete="off"
+            minLength="6"
+            labelClassName="input-form-label my-3"
+            className="rounded"
+          />
+          <Input
+            label="Password"
+            id="register-password-2"
+            type="password"
+            value={confirmPassword}
+            name="confirmPassword"
+            onChange={(e) => onChange(e)}
+            placeholder="Confirm Password"
+            autoComplete="off"
+            minLength="6"
+            labelClassName="input-form-label my-3"
+            className="rounded"
+          />
+          <Input
+            as="select"
+            size="sm"
+            id="country"
+            label="Country"
+            onChange={(e) => onChange(e)}
+            value={country}
+            name="country"
+            autoComplete="off"
+            labelClassName="input-form-label my-3"
+            className="rounded"
+          >
+            <>
+              {countries.map((country) => {
+                return (
+                  <option disabled={country.code === "ZERO"} key={country.code}>
+                    {country.name}
+                  </option>
+                );
+              })}
+            </>
+          </Input>
 
-        <Checkbox
-          id="subscribe-newsletter"
-          label="Subscribe to newsletter"
-          checked={newsletter}
-          name="newsletter"
-          onChange={onChange}
-        />
-        <hr className="my-3" />
-        <Button
-          variant="primary"
-          text="Register"
-          onClick={(e) => onSubmit(e)}
-          color="white"
-          type="submit"
-          className={`float-right`}
-          id="user-register-button"
-          disabled={disabled}
-        />
-      </Form>
-      <p className="my-1">
-        Already have an account? <Link to="/login">Sign In</Link>
-      </p>
-    </Container>
+          <Checkbox
+            id="subscribe-newsletter"
+            label="Subscribe to newsletter"
+            checked={newsletter}
+            name="newsletter"
+            onChange={onChange}
+            className="input-form-label my-4"
+          />
+          <hr className="my-3" />
+          <Button
+            variant="info"
+            text="Register"
+            onClick={(e) => onSubmit(e)}
+            color="white"
+            type="submit"
+            className="button-custom float-right"
+            id="user-register-button"
+            disabled={disabled}
+          />
+        </Form>
+        <p className="my-1">
+          Already have an account? <Link to="/login">Sign In</Link>
+        </p>
+      </Container>
+    </>
   );
 };
 

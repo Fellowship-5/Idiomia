@@ -1,12 +1,13 @@
 import { faFlagCheckered } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import { Form as FormB } from "react-bootstrap";
+import { Form as FormBootstrap } from "react-bootstrap";
+import "./Checkbox.css";
 
-const Checkbox = ({ id, ...props }) => {
+const Checkbox = ({ id, pClassName, ...props }) => {
   return (
-    <FormB.Group id={id}>
-      <FormB.Check type="checkbox" {...props} />
-    </FormB.Group>
+    <FormBootstrap.Group id={id} className={pClassName}>
+      <FormBootstrap.Check type="checkbox" {...props} />
+    </FormBootstrap.Group>
   );
 };
 

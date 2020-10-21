@@ -6,7 +6,7 @@ export default function Icon({ icon, ...props }) {
   return (
     <FontAwesomeIcon
       icon={icons[icon]}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", marginRight:'6px' }}
       {...props}
     />
   );

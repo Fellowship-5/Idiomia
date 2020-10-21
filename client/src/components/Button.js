@@ -1,6 +1,7 @@
 import React from "react";
 import { Button as ButtonBootstrap } from "react-bootstrap";
 import Icon from "./Icon";
+import './Button.css'
 
 export default function Button({
   text,
