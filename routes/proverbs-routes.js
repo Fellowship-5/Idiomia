@@ -12,6 +12,7 @@ router.post(
 	proverbsController.postProverb
 );
 router.use(checkAuth);
+
 router.get('/my-proverbs', proverbsController.getProverbsByUserId);
 router.post(
 	'/post-my-proverb',
@@ -19,5 +20,6 @@ router.post(
 	proverbsController.postUserProverb
 );
 router.patch('/edit-my-proverb/:pid', proverbsController.editUserProverb);
+router.delete('/delete-my-proverb/:pid', proverbsController.deleteUserProverb);
 
 module.exports = router;
