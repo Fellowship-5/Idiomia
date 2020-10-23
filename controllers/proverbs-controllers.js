@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const { findEntryById } = require('../services/user_methods.js');
 const Proverb = require('../models/proverb');
 const User = require('../models/user');
-const proverb = require('../models/proverb');
 
 const getProverbs = async (req, res, next) => {
 	let proverbs;
