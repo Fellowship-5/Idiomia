@@ -7,10 +7,11 @@ const userSchema = new Schema({
 	name: { type: String, required: true },
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true, minlength: 6 },
-	Country: { type: String, required: false },
-	Phone: { type: Number, required: false },
-	Newsletters: { type: Boolean, required: false },
-	Proverbs: []
+	country: { type: String, required: true },
+	phone: { type: Number, required: false },
+	newsletters: { type: Boolean, required: false },
+	role: { type: String, required: false },
+	proverbs: [ { type: mongoose.Types.ObjectId, required: true, ref: 'Proverb' } ]
 });
 
 userSchema.plugin(uniqueValidator);

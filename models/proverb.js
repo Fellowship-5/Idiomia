@@ -8,7 +8,7 @@ const proverbSchema = new Schema({
 	translation: { type: String, required: true, maxlength: 250 },
 	explanation: { type: String, required: true },
 	adminApproval: { type: Boolean, required: false },
-	userId: { type: mongoose.Types.ObjectId, required: false, ref: 'User', default: 'guest' }
+	contributor: { type: mongoose.Types.ObjectId, required: false, ref: 'User' }
 });
 
 proverbSchema.plugin(uniqueValidator);
