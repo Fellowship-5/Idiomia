@@ -26,11 +26,14 @@ const HomePage = () => {
       });
     }
   };
+  const handleCloseModal = () => {
+    setModal({ isOpen: false, type: undefined });
+  };
   return (
     <div>
       <Modal
         isOpen={modal.isOpen}
-        modalClose={() => setModal({ isOpen: false, type: undefined })}
+        modalClose={handleCloseModal}
         centered={true}
         dialogClassName="add-proverb-modal"
       >
