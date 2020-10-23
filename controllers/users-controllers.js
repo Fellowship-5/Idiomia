@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-
+const { findEntryById } = require('../services/user_methods');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
@@ -130,5 +130,17 @@ const login = async (req, res, next) => {
 	});
 };
 
+const getUserInfo = async (req, res, next) => {
+	const user = await findEntryById(req.userData.userId, 'user', 'could not find user, please try again!');
+	if (!user) {
+		res.status.json({ msg: 'could not find the user' });
+		throw new Error('Could not find user.');
+	}
+	res.json({
+		current_user: user.toObject({ getters: true })
+	});
+};
+
+exports.getUserInfo = getUserInfo;
 exports.signup = signup;
 exports.login = login;
