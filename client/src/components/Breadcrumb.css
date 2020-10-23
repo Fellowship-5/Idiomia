@@ -1,0 +1,21 @@
+.breadcrumb-custom ol {
+  background-color: transparent !important;
+  font-size: 1rem !important;
+}
+
+.breadcrumb-custom a {
+  color: #555;
+  text-decoration: none;
+  background-color: transparent !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.breadcrumb-custom a:hover {
+  color: #000;
+  text-decoration: none;
+  background-color: transparent !important;
+}
+
+.breadcrumb-custom .breadcrumb-item.active {
+  color: #6c757d;
+}

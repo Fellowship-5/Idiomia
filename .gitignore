@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 node_modules
 yarn-error.log
+=======
+client/node_modules/
+client/debug.log
+node_modules
+>>>>>>> c36dd3771407ec6fbc891ad89f294a217b9e3a26
