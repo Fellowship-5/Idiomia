@@ -1,9 +1,9 @@
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const { findUserById } = require('../services/user_methods');
-
+const { findEntryById } = require('../services/user_methods.js');
 const Proverb = require('../models/proverb');
 const User = require('../models/user');
+const proverb = require('../models/proverb');
 
 const getProverbs = async (req, res, next) => {
 	let proverbs;
@@ -51,7 +51,7 @@ const postUserProverb = async (req, res, next) => {
 		proverb,
 		translation,
 		explanation,
-		userId: req.userData.userId
+		contributor: req.userData.userId
 	});
 
 	const user = await findUserById(req.userData.userId);
@@ -80,13 +80,76 @@ const postUserProverb = async (req, res, next) => {
 };
 
 const getProverbsByUserId = async (req, res, next) => {
-	const user = await findUserById(req.userData.userId);
+	let userWithProverbs;
+	try {
+		userWithProverbs = await User.findById(req.userData.userId).populate('proverbs');
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Could not find user in database'
+		});
+		return next(error);
+	}
+
 	res.json({
-		user_proverbs: user.proverbs
+		user_proverbs: userWithProverbs.proverbs.map((proverb) => proverb.toObject({ getters: true }))
 	});
+};
+
+const editUserProverb = async (req, res, next) => {
+	const { translation, explanation } = req.body;
+	const proverbId = req.params.pid;
+
+	const proverbToEdit = await findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+
+	proverbToEdit.translation = translation;
+	proverbToEdit.explanation = explanation;
+
+	try {
+		await proverbToEdit.save();
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Could not save proverb in database '
+		});
+		return next(error);
+	}
+	res.status(200).json({ edited_proverb: proverbToEdit.toObject({ getters: true }) });
+};
+
+const deleteUserProverb = async (req, res, next) => {
+	const proverbId = req.params.pid;
+
+	let proverbToDelete;
+	try {
+		proverbToDelete = await Proverb.findById(proverbId).populate('contributor');
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: 'Could not find proverb in database'
+		});
+		return next(error);
+	}
+
+	try {
+		const session = await mongoose.startSession();
+		session.startTransaction();
+		await proverbToDelete.remove({ session });
+		proverbToDelete.contributor.proverbs.pull(proverbToDelete);
+		await proverbToDelete.contributor.save({ session });
+		await session.commitTransaction();
+	} catch (error) {
+		res.status(500).json({
+			msg: 'Could not delete proverb for user'
+		});
+		return next(error);
+	}
+	res.status(200).json({ msg: 'proverb was deleted successfully' });
 };
 
 exports.postProverb = postProverb;
 exports.getProverbsByUserId = getProverbsByUserId;
 exports.getProverbs = getProverbs;
 exports.postUserProverb = postUserProverb;
+exports.editUserProverb = editUserProverb;
+exports.deleteUserProverb = deleteUserProverb;

@@ -10,7 +10,8 @@ const userSchema = new Schema({
 	country: { type: String, required: true },
 	phone: { type: Number, required: false },
 	newsletters: { type: Boolean, required: false },
-	proverbs: []
+	role: { type: String, required: false },
+	proverbs: [ { type: mongoose.Types.ObjectId, required: true, ref: 'Proverb' } ]
 });
 
 userSchema.plugin(uniqueValidator);

@@ -1,17 +1,23 @@
 const User = require('../models/user');
+const Proverb = require('../models/proverb');
 
-const findUserById = async (userId) => {
-	let user;
+const findEntryById = async (id, collection, errorMsg) => {
+	let entry;
 	try {
-		user = await User.findById(userId);
-		return user;
+		if (collection === 'proverb') {
+			entry = await Proverb.findById(id);
+		}
+		if (collection === 'user') {
+			entry = await User.findById(id);
+		}
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
-			msg: 'Could not find user in database'
+			msg: errorMsg
 		});
 		return next(error);
 	}
+	return entry;
 };
 
-exports.findUserById = findUserById;
+exports.findEntryById = findEntryById;
