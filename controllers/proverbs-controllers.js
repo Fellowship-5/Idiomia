@@ -54,7 +54,7 @@ const postUserProverb = async (req, res, next) => {
 		contributor: req.userData.userId
 	});
 
-	const user = await findUserById(req.userData.userId);
+	const user = await findEntryById(req.userData.userId, 'user', 'could not find user!');
 
 	if (!user) {
 		res.status(500).json({
