@@ -6,19 +6,18 @@ import Breadcrumb from "./../../components/Breadcrumb";
 import Modal from "./../../components/Modal";
 import Button from "./../../components/Button";
 
-import './HomePage.css'
+import "./HomePage.css";
 
 const HomePage = () => {
   //Modal States
   const [modal, setModal] = useState({
     isOpen: false,
     type: "",
-    id: "",
   });
 
   //Modal Handlers
 
-  const handleShow = (type) => async (e) => {
+  const handleShowModal = (type) => async (e) => {
     e.preventDefault();
     if (type === "add") {
       setModal({
@@ -31,15 +30,15 @@ const HomePage = () => {
     <div>
       <Modal
         isOpen={modal.isOpen}
-        modalClose={() => setModal({ isOpen: false })}
+        modalClose={() => setModal({ isOpen: false, type: undefined })}
         centered={true}
-        dialogClassName='add-proverb-modal'
+        dialogClassName="add-proverb-modal"
       >
         {modal.type === "Add" && (
           <AddProverb actionType="Add" setModal={setModal} />
         )}
       </Modal>
-   
+
       <Section
         id="page-title"
         title="PROVERBS"
@@ -50,7 +49,7 @@ const HomePage = () => {
       <Button
         variant="info"
         text="Add Proverb"
-        onClick={handleShow("add")}
+        onClick={handleShowModal("add")}
         color="white"
         type="submit"
         className="button-custom float-right m-5"

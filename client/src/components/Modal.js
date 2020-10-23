@@ -9,10 +9,7 @@ const Modal = ({ children, isOpen, modalClose, dialogClassName, centered }) => {
       show={isOpen}
       onHide={modalClose}
     >
-      <ModalBootstrap.Header
-        className="border-bottom-0"
-        closeButton
-      ></ModalBootstrap.Header>
+      <ModalBootstrap.Header className="border-bottom-0" closeButton />
       {children}
     </ModalBootstrap>
   );

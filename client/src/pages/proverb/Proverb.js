@@ -18,16 +18,16 @@ const Proverb = ({ actionType }) => {
       Boolean(data)
     );
     const result = isArabic(proverb);
-    isFilled && result ? setDisabled(false) : setDisabled(true);
+    const shouldBeDisabled = !isFilled || !result;
+    setDisabled(shouldBeDisabled);
   }, [formData]);
 
-  const onChange = (e) => {
+  const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
   };
 
   return (
@@ -38,7 +38,7 @@ const Proverb = ({ actionType }) => {
         type="text"
         value={proverb}
         name="proverb"
-        onChange={(e) => onChange(e)}
+        onChange={handleInputChange}
         placeholder="أضف مثلًا أو تعبيرًا باللغة العربية"
         autoComplete="off"
         labelClassName="input-form-label my-3"
@@ -50,7 +50,7 @@ const Proverb = ({ actionType }) => {
         type="text"
         value={translation}
         name="translation"
-        onChange={(e) => onChange(e)}
+        onChange={handleInputChange}
         placeholder="English translation"
         autoComplete="off"
         labelClassName="input-form-label my-3"
@@ -63,7 +63,7 @@ const Proverb = ({ actionType }) => {
         type="text"
         value={explanation}
         name="explanation"
-        onChange={(e) => onChange(e)}
+        onChange={handleInputChange}
         placeholder="English explanation"
         autoComplete="off"
         labelClassName="input-form-label my-3"
@@ -74,7 +74,7 @@ const Proverb = ({ actionType }) => {
       <Button
         variant="info"
         text="Add"
-        onClick={(e) => onSubmit(e)}
+        onClick={onSubmit}
         color="white"
         type="submit"
         className="button-custom float-right"
