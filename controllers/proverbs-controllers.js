@@ -144,7 +144,7 @@ const deleteUserProverb = async (req, res, next) => {
 		});
 		return next(error);
 	}
-	res.status(200).json({ msg: 'proverb was deleted successfully' });
+	res.status(200).json({ msg: 'proverb was deleted successfully!' });
 };
 
 exports.postProverb = postProverb;
