@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Navbar from "./pages/layout/Navbar";
+import HomePage from "./pages/home/HomePage";
 
 import "./App.css";
 
@@ -20,9 +21,7 @@ function App() {
         <ToastContainer newestOnTop autoClose={2000} />
         <Navbar />
         <Switch>
-          <Route exact path="/">
-            <div className="App">This is a homepage</div>
-          </Route>
+          <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
         </Switch>
