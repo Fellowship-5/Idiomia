@@ -9,4 +9,5 @@ const router = express_1.default.Router();
 router.use(checkAdmin_1.default);
 router.delete('/delete-proverb/:pid', admin_controllers_1.deleteProverb);
 router.patch('/edit-proverb/:pid', admin_controllers_1.editProverb);
+router.patch('/approve-proverb/:pid', admin_controllers_1.approveProverb);
 module.exports = router;

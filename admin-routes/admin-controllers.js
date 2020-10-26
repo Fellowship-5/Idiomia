@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editProverb = exports.deleteProverb = void 0;
+exports.approveProverb = exports.editProverb = exports.deleteProverb = void 0;
 const proverb_js_1 = __importDefault(require("../models/proverb.js"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_methods_js_1 = require("../services/user_methods.js");
@@ -64,7 +64,6 @@ const editProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     const proverbId = req.params.pid;
     const { proverb, translation, explanation } = req.body;
     const proverbToEdit = yield user_methods_js_1.findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
-    console.log("editProverb -> proverbToEdit", proverbToEdit);
     proverbToEdit.proverb = proverb;
     proverbToEdit.translation = translation;
     proverbToEdit.explanation = explanation;
@@ -81,3 +80,21 @@ const editProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     res.status(200).json({ edited_proverb: proverbToEdit.toObject({ getters: true }) });
 });
 exports.editProverb = editProverb;
+const approveProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const proverbId = req.params.pid;
+    const { approve } = req.body;
+    const proverbToApprove = yield user_methods_js_1.findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+    proverbToApprove.adminApproval = approve;
+    try {
+        yield proverbToApprove.save();
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Could not save proverb in database '
+        });
+        return next(error);
+    }
+    res.status(200).json({ edited_proverb: proverbToApprove.toObject({ getters: true }) });
+});
+exports.approveProverb = approveProverb;

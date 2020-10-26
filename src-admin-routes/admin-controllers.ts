@@ -51,7 +51,6 @@ const editProverb = async (req: Request, res: Response, next: NextFunction) => {
     const { proverb, translation, explanation } = req.body;
 
     const proverbToEdit = await findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
-    console.log("editProverb -> proverbToEdit", proverbToEdit)
 
     proverbToEdit.proverb = proverb
     proverbToEdit.translation = translation;
@@ -68,4 +67,25 @@ const editProverb = async (req: Request, res: Response, next: NextFunction) => {
     }
     res.status(200).json({ edited_proverb: proverbToEdit.toObject({ getters: true }) });
 }
-export { deleteProverb, editProverb } 
+
+
+const approveProverb = async (req: Request, res: Response, next: NextFunction) => {
+
+    const proverbId = req.params.pid;
+    const { approve } = req.body;
+
+    const proverbToApprove = await findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+
+    proverbToApprove.adminApproval = approve;
+    try {
+        await proverbToApprove.save();
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Could not save proverb in database '
+        });
+        return next(error);
+    }
+    res.status(200).json({ edited_proverb: proverbToApprove.toObject({ getters: true }) });
+}
+export { deleteProverb, editProverb, approveProverb } 
