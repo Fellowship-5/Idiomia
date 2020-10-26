@@ -1,0 +1,7 @@
+.add-proverb-modal .modal-content {
+  padding: 3rem;
+}
+
+.add-proverb-modal .modal-content #proverb-explanation {
+  height: 10rem;
+}

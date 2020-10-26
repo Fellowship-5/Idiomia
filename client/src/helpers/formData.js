@@ -11,3 +11,9 @@ export const LOGIN_INITIAL_DATA = {
   email: "",
   password: "",
 };
+
+export const PROVERB_INITIAL_DATA = {
+  proverb: "",
+  translation: "",
+  explanation: "",
+};
