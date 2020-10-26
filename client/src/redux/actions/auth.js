@@ -12,6 +12,8 @@ import {
 import setAuthToken from "./../../helpers/setAuthToken";
 import { toast } from "react-toastify";
 
+const API_URL = process.env.REACT_APP_IDIOMIA_API;
+
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
@@ -19,7 +21,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get(`${API_URL}/users/get-user`);
 
     dispatch({
       type: USER_LOADED,
@@ -35,10 +37,8 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register = (data) => async (dispatch) => {
-  const body = JSON.stringify(data);
-
   try {
-    const res = await axios.post("/api/users", body);
+    const res = await axios.post(`${API_URL}/users/signup`, data);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -48,10 +48,13 @@ export const register = (data) => async (dispatch) => {
     toast.success("You have registered successfully");
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors, msg } = err.response.data;
 
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
+    }
+    if (msg) {
+      toast.error(msg);
     }
 
     dispatch({
@@ -62,24 +65,25 @@ export const register = (data) => async (dispatch) => {
 };
 
 // Login User
-export const login = (email, password) => async (dispatch) => {
-  const body = JSON.stringify({ email, password });
-
+export const login = (data) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/auth", body);
+    const res = await axios.post(`${API_URL}/users/login`, data);
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-    dispatch(loadUser());
     localStorage.setItem("token", res.data.token);
+    dispatch(loadUser());
     toast.success("You have logined successfully");
   } catch (err) {
-    const errors = err.response.data.errors;
+    const { errors, msg } = err.response.data;
 
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
+    }
+    if (msg) {
+      toast.error(msg);
     }
 
     dispatch({
