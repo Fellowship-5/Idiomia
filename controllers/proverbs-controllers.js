@@ -4,6 +4,7 @@ const { findEntryById } = require('../services/user_methods.js');
 const Proverb = require('../models/proverb');
 const User = require('../models/user');
 const proverb = require('../models/proverb');
+const { find } = require('../models/user');
 
 const getProverbs = async (req, res, next) => {
 	let proverbs;
@@ -150,9 +151,14 @@ const deleteUserProverb = async (req, res, next) => {
 	}
 	res.status(200).json({ deleted_proverbId: proverbToDelete._id });
 };
-
+const getProverbById = async (req, res, next) => {
+	const proverbId = req.params.pid;
+	const proverb = await findEntryById(proverbId, 'proverb', 'Could not find proverb');
+	res.status(200).json({ proverb });
+};
 exports.postProverb = postProverb;
 exports.getProverbsByUserId = getProverbsByUserId;
+exports.getProverbById = getProverbById;
 exports.getProverbs = getProverbs;
 exports.postUserProverb = postUserProverb;
 exports.editUserProverb = editUserProverb;
