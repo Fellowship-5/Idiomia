@@ -94,10 +94,7 @@ export default function (state = initialState, action) {
     case CLEAR_PROFILE:
       return {
         ...state,
-        proverbs: [],
         userProverbs: [],
-        proverb: {},
-        loading: false,
       };
     default:
       return state;
