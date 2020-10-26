@@ -8,4 +8,5 @@ const checkAdmin_1 = __importDefault(require("./checkAdmin"));
 const router = express_1.default.Router();
 router.use(checkAdmin_1.default);
 router.delete('/delete-proverb/:pid', admin_controllers_1.deleteProverb);
+router.patch('/edit-proverb/:pid', admin_controllers_1.editProverb);
 module.exports = router;
