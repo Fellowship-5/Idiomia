@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { findEntryById } = require('../services/user_methods.js');
 const Proverb = require('../models/proverb');
 const User = require('../models/user');
+const proverb = require('../models/proverb');
 
 const getProverbs = async (req, res, next) => {
 	let proverbs;
@@ -13,6 +14,7 @@ const getProverbs = async (req, res, next) => {
 		res.status(500).json({
 			msg: 'could not retrieve proverbs from database'
 		});
+		return next(error);
 	}
 	res.json({ proverbs: proverbs.map((proverb) => proverb.toObject({ getters: true })) });
 };
@@ -20,6 +22,8 @@ const getProverbs = async (req, res, next) => {
 const postProverb = async (req, res, next) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
+		console.log(errors);
+		res.status(422).json(errors);
 		return next(errors);
 	}
 
@@ -28,7 +32,8 @@ const postProverb = async (req, res, next) => {
 	const postedProverb = new Proverb({
 		proverb,
 		translation,
-		explanation
+		explanation,
+		date: new Date()
 	});
 	try {
 		await postedProverb.save();
@@ -49,25 +54,17 @@ const postUserProverb = async (req, res, next) => {
 		proverb,
 		translation,
 		explanation,
-		contributor: req.userData.userId
+		contributor: req.userData.userId,
+		date: new Date()
 	});
 
-	let user;
-	try {
-		user = await User.findById(req.userData.userId);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({
-			msg: 'Could not find user in database'
-		});
-		return next(error);
-	}
+	const user = await findEntryById(req.userData.userId, 'user', 'could not find user!');
 
 	if (!user) {
 		res.status(500).json({
 			msg: 'Could not find user'
 		});
-		throw new Error('Invalid credentials.');
+		return next(new Error('Invalid credentials.'));
 	}
 
 	try {
@@ -83,7 +80,7 @@ const postUserProverb = async (req, res, next) => {
 		});
 		return next(error);
 	}
-	res.status(201).json({ user_proverbs: user.proverbs });
+	res.status(201).json({ postedProverb });
 };
 
 const getProverbsByUserId = async (req, res, next) => {
@@ -133,7 +130,7 @@ const deleteUserProverb = async (req, res, next) => {
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
-			msg: 'Could not find proverb in database'
+			msg: 'Proverb does not exist'
 		});
 		return next(error);
 	}
@@ -147,11 +144,11 @@ const deleteUserProverb = async (req, res, next) => {
 		await session.commitTransaction();
 	} catch (error) {
 		res.status(500).json({
-			msg: 'Could not delete proverb for user'
+			msg: 'Proverb is not found'
 		});
 		return next(error);
 	}
-	res.status(200).json({ msg: 'proverb was deleted successfully' });
+	res.status(200).json({ deleted_proverbId: proverbToDelete._id });
 };
 
 exports.postProverb = postProverb;

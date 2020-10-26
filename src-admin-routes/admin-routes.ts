@@ -1,10 +1,11 @@
 import express from 'express'; 
-import adminControllers from './admin-controllers'; 
+import { deleteProverb } from './admin-controllers'; 
 import checkAdmin from './checkAdmin'
 const router = express.Router(); 
 
 router.use(checkAdmin)
-// router.delete('/delete-proverb/:pid', adminControllers.deleteProverb); 
+
+router.delete('/delete-proverb/:pid', deleteProverb); 
 
 
-export default router;
+export = router;

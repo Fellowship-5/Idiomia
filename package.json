@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Fellowship-5/Idiomia#readme",
   "dependencies": {
+    "@types/mongoose": "^5.7.36",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",

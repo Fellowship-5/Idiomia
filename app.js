@@ -12,7 +12,9 @@ app.use(bodyParser.json());
 
 app.use('/users', userRoutes);
 app.use('/proverbs', proverbRoutes);
+
 app.use(checkAuth);
+
 app.use('/admin', adminRoutes);
 
 app.listen(PORT, () => {
