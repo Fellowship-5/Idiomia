@@ -86,6 +86,6 @@ const approveProverb = async (req: Request, res: Response, next: NextFunction) =
         });
         return next(error);
     }
-    res.status(200).json({ edited_proverb: proverbToApprove.toObject({ getters: true }) });
+    res.status(200).json({ approved_proverb: proverbToApprove.toObject({ getters: true }) });
 }
 export { deleteProverb, editProverb, approveProverb } 
