@@ -9,9 +9,9 @@ const router = express.Router();
 router.post(
 	'/signup',
 	[
-		check('name').not().isEmpty(),
-		check('email').normalizeEmail().isEmail(),
-		check('password').isLength({ min: 6 })
+		check('name', 'User name is required!').not().isEmpty(),
+		check('email', 'Email is required').normalizeEmail().isEmail(),
+		check('password', 'Password must be at least 6 characters').isLength({ min: 6 })
 	],
 	usersController.signup
 );

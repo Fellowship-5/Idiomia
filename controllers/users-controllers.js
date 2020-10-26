@@ -8,6 +8,8 @@ const User = require('../models/user');
 const signup = async (req, res, next) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
+		console.log(errors);
+		res.status(422).json(errors);
 		return next(errors);
 	}
 	const { name, email, password, country, phone, newsletters } = req.body;
@@ -131,7 +133,13 @@ const login = async (req, res, next) => {
 };
 
 const getUserInfo = async (req, res, next) => {
-	const user = await findEntryById(req.userData.userId, 'user', 'could not find user, please try again!');
+	let user;
+	try {
+		user = await await User.findById(req.userData.userId).select('-password').populate('proverbs');
+	} catch (error) {
+		return next(error);
+	}
+
 	if (!user) {
 		res.status.json({ msg: 'could not find the user' });
 		throw new Error('Could not find user.');
