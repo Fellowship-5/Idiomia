@@ -2,6 +2,70 @@ import { Request, Response, NextFunction } from 'express'
 import Proverb from '../models/proverb.js'
 import mongoose from 'mongoose'
 import { findEntryById } from '../services/user_methods.js'
+import User from '../models/user.js'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
+const adminLogin = async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+
+    let existingUser;
+    try {
+        existingUser = await User.findOne({ email });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Could not find user in database'
+        });
+        return next(error);
+    }
+
+    if (!existingUser || existingUser.role !== 'admin') {
+        res.status(422).json({
+            msg: 'Users is not found or does not have the proper role.'
+        });
+        return next(new Error('Users is not found or does not have the proper role.'));
+    }
+
+    let validPassword = false;
+    try {
+        validPassword = await bcrypt.compare(password, existingUser.password);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'login failed. Please try again later'
+        });
+        return next(error);
+    }
+
+    if (!validPassword) {
+        res.status(422).json({
+            msg: 'Invalid credentials.'
+        });
+        throw new Error('Invalid credentials.');
+    }
+
+    let token;
+    try {
+        token = jwt.sign({ userId: existingUser.id, email: existingUser.email }, process.env.JWT_KEY, {
+            expiresIn: '1h'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'sign up failed. Please try again later'
+        });
+        return next(error);
+    }
+
+    res.json({
+        userId: existingUser.id,
+        email: existingUser.email,
+        role: existingUser.role,
+        token: token
+    });
+}
+
 
 const deleteProverb = async (req: Request, res: Response, next: NextFunction) => {
     const proverbId = req.params.pid;
@@ -88,4 +152,6 @@ const approveProverb = async (req: Request, res: Response, next: NextFunction) =
     }
     res.status(200).json({ approved_proverb: proverbToApprove.toObject({ getters: true }) });
 }
-export { deleteProverb, editProverb, approveProverb } 
+
+
+export { deleteProverb, editProverb, approveProverb, adminLogin } 

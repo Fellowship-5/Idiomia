@@ -12,10 +12,70 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.approveProverb = exports.editProverb = exports.deleteProverb = void 0;
+exports.adminLogin = exports.approveProverb = exports.editProverb = exports.deleteProverb = void 0;
 const proverb_js_1 = __importDefault(require("../models/proverb.js"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_methods_js_1 = require("../services/user_methods.js");
+const user_js_1 = __importDefault(require("../models/user.js"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const adminLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    let existingUser;
+    try {
+        existingUser = yield user_js_1.default.findOne({ email });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Could not find user in database'
+        });
+        return next(error);
+    }
+    if (!existingUser || existingUser.role !== 'admin') {
+        res.status(422).json({
+            msg: 'Users is not found or does not have the proper role.'
+        });
+        return next(new Error('Users is not found or does not have the proper role.'));
+    }
+    let validPassword = false;
+    try {
+        validPassword = yield bcrypt_1.default.compare(password, existingUser.password);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'login failed. Please try again later'
+        });
+        return next(error);
+    }
+    if (!validPassword) {
+        res.status(422).json({
+            msg: 'Invalid credentials.'
+        });
+        throw new Error('Invalid credentials.');
+    }
+    let token;
+    try {
+        token = jsonwebtoken_1.default.sign({ userId: existingUser.id, email: existingUser.email }, process.env.JWT_KEY, {
+            expiresIn: '1h'
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'sign up failed. Please try again later'
+        });
+        return next(error);
+    }
+    res.json({
+        userId: existingUser.id,
+        email: existingUser.email,
+        role: existingUser.role,
+        token: token
+    });
+});
+exports.adminLogin = adminLogin;
 const deleteProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const proverbId = req.params.pid;
     const proverb = yield user_methods_js_1.findEntryById(proverbId, 'proverb', 'could not find the proverb');
