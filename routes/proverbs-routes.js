@@ -6,6 +6,8 @@ const proverbsController = require('../controllers/proverbs-controllers');
 const router = express.Router();
 
 router.get('/all-proverbs', proverbsController.getProverbs);
+router.get('/get-proverb/:pid', proverbsController.getProverbById);
+
 router.post(
 	'/post-proverb',
 	[ (check('proverb').not().isEmpty(), check('translation').not().isEmpty(), check('explanation').not().isEmpty()) ],
