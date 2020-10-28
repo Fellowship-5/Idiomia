@@ -12,7 +12,7 @@ import { LOGIN_INITIAL_DATA } from "./../../helpers/formData";
 
 import "./Login.css";
 
-const Login = () => {
+const Login = (props) => {
   const { loginUser, isAuthenticated } = useAuth();
 
   const [formData, setFormData] = useState(LOGIN_INITIAL_DATA);
@@ -22,9 +22,10 @@ const Login = () => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  console.log(props.url);
   const onSubmit = async (e) => {
     e.preventDefault();
-    loginUser(email, password);
+    loginUser(email, password, props.url);
   };
 
   if (isAuthenticated) {
@@ -35,7 +36,7 @@ const Login = () => {
     <>
       <Section
         id="page-title"
-        title="MY ACCOUNT"
+        title={props.title ||"MY ACCOUNT" }
         containerClass="d-flex justify-content-between mx-5 align-items-center"
       >
         <Breadcrumb activePage="Login" />
@@ -43,7 +44,7 @@ const Login = () => {
       <Container className='login-container'>
         <p className="login-title">
           <Icon icon={"faUnlock"} fixedWidth />
-          Login to your Account
+          {props.loginMsg || "Login to your Account" }
         </p>
 
         <Form>
@@ -84,9 +85,9 @@ const Login = () => {
           />
         </Form>
 
-        <p className="my-1">
+        {!props.signUp || <p className="my-1">
           Don't have an account? <Link to="/register">Sign Up</Link>
-        </p>
+        </p>}
       </Container>
     </>
   );
