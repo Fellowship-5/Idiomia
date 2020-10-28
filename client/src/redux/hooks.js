@@ -3,21 +3,18 @@ import { useDispatch, shallowEqual, useSelector } from "react-redux";
 import { loadUser, register, login, logout } from "./actions/auth";
 import {
   getProverbs,
+  getUserProverbs,
   addProverb,
   deleteProverb,
   updateProverb,
   getProverb,
 } from "./actions/proverb";
+import { selectAuth, selectProverb } from "./selectors";
 
 export function useAuth() {
   const dispatch = useDispatch();
   const { token, isAuthenticated, loading, user } = useSelector(
-    (state) => ({
-      token: state.auth.token,
-      isAuthenticated: state.auth.isAuthenticated,
-      loading: state.auth.loading,
-      user: state.auth.user,
-    }),
+    selectAuth,
     shallowEqual
   );
 
@@ -63,19 +60,19 @@ export function useAuth() {
 export function useProverb() {
   const dispatch = useDispatch();
   const { proverbs, userProverbs, proverb, loading, error } = useSelector(
-    (state) => ({
-      proverbs: state.proverb.proverbs,
-      userProverbs: state.proverb.userProverbs,
-      proverb: state.proverb.proverb,
-      loading: state.proverb.loading,
-      error: state.proverb.error,
-    }),
+    selectProverb,
     shallowEqual
   );
 
   const boundGetProverbs = useCallback(
     (...args) => {
       return dispatch(getProverbs(...args));
+    },
+    [dispatch]
+  );
+  const boundGetUserProverbs = useCallback(
+    (...args) => {
+      return dispatch(getUserProverbs(...args));
     },
     [dispatch]
   );
@@ -115,6 +112,7 @@ export function useProverb() {
     loading,
     error,
     getProverbs: boundGetProverbs,
+    getUserProverbs: boundGetUserProverbs,
     getProverb: boundGetProverb,
     addProverb: boundAddProverb,
     deleteProverb: boundDeleteProverb,

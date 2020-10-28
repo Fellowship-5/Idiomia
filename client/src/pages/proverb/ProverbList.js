@@ -24,9 +24,12 @@ const title = [
 const ProverbList = () => {
   const { proverbs, getProverbs } = useProverb();
   // Fetch All Proverbs
-  useEffect(() => {
-    getProverbs();
-  }, [getProverbs]);
+  useEffect(
+    function fetchAllProverbs() {
+      getProverbs();
+    },
+    [getProverbs]
+  );
 
   return (
     <Container>
