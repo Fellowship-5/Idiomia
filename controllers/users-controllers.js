@@ -12,7 +12,7 @@ const signup = async (req, res, next) => {
 		res.status(422).json(errors);
 		return next(errors);
 	}
-	const { name, email, password, country, phone, newsletters } = req.body;
+	const { name, email, password, country, phone, newsletters, role } = req.body;
 
 	let userExists;
 	try {
@@ -41,7 +41,7 @@ const signup = async (req, res, next) => {
 		return next(error);
 	}
 
-	const newUser = new User({ name, email, password: hashedPassword, country, phone, newsletters });
+	const newUser = new User({ name, email, password: hashedPassword, country, phone, newsletters, role });
 
 	try {
 		await newUser.save();
@@ -69,6 +69,7 @@ const signup = async (req, res, next) => {
 	res.status(201).json({
 		userId: newUser.id,
 		email: newUser.email,
+		role: newUser.role,
 		token
 	});
 };
@@ -89,9 +90,9 @@ const login = async (req, res, next) => {
 
 	if (!existingUser) {
 		res.status(422).json({
-			msg: 'Invalid credentials.'
+			msg: 'Users is not found.'
 		});
-		throw new Error('Invalid credentials.');
+		return next(new Error('Invalid credentials.'));
 	}
 
 	let validPassword = false;
@@ -128,6 +129,7 @@ const login = async (req, res, next) => {
 	res.json({
 		userId: existingUser.id,
 		email: existingUser.email,
+		role: existingUser.role,
 		token: token
 	});
 };

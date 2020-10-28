@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { Form, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { useAuth } from "./../../redux/hooks";
 import countryList from "country-list";
 
 import Input from "./../../components/Input";
@@ -12,39 +12,76 @@ import Section from "./../../components/Section";
 import Breadcrumb from "./../../components/Breadcrumb";
 
 import { REGISTER_INITIAL_DATA } from "./../../helpers/formData";
+import { validateEmail, validateForm } from "./../../helpers/functions";
 
-import { Form, Container } from "react-bootstrap";
+import { useAuth } from "./../../redux/hooks";
 
 import "./Register.css";
 
 const Register = () => {
   const { registerUser, isAuthenticated } = useAuth();
-
   const [formData, setFormData] = useState(REGISTER_INITIAL_DATA);
   const [disabled, setDisabled] = useState(true);
 
-  const { name, email, password, confirmPassword, country, newsletter } = formData;
+  const {
+    name,
+    email,
+    password,
+    confirmPassword,
+    country,
+    newsletters,
+    phone,
+    errors,
+  } = formData;
 
   useEffect(() => {
-    const isFilled = [name, email, password, confirmPassword, country].every((data) =>
+    const isFilled = [name, email, password, confirmPassword].every((data) =>
       Boolean(data)
     );
     isFilled ? setDisabled(false) : setDisabled(true);
   }, [formData]);
 
   const onChange = (e) => {
-    if (e.target.name === "newsletter") {
-      return setFormData({ ...formData, [e.target.name]: e.target.checked });
+    e.preventDefault();
+    const { name, value, checked } = e.target;
+    switch (name) {
+      case "name":
+        errors.name = value.length < 1 ? "Name must be filled" : "";
+        break;
+      case "email":
+        errors.email = validateEmail(value) ? "" : "Email is not valid!";
+        break;
+      case "password":
+        errors.password =
+          value.length < 6 ? "Password must be minimum 6 characters!" : "";
+        break;
+      case "confirmPassword":
+        errors.confirmPassword =
+          password !== value ? "Passwords do not match" : "";
+        break;
+      default:
+        break;
     }
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (name === "newsletters") {
+      return setFormData({ ...formData, [name]: checked });
+    }
+    setFormData({ ...formData, [name]: value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+    if (validateForm(errors)) {
+      Object.values(errors).forEach((error) => error && toast.error(error));
+      setFormData({ ...formData, password: "", confirmPassword: "" });
     } else {
-      registerUser(formData);
+      registerUser({
+        name,
+        email,
+        password,
+        country,
+        newsletters,
+        phone,
+      });
     }
   };
 
@@ -75,7 +112,7 @@ const Register = () => {
             type="text"
             value={name}
             name="name"
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             placeholder="Name"
             autoComplete="off"
             labelClassName="input-form-label my-3"
@@ -87,7 +124,7 @@ const Register = () => {
             type="email"
             value={email}
             name="email"
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             placeholder="Email Address"
             required
             autoComplete="off"
@@ -101,7 +138,7 @@ const Register = () => {
             type="password"
             value={password}
             name="password"
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             placeholder="Create a password"
             autoComplete="off"
             minLength="6"
@@ -114,7 +151,7 @@ const Register = () => {
             type="password"
             value={confirmPassword}
             name="confirmPassword"
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             placeholder="Confirm Password"
             autoComplete="off"
             minLength="6"
@@ -126,7 +163,7 @@ const Register = () => {
             size="sm"
             id="country"
             label="Country"
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             value={country}
             name="country"
             autoComplete="off"
@@ -143,12 +180,23 @@ const Register = () => {
               })}
             </>
           </Input>
-
+          <Input
+            label="Phone"
+            id="register-phone"
+            type="text"
+            value={phone}
+            name="phone"
+            onChange={onChange}
+            placeholder="Phone Number"
+            autoComplete="off"
+            labelClassName="input-form-label my-3"
+            className="rounded"
+          />
           <Checkbox
-            id="subscribe-newsletter"
-            label="Subscribe to newsletter"
-            checked={newsletter}
-            name="newsletter"
+            id="subscribe-newsletters"
+            label="Subscribe to newsletters"
+            checked={newsletters}
+            name="newsletters"
             onChange={onChange}
             className="input-form-label my-4"
           />
@@ -156,7 +204,7 @@ const Register = () => {
           <Button
             variant="info"
             text="Register"
-            onClick={(e) => onSubmit(e)}
+            onClick={onSubmit}
             color="white"
             type="submit"
             className="button-custom float-right"
