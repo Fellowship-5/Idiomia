@@ -145,8 +145,7 @@ export const updateProverb = (formData, id) => async (dispatch) => {
     });
     const res = await axios.put(
       `${API_URL}/proverbs/edit-my-proverb/${id}`,
-      formData,
-      config
+      formData
     );
 
     dispatch({
@@ -156,6 +155,8 @@ export const updateProverb = (formData, id) => async (dispatch) => {
 
     toast.success("Proverb updated successfully");
   } catch (err) {
+    const { errors, msg } = err.response.data;
+
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
     }
