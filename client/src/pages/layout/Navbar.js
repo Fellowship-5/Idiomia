@@ -2,10 +2,50 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar as NavbarBootstrap, NavDropdown, Nav } from "react-bootstrap";
 import { useAuth } from "./../../redux/hooks";
+import NavbarLink from './../../components/NavbarLink'
 
 import "./Navbar.css";
+
+
 const Navbar = () => {
   const { isAuthenticated, logoutUser, user } = useAuth();
+  const links = [
+    { className: "navbar-link", to: "/login", title: "Login", isAuth: false },
+    {
+      className: "navbar-link",
+      to: "/register",
+      title: "Register",
+      isAuth: false,
+    },
+    {
+      className: "navbar-link",
+      to: "/dashboard",
+      title: "Dashboard",
+      isAuth: true,
+    },
+  ];
+  const dropdownLinks = [
+    { className: "dropdown-item", to: "/login", title: "Login", isAuth: false },
+    {
+      className: "dropdown-item",
+      to: "/register",
+      title: "Register",
+      isAuth: false,
+    },
+    {
+      className: "dropdown-item",
+      to: "/dashboard",
+      title: "Dashboard",
+      isAuth: true,
+    },
+    {
+      className: "dropdown-item",
+      to: "/",
+      title: "Logout",
+      isAuth: true,
+      onClick: logoutUser,
+    },
+  ];
 
   return (
     <NavbarBootstrap className="navbar-custom" bg="transparent" expand="lg">
@@ -20,48 +60,33 @@ const Navbar = () => {
             title={isAuthenticated && user ? `${user.name}` : "Home"}
             id="navbar-dropdown"
           >
-            {!isAuthenticated && (
-              <>
-                <NavDropdown.Item as={Link} to="/login">
-                  Login
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/register">
-                  Register
-                </NavDropdown.Item>
-              </>
-            )}
-
-            {isAuthenticated && (
-              <>
-                <NavDropdown.Item
-                  as={Link}
-                  to="/dashboard"
-                  onClick={() => logoutUser()}
-                >
-                  Dashboard
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/" onClick={() => logoutUser()}>
-                  Logout
-                </NavDropdown.Item>
-              </>
-            )}
+            {dropdownLinks.map((link, i) => {
+              if (link.isAuth === isAuthenticated) {
+                return (
+                  <NavbarLink
+                    key={i}
+                    to={link.to}
+                    className={link.className}
+                    title={link.title}
+                    onClick={link?.onClick}
+                  />
+                );
+              }
+            })}
           </NavDropdown>
 
-          {!isAuthenticated && (
-            <>
-              <Nav.Link className="navbar-link" as={Link} to="/login">
-                Login
-              </Nav.Link>
-              <Nav.Link className="navbar-link" as={Link} to="/register">
-                Register
-              </Nav.Link>
-            </>
-          )}
-          {isAuthenticated && (
-            <Nav.Link className="navbar-link" as={Link} to="/dashboard">
-              Dashboard
-            </Nav.Link>
-          )}
+          {links.map((link, i) => {
+            if (link.isAuth === isAuthenticated) {
+              return (
+                <NavbarLink
+                  key={i}
+                  to={link.to}
+                  className={link.className}
+                  title={link.title}
+                />
+              );
+            }
+          })}
         </Nav>
       </NavbarBootstrap.Collapse>
     </NavbarBootstrap>
