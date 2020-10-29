@@ -20,13 +20,8 @@ export const loadUser = () => async (dispatch) => {
 		setAuthToken(localStorage.token);
 	}
 
-<<<<<<< HEAD
 	try {
-		const res = await axios.get('/api/auth');
-=======
-  try {
-    const res = await axios.get(`${API_URL}/users/get-user`);
->>>>>>> d8e68dbaef46bd3ebf8136d2d5d7778541fbb61a
+		const res = await axios.get(`${API_URL}/users/get-user`);
 
 		dispatch({
 			type: USER_LOADED,
@@ -42,7 +37,6 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register = (data) => async (dispatch) => {
-<<<<<<< HEAD
 	const body = JSON.stringify(data);
 
 	try {
@@ -61,27 +55,6 @@ export const register = (data) => async (dispatch) => {
 		if (errors) {
 			errors.forEach((error) => toast.error(error.msg));
 		}
-=======
-  try {
-    const res = await axios.post(`${API_URL}/users/signup`, data);
-
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
-    });
-    localStorage.setItem("token", res.data.token);
-    toast.success("You have registered successfully");
-    dispatch(loadUser());
-  } catch (err) {
-    const { errors, msg } = err.response.data;
-
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
->>>>>>> d8e68dbaef46bd3ebf8136d2d5d7778541fbb61a
 
 		dispatch({
 			type: REGISTER_FAIL
@@ -91,48 +64,26 @@ export const register = (data) => async (dispatch) => {
 };
 
 // Login User
-<<<<<<< HEAD
-export const login = (email, password, url) => async (dispatch) => {
-	const body = JSON.stringify({ email, password });
-
+export const login = (data) => async (dispatch) => {
 	try {
-		const res = await axios.post(url, body);
+		const res = await axios.post(`${API_URL}/users/login`, data);
 
 		dispatch({
 			type: LOGIN_SUCCESS,
 			payload: res.data
 		});
-		dispatch(loadUser());
 		localStorage.setItem('token', res.data.token);
-		toast.success('You have logged in successfully');
+		dispatch(loadUser());
+		toast.success('You have logined successfully');
 	} catch (err) {
-		const errors = err.response.data.errors;
+		const { errors, msg } = err.response.data;
 
 		if (errors) {
 			errors.forEach((error) => toast.error(error.msg));
 		}
-=======
-export const login = (data) => async (dispatch) => {
-  try {
-    const res = await axios.post(`${API_URL}/users/login`, data);
-
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data,
-    });
-    localStorage.setItem("token", res.data.token);
-    dispatch(loadUser());
-    toast.success("You have logined successfully");
-  } catch (err) {
-    const { errors, msg } = err.response.data;
-
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
->>>>>>> d8e68dbaef46bd3ebf8136d2d5d7778541fbb61a
+		if (msg) {
+			toast.error(msg);
+		}
 
 		dispatch({
 			type: LOGIN_FAIL

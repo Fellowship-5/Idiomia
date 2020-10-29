@@ -25,11 +25,7 @@ const Login = (props) => {
   console.log(props.url);
   const onSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-    loginUser(email, password, props.url);
-=======
     loginUser({ email, password });
->>>>>>> d8e68dbaef46bd3ebf8136d2d5d7778541fbb61a
   };
 
   if (isAuthenticated) {

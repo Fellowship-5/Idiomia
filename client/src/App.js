@@ -7,7 +7,6 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Navbar from './pages/layout/Navbar';
 import HomePage from './pages/home/HomePage';
-import LoginAdmin from './pages/admin/LoginAdmin';
 
 import './App.css';
 
@@ -25,7 +24,6 @@ function App() {
 					<Route exact path="/" component={HomePage} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/register" component={Register} />
-					<Route exact path="/admin" component={LoginAdmin} />
 				</Switch>
 			</Router>
 		</Provider>
