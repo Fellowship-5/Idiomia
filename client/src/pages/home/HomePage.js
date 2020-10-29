@@ -38,7 +38,7 @@ const HomePage = () => {
         dialogClassName="add-proverb-modal"
       >
         {modal.type === "Add" && (
-          <AddProverb actionType="Add" setModal={setModal} />
+          <AddProverb actionType="Add" handleCloseModal={handleCloseModal} />
         )}
       </Modal>
 

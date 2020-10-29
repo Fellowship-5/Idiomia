@@ -23,16 +23,16 @@ export const loadUser = () => async (dispatch) => {
 	try {
 		const res = await axios.get(`${API_URL}/users/get-user`);
 
-		dispatch({
-			type: USER_LOADED,
-			payload: res.data
-		});
-	} catch (err) {
-		dispatch({
-			type: AUTH_ERROR
-		});
-		localStorage.removeItem('token');
-	}
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data.current_user,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+    localStorage.removeItem("token");
+  }
 };
 
 // Register User
