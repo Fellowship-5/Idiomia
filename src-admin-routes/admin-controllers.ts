@@ -88,4 +88,18 @@ const approveProverb = async (req: Request, res: Response, next: NextFunction) =
     }
     res.status(200).json({ approved_proverb: proverbToApprove.toObject({ getters: true }) });
 }
-export { deleteProverb, editProverb, approveProverb } 
+const getProverbs = async (req: Request, res: Response, next: NextFunction) => {
+    let proverbs;
+    try {
+        proverbs = await Proverb.find({});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'could not retrieve proverbs from database'
+        });
+        return next(error);
+
+    }
+    res.json({ proverbs: proverbs.map((proverb: { toObject: (arg0: { getters: boolean }) => any }) => proverb.toObject({ getters: true })) });
+}
+export { deleteProverb, editProverb, approveProverb, getProverbs } 
