@@ -25,7 +25,11 @@ const Login = (props) => {
   console.log(props.url);
   const onSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     loginUser(email, password, props.url);
+=======
+    loginUser({ email, password });
+>>>>>>> d8e68dbaef46bd3ebf8136d2d5d7778541fbb61a
   };
 
   if (isAuthenticated) {
@@ -41,7 +45,7 @@ const Login = (props) => {
       >
         <Breadcrumb activePage="Login" />
       </Section>
-      <Container className='login-container'>
+      <Container className="login-container">
         <p className="login-title">
           <Icon icon={"faUnlock"} fixedWidth />
           {props.loginMsg || "Login to your Account" }
@@ -54,12 +58,12 @@ const Login = (props) => {
             type="email"
             value={email}
             name="email"
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             placeholder="Email Address"
             required
             autoComplete="off"
-            labelClassName='input-form-label my-3'
-            className='rounded'
+            labelClassName="input-form-label my-3"
+            className="rounded"
           />
           <Input
             label="password"
@@ -67,20 +71,20 @@ const Login = (props) => {
             type="password"
             value={password}
             name="password"
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             placeholder="Enter your password"
             autoComplete="off"
             minLength="6"
-            labelClassName='input-form-label my-3'
-            className='mb-3 rounded'
+            labelClassName="input-form-label my-3"
+            className="mb-3 rounded"
           />
           <Button
             variant="info"
             text="Login"
-            onClick={(e) => onSubmit(e)}
+            onClick={onSubmit}
             color="white"
             type="submit"
-            className='button-custom float-right'
+            className="button-custom float-right"
             id="user-login-button"
           />
         </Form>

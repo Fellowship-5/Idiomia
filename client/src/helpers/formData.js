@@ -4,7 +4,14 @@ export const REGISTER_INITIAL_DATA = {
   password: "",
   confirmPassword: "",
   country: "",
-  newsletter: true,
+  phone: "",
+  newsletters: true,
+  errors: {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  },
 };
 
 export const LOGIN_INITIAL_DATA = {
