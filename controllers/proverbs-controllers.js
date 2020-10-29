@@ -15,7 +15,8 @@ const getProverbs = async (req, res, next) => {
 		});
 		return next(error);
 	}
-	res.json({ proverbs: proverbs.map((proverb) => proverb.toObject({ getters: true })) });
+	const approvedProverbs = proverbs.filter((proverb) => proverb.adminApproval);
+	res.json({ proverbs: approvedProverbs.map((proverb) => proverb.toObject({ getters: true })) });
 };
 
 const postProverb = async (req, res, next) => {
@@ -79,7 +80,7 @@ const postUserProverb = async (req, res, next) => {
 		});
 		return next(error);
 	}
-	res.status(201).json({ postedProverb });
+	res.status(201).json({ proverb: postedProverb });
 };
 
 const getProverbsByUserId = async (req, res, next) => {
@@ -134,19 +135,39 @@ const deleteUserProverb = async (req, res, next) => {
 		return next(error);
 	}
 
-	try {
-		const session = await mongoose.startSession();
-		session.startTransaction();
-		await proverbToDelete.remove({ session });
-		proverbToDelete.contributor.proverbs.pull(proverbToDelete);
-		await proverbToDelete.contributor.save({ session });
-		await session.commitTransaction();
-	} catch (error) {
-		res.status(500).json({
+	if (!proverbToDelete) {
+		res.status(422).json({
 			msg: 'Proverb is not found'
 		});
-		return next(error);
+		return next(new Error('No proverb is found'));
 	}
+
+	if (!proverbToDelete.adminApproval) {
+		try {
+			const session = await mongoose.startSession();
+			session.startTransaction();
+			await proverbToDelete.remove({ session });
+			proverbToDelete.contributor.proverbs.pull(proverbToDelete);
+			await proverbToDelete.contributor.save({ session });
+			await session.commitTransaction();
+		} catch (error) {
+			res.status(500).json({
+				msg: 'Proverb is not found'
+			});
+			return next(error);
+		}
+	} else {
+		try {
+			proverbToDelete.contributor.proverbs.pull(proverbToDelete);
+			await proverbToDelete.contributor.save();
+		} catch (error) {
+			res.status(500).json({
+				msg: 'Proverb is not found'
+			});
+			return next(error);
+		}
+	}
+
 	res.status(200).json({ deleted_proverbId: proverbToDelete._id });
 };
 const getProverbById = async (req, res, next) => {
