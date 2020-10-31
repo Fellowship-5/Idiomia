@@ -8,6 +8,7 @@ import {
   deleteProverb,
   updateProverb,
   getProverb,
+  addUserProverb,
 } from "./actions/proverb";
 import { selectAuth, selectProverb } from "./selectors";
 
@@ -91,6 +92,13 @@ export function useProverb() {
     [dispatch]
   );
 
+  const boundAddUserProverb = useCallback(
+    (...args) => {
+      return dispatch(addUserProverb(...args));
+    },
+    [dispatch]
+  );
+
   const boundDeleteProverb = useCallback(
     (...args) => {
       return dispatch(deleteProverb(...args));
@@ -115,6 +123,7 @@ export function useProverb() {
     getUserProverbs: boundGetUserProverbs,
     getProverb: boundGetProverb,
     addProverb: boundAddProverb,
+    addUserProverb: boundAddUserProverb,
     deleteProverb: boundDeleteProverb,
     updateProverb: boundUpdateProverb,
   };

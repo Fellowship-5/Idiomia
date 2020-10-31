@@ -8,11 +8,11 @@ const FlexTableIconCell = ({ title, item, iconClick }) => {
       <div className={`flexTable-cell--content ${title.fieldName}-content`}>
         {title.icons?.map((icon, i) => (
           <Icon
-            key={i}
-            name={item.id}
+            title={icon}
+            key={i}           
             icon={"fa" + icon}
             onClick={iconClick}
-            id={icon}
+            id={item.id}
             size={"1x"}
             fixedWidth
           />
