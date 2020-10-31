@@ -63,9 +63,8 @@ const Dashboard = () => {
 
   // Icon Click Handlers
   const handleIconClick = (e) => {
-    const id = e.target?.ownerSVGElement?.id || e.target?.id;
-    const icon =
-      e.target?.ownerSVGElement?.textContent || e.target?.textContent;
+    const id = e.target?.id;
+    const icon = e.target?.textContent;
     switch (icon) {
       case "Edit":
         handleShowModal("update", id);
