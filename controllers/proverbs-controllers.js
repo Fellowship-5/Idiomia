@@ -95,6 +95,12 @@ const getProverbsByUserId = async (req, res, next) => {
 		return next(error);
 	}
 
+	if (!userWithProverbs) {
+		res.status(422).json({
+			msg: 'Could not find proverbs for user'
+		});
+	}
+
 	res.json({
 		user_proverbs: userWithProverbs.proverbs.map((proverb) => proverb.toObject({ getters: true }))
 	});
@@ -162,7 +168,7 @@ const deleteUserProverb = async (req, res, next) => {
 			await proverbToDelete.contributor.save();
 		} catch (error) {
 			res.status(500).json({
-				msg: 'Proverb is not found'
+				msg: 'Proverb is not found here'
 			});
 			return next(error);
 		}
@@ -173,7 +179,12 @@ const deleteUserProverb = async (req, res, next) => {
 const getProverbById = async (req, res, next) => {
 	const proverbId = req.params.pid;
 	const proverb = await findEntryById(proverbId, 'proverb', 'Could not find proverb');
-	res.status(200).json({ proverb });
+
+	if (proverb) {
+		res.status(200).json({ proverb });
+	} else {
+		res.status(200).json({ msg: 'no proverb was found' });
+	}
 };
 exports.postProverb = postProverb;
 exports.getProverbsByUserId = getProverbsByUserId;

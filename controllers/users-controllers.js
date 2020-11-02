@@ -90,7 +90,7 @@ const login = async (req, res, next) => {
 
 	if (!existingUser) {
 		res.status(422).json({
-			msg: 'Users is not found.'
+			msg: 'User is not found.'
 		});
 		return next(new Error('Invalid credentials.'));
 	}
