@@ -1,0 +1,1 @@
+export const selectProverb =  (state) => (state.proverb)

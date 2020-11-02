@@ -3,11 +3,14 @@ import { Form } from "react-bootstrap";
 import Input from "./../../components/Input";
 import Button from "./../../components/Button";
 import { isArabic } from "./../../helpers/functions";
-
 import { PROVERB_INITIAL_DATA } from "./../../helpers/formData";
+import { useProverb } from "./../../redux/hooks";
+
 import "./Proverb.css";
 
-const Proverb = ({ actionType }) => {
+const Proverb = ({ actionType, handleCloseModal }) => {
+  const { addProverb } = useProverb();
+
   const [formData, setFormData] = useState(PROVERB_INITIAL_DATA);
   const [disabled, setDisabled] = useState(true);
 
@@ -28,6 +31,8 @@ const Proverb = ({ actionType }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    actionType === "Add" && addProverb(formData);
+    handleCloseModal();
   };
 
   return (
