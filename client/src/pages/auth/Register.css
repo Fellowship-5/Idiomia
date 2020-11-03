@@ -29,3 +29,11 @@ select#country {
   color: #fff;
   opacity: .5;
 }
+.socialLoginButtons{
+  display: flex;
+  flex-direction: column;
+  
+}
+.socialLoginButtons>Button {
+  margin: 1px;
+}
