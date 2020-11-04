@@ -11,6 +11,7 @@ import {
 } from "./types";
 import setAuthToken from "./../../helpers/setAuthToken";
 import { toast } from "react-toastify";
+import { showError } from "./../../helpers/functions";
 
 const API_URL = process.env.REACT_APP_IDIOMIA_API;
 
@@ -48,11 +49,7 @@ export const register = (data) => async (dispatch) => {
     toast.success("You have registered successfully");
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
+    showError(err);
 
     dispatch({
       type: REGISTER_FAIL,
@@ -74,14 +71,7 @@ export const login = (data) => async (dispatch) => {
     dispatch(loadUser());
     toast.success("You have logined successfully");
   } catch (err) {
-    const { errors, msg } = err.response.data;
-
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
+    showError(err);
 
     dispatch({
       type: LOGIN_FAIL,

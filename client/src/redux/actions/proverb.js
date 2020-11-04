@@ -23,6 +23,7 @@ import {
   UPDATE_PROVERB_ERROR,
 } from "./types";
 import { toast } from "react-toastify";
+import { showError } from "./../../helpers/functions";
 
 const API_URL = process.env.REACT_APP_IDIOMIA_API;
 
@@ -101,14 +102,7 @@ export const addUserProverb = (formData) => async (dispatch, getState) => {
 
     toast.success("Proverb will be approved by admin");
   } catch (err) {
-    const { errors, msg } = err.response.data;
-
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
+    showError(err);
 
     dispatch({
       type: ADD_USER_PROVERB_ERROR,
@@ -132,14 +126,7 @@ export const addProverb = (formData) => async (dispatch, getState) => {
 
     toast.success("Proverb will be approved by admin");
   } catch (err) {
-    const { errors, msg } = err.response.data;
-
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
+    showError(err);
 
     dispatch({
       type: ADD_PROVERB_ERROR,
@@ -190,14 +177,8 @@ export const updateProverb = (formData, id) => async (dispatch) => {
 
     toast.success("Proverb updated successfully");
   } catch (err) {
-    const { errors, msg } = err.response.data;
+    showError(err);
 
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
     dispatch({
       type: UPDATE_PROVERB_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },

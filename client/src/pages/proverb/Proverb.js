@@ -18,14 +18,8 @@ const Proverb = ({ actionType, handleCloseModal }) => {
     loading,
   } = useProverb();
 
-  const proverbFormValues =
-    !loading && actionType === "Update"
-      ? {
-          proverb: proverbObj.proverb,
-          translation: proverbObj.translation,
-          explanation: proverbObj.explanation,
-        }
-      : PROVERB_INITIAL_DATA;
+  const isNewProverb = !loading && actionType === "Add";
+  const proverbFormValues = isNewProverb ? PROVERB_INITIAL_DATA : proverbObj;
 
   const [formData, setFormData] = useState(proverbFormValues);
   const [disabled, setDisabled] = useState(true);
@@ -48,14 +42,17 @@ const Proverb = ({ actionType, handleCloseModal }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const proverbAction = isAuthenticated ? addUserProverb : addProverb;
+
     if (actionType === "Add") {
-      !isAuthenticated && (await addProverb(formData));
-      isAuthenticated && (await addUserProverb(formData));
+      await proverbAction(formData);
       handleCloseModal();
+      return;
     }
     if (actionType === "Update") {
       await updateProverb(formData, proverbObj._id);
       handleCloseModal();
+      return;
     }
   };
 

@@ -106,6 +106,7 @@ const Dashboard = () => {
     if (modal.type === "add") {
       return <AddProverb handleCloseModal={handleCloseModal} />;
     }
+    return null;
   };
 
   return (
