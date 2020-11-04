@@ -26,9 +26,9 @@ const signup = async (req, res, next) => {
   }
   if (userExists) {
     res.status(422).json({
-      msg: 'Invalid credentials.'
+      msg: 'You are already signed up'
     })
-    throw new Error('Invalid credentials.')
+    return next(new Error('You are already signed up'))
   }
 
   let hashedPassword
