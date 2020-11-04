@@ -109,8 +109,8 @@ const login = async (req, res, next) => {
   let validPassword = false
   try {
     validPassword = await bcrypt.compare(password, existingUser.password)
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
     res.status(500).json({
       msg: 'login failed. Please try again later'
     })
