@@ -7,6 +7,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Navbar from './pages/layout/Navbar';
 import HomePage from './pages/home/HomePage';
+import About from './pages/about/About';
 
 import './App.css';
 
@@ -24,6 +25,7 @@ function App() {
 					<Route exact path="/" component={HomePage} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/register" component={Register} />
+					<Route exact path="/about" component={About} />
 				</Switch>
 			</Router>
 		</Provider>
