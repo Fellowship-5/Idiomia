@@ -98,7 +98,8 @@ const getProverbs = async (req: Request, res: Response, next: NextFunction) => {
             msg: 'could not retrieve proverbs from database'
         });
         return next(error);
+
     }
-    res.json({ proverbs: proverbs.map((proverb) => proverb.toObject({ getters: true })) });
+    res.json({ proverbs: proverbs.map((proverb: { toObject: (arg0: { getters: boolean }) => any }) => proverb.toObject({ getters: true })) });
 }
 export { deleteProverb, editProverb, approveProverb, getProverbs } 

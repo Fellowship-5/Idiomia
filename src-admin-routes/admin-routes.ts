@@ -4,6 +4,10 @@ import checkAdmin from './checkAdmin'
 const router = express.Router();
 
 router.use(checkAdmin)
+<<<<<<< HEAD
+=======
+
+>>>>>>> endpoint_admin_getting_all_proverbs
 router.get('/all-proverbs', getProverbs);
 router.delete('/delete-proverb/:pid', deleteProverb);
 router.patch('/edit-proverb/:pid', editProverb);
