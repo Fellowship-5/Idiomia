@@ -11,6 +11,9 @@ import {
   ADD_PROVERB,
   ADD_PROVERB_SUCCESS,
   ADD_PROVERB_ERROR,
+  ADD_USER_PROVERB,
+  ADD_USER_PROVERB_SUCCESS,
+  ADD_USER_PROVERB_ERROR,
   DELETE_PROVERB,
   DELETE_PROVERB_SUCCESS,
   DELETE_PROVERB_ERROR,
@@ -36,6 +39,7 @@ export default function (state = initialState, action) {
     case GET_USER_PROVERBS:
     case GET_PROVERB:
     case ADD_PROVERB:
+    case ADD_USER_PROVERB:
     case DELETE_PROVERB:
     case UPDATE_PROVERB:
       return {
@@ -45,7 +49,12 @@ export default function (state = initialState, action) {
     case ADD_PROVERB_SUCCESS:
       return {
         ...state,
-        proverbs: [payload, ...state.proverbs],
+        loading: false,
+      };
+    case ADD_USER_PROVERB_SUCCESS:
+      return {
+        ...state,
+        userProverbs: [...state.userProverbs, payload],
         loading: false,
       };
     case GET_PROVERBS_SUCCESS:
@@ -70,6 +79,7 @@ export default function (state = initialState, action) {
     case GET_USER_PROVERBS_ERROR:
     case GET_PROVERB_ERROR:
     case ADD_PROVERB_ERROR:
+    case ADD_USER_PROVERB_ERROR:
     case DELETE_PROVERB_ERROR:
     case UPDATE_PROVERB_ERROR:
       return {
@@ -80,13 +90,15 @@ export default function (state = initialState, action) {
     case DELETE_PROVERB_SUCCESS:
       return {
         ...state,
-        proverbs: state.proverbs.filter((proverb) => proverb._id !== payload),
+        userProverbs: state.userProverbs.filter(
+          (proverb) => proverb._id !== payload
+        ),
         loading: false,
       };
     case UPDATE_PROVERB_SUCCESS:
       return {
         ...state,
-        proverbs: state.proverbs.map((proverb) =>
+        userProverbs: state.userProverbs.map((proverb) =>
           proverb._id === payload._id ? { ...payload } : proverb
         ),
         loading: false,

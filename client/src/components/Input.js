@@ -5,8 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 export default function Input({
   plaintext = false,
   disabled = false,
-  required = false,
-  readOnly = false,
+  required = false,  
   pClassName,
   label,
   labelClassName,

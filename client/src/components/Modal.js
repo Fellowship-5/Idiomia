@@ -1,7 +1,13 @@
 import React from "react";
 import { Modal as ModalBootstrap } from "react-bootstrap";
 
-const Modal = ({ children, isOpen, modalClose, dialogClassName, centered }) => {
+const Modal = ({
+  children,
+  isOpen,
+  modalClose,
+  dialogClassName = "",
+  centered,
+}) => {
   return (
     <ModalBootstrap
       dialogClassName={dialogClassName}

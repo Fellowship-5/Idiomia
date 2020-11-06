@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export const isArabic = (text) => {
   const pattern = /[\u0600-\u06FF]/;
   return pattern.test(text);
@@ -10,3 +12,16 @@ export const validateEmail = (email) => {
 
 export const validateForm = (errors) =>
   Object.values(errors).some((value) => Boolean(value));
+
+export const showError = (err) => {
+  const { errors, msg } = err.response.data;
+
+  if (errors) {
+    errors.forEach((error) => toast.error(error.msg));
+    return;
+  }
+  if (msg) {
+    toast.error(msg);
+    return;
+  }
+};

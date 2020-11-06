@@ -22,7 +22,6 @@ const Login = (props) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  console.log(props.url);
   const onSubmit = async (e) => {
     e.preventDefault();
     loginUser({ email, password });

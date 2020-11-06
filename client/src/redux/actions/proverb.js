@@ -12,6 +12,9 @@ import {
   ADD_PROVERB,
   ADD_PROVERB_SUCCESS,
   ADD_PROVERB_ERROR,
+  ADD_USER_PROVERB,
+  ADD_USER_PROVERB_SUCCESS,
+  ADD_USER_PROVERB_ERROR,
   DELETE_PROVERB,
   DELETE_PROVERB_SUCCESS,
   DELETE_PROVERB_ERROR,
@@ -20,6 +23,7 @@ import {
   UPDATE_PROVERB_ERROR,
 } from "./types";
 import { toast } from "react-toastify";
+import { showError } from "./../../helpers/functions";
 
 const API_URL = process.env.REACT_APP_IDIOMIA_API;
 
@@ -66,11 +70,11 @@ export const getProverb = (id) => async (dispatch) => {
     dispatch({
       type: GET_PROVERB,
     });
-    const res = await axios.get(`${API_URL}/xxx`); //@not ready
+    const res = await axios.get(`${API_URL}/proverbs/get-proverb/${id}`); //@not ready
 
     dispatch({
       type: GET_PROVERB_SUCCESS,
-      payload: res.data,
+      payload: res.data.proverb,
     });
   } catch (err) {
     dispatch({
@@ -81,32 +85,48 @@ export const getProverb = (id) => async (dispatch) => {
 };
 
 // Add proverb
+export const addUserProverb = (formData) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADD_USER_PROVERB,
+    });
+    const res = await axios.post(
+      `${API_URL}/proverbs/post-my-proverb`,
+      formData
+    );
+
+    dispatch({
+      type: ADD_USER_PROVERB_SUCCESS,
+      payload: res.data.proverb,
+    });
+
+    toast.success("Proverb will be approved by admin");
+  } catch (err) {
+    showError(err);
+
+    dispatch({
+      type: ADD_USER_PROVERB_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Add proverb
 export const addProverb = (formData) => async (dispatch, getState) => {
-  const { isAuthenticated } = getState().auth;
   try {
     dispatch({
       type: ADD_PROVERB,
     });
-    const postUrl = isAuthenticated
-      ? `${API_URL}/proverbs/post-my-proverb`
-      : `${API_URL}/proverbs/post-proverb`;
-    const res = await axios.post(postUrl, formData);
+    const res = await axios.post(`${API_URL}/proverbs/post-proverb`, formData);
 
     dispatch({
       type: ADD_PROVERB_SUCCESS,
       payload: res.data.proverb,
     });
 
-    toast.success("Proverb added successfully");
+    toast.success("Proverb will be approved by admin");
   } catch (err) {
-    const { errors, msg } = err.response.data;
-
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
+    showError(err);
 
     dispatch({
       type: ADD_PROVERB_ERROR,
@@ -121,11 +141,13 @@ export const deleteProverb = (id) => async (dispatch) => {
     dispatch({
       type: DELETE_PROVERB,
     });
-    await axios.delete(`${API_URL}/proverbs/delete-my-proverb/${id}`);
+    const res = await axios.delete(
+      `${API_URL}/proverbs/delete-my-proverb/${id}`
+    );
 
     dispatch({
       type: DELETE_PROVERB_SUCCESS,
-      payload: id,
+      payload: res.data.deleted_proverbId,
     });
 
     toast.success("Proverb deleted successfully");
@@ -143,26 +165,20 @@ export const updateProverb = (formData, id) => async (dispatch) => {
     dispatch({
       type: UPDATE_PROVERB,
     });
-    const res = await axios.put(
+    const res = await axios.patch(
       `${API_URL}/proverbs/edit-my-proverb/${id}`,
       formData
     );
 
     dispatch({
       type: UPDATE_PROVERB_SUCCESS,
-      payload: res.data,
+      payload: res.data.edited_proverb,
     });
 
     toast.success("Proverb updated successfully");
   } catch (err) {
-    const { errors, msg } = err.response.data;
+    showError(err);
 
-    if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
-    }
-    if (msg) {
-      toast.error(msg);
-    }
     dispatch({
       type: UPDATE_PROVERB_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
