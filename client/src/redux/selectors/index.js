@@ -1,3 +1,4 @@
 import { selectAuth } from "./authSelectors";
 import { selectProverb } from "./proverbSelectors";
-export { selectAuth, selectProverb };
+import { selectSearch } from "./searchSelectors";
+export { selectAuth, selectProverb, selectSearch };

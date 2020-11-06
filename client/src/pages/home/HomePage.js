@@ -5,6 +5,7 @@ import Section from "./../../components/Section";
 import Breadcrumb from "./../../components/Breadcrumb";
 import Modal from "./../../components/Modal";
 import Button from "./../../components/Button";
+import Search from "./Search";
 
 import "./HomePage.css";
 
@@ -49,15 +50,18 @@ const HomePage = () => {
       >
         <Breadcrumb />
       </Section>
-      <Button
-        variant="info"
-        text="Add Proverb"
-        onClick={handleShowModal("add")}
-        color="white"
-        type="submit"
-        className="button-custom float-right m-5"
-        id="homepage-add-proverb-button"
-      />
+      <div className="homepage-actions-section container">
+        <Search />
+        <Button
+          variant="info"
+          text="Add Proverb"
+          onClick={handleShowModal("add")}
+          color="white"
+          type="submit"
+          className="button-custom ml-auto"
+          id="homepage-add-proverb-button"
+        />
+      </div>
       <ProverbList />
     </div>
   );
