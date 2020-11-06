@@ -3,12 +3,15 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Navbar from "./pages/layout/Navbar";
 import HomePage from "./pages/home/HomePage";
 import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./pages/routing/PrivateRoute";
+import About from './pages/about/About';
+
 
 import "./App.css";
 
@@ -18,6 +21,7 @@ import store from "./redux/store";
 import { loadUser } from "./redux/actions/auth";
 
 function App() {
+
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
@@ -31,10 +35,12 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/about" component={About} />
         </Switch>
       </Router>
     </Provider>
   );
+
 }
 
 export default App;
