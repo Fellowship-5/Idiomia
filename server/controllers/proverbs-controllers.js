@@ -21,8 +21,8 @@ const getProverbs = async (req, res, next) => {
 
 const postProverb = async (req, res, next) => {
 	const errors = validationResult(req);
+
 	if (!errors.isEmpty()) {
-		console.log(errors);
 		res.status(422).json(errors);
 		return next(errors);
 	}
@@ -38,7 +38,6 @@ const postProverb = async (req, res, next) => {
 	try {
 		await postedProverb.save();
 	} catch (error) {
-		console.log(error);
 		res.status(500).json({
 			msg: 'Could not save user in database '
 		});
