@@ -12,7 +12,7 @@ const signup = async (req, res, next) => {
     res.status(422).json(errors)
     return next(errors)
   }
-  const { name, email, password, country, phone, newsletters, role } = req.body
+  const { name, email, password, country, phone, newsletters } = req.body
 
   let userExists
   try {
@@ -26,9 +26,9 @@ const signup = async (req, res, next) => {
   }
   if (userExists) {
     res.status(422).json({
-      msg: 'Email already exists'
+      msg: 'You are already signed up'
     })
-    return next(new Error('Email already exists'))
+    return next(new Error('You are already signed up'))
   }
 
   let hashedPassword
@@ -170,4 +170,5 @@ const getUserInfo = async (req, res, next) => {
 
 exports.getUserInfo = getUserInfo
 exports.signup = signup
+exports.socialSignup = socialSignup
 exports.login = login

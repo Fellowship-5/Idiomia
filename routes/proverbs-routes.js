@@ -13,6 +13,7 @@ router.post(
 	[ (check('proverb').not().isEmpty(), check('translation').not().isEmpty(), check('explanation').not().isEmpty()) ],
 	proverbsController.postProverb
 );
+
 router.use(checkAuth);
 
 router.get('/my-proverbs', proverbsController.getProverbsByUserId);

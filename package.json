@@ -28,6 +28,7 @@
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^5.10.9",
 		"mongoose-unique-validator": "^2.0.3",
+		"react-share": "^4.3.1",
 		"validator": "^13.1.17"
 	},
 	"devDependencies": {

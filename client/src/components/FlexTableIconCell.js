@@ -1,25 +1,25 @@
-import React from "react";
-import Icon from "./Icon";
+import React from 'react'
+import Icon from './Icon'
 
 const FlexTableIconCell = ({ title, item, iconClick }) => {
   return (
     <div className={`flexTable-cell ${title.fieldName}-cell`} name={item.id}>
-      <div className="flexTable-cell--heading">{title.title}</div>
+      <div className='flexTable-cell--heading'>{title.title}</div>
       <div className={`flexTable-cell--content ${title.fieldName}-content`}>
         {title.icons?.map((icon, i) => (
           <Icon
             key={i}
             name={item.id}
-            icon={"fa" + icon}
+            icon={'fa' + icon}
             onClick={iconClick}
             id={icon}
-            size={"1x"}
+            size={'1x'}
             fixedWidth
           />
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FlexTableIconCell;
+export default FlexTableIconCell

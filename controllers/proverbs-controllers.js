@@ -165,7 +165,8 @@ const deleteUserProverb = async (req, res, next) => {
 	} else {
 		try {
 			proverbToDelete.contributor.proverbs.pull(proverbToDelete);
-			await proverbToDelete.contributor.save();
+			proverbToDelete.contributor = null;
+			await proverbToDelete.save();
 		} catch (error) {
 			res.status(500).json({
 				msg: 'Proverb is not found here'
