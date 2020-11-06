@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 import {
   GET_PROVERBS,
   GET_PROVERBS_SUCCESS,
@@ -17,155 +17,155 @@ import {
   DELETE_PROVERB_ERROR,
   UPDATE_PROVERB,
   UPDATE_PROVERB_SUCCESS,
-  UPDATE_PROVERB_ERROR,
-} from "./types";
-import { toast } from "react-toastify";
+  UPDATE_PROVERB_ERROR
+} from './types'
+import { toast } from 'react-toastify'
 
-const API_URL = process.env.REACT_APP_IDIOMIA_API;
+const API_URL = process.env.REACT_APP_IDIOMIA_API
 
 // Get All Proverbs for common user
-export const getProverbs = () => async (dispatch) => {
+export const getProverbs = () => async dispatch => {
   try {
     dispatch({
-      type: GET_PROVERBS,
-    });
-    const res = await axios.get(`${API_URL}/proverbs/all-proverbs`);
+      type: GET_PROVERBS
+    })
+    const res = await axios.get(`${API_URL}/proverbs/all-proverbs`)
     dispatch({
       type: GET_PROVERBS_SUCCESS,
-      payload: res.data.proverbs,
-    });
+      payload: res.data.proverbs
+    })
   } catch (err) {
     dispatch({
       type: GET_PROVERBS_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
   }
-};
+}
 // Get All Proverbs for registered user
-export const getUserProverbs = () => async (dispatch) => {
+export const getUserProverbs = () => async dispatch => {
   try {
     dispatch({
-      type: GET_USER_PROVERBS,
-    });
-    const res = await axios.get(`${API_URL}/proverbs/my-proverbs`);
+      type: GET_USER_PROVERBS
+    })
+    const res = await axios.get(`${API_URL}/proverbs/my-proverbs`)
     dispatch({
       type: GET_USER_PROVERBS_SUCCESS,
-      payload: res.data.user_proverbs,
-    });
+      payload: res.data.user_proverbs
+    })
   } catch (err) {
     dispatch({
       type: GET_USER_PROVERBS_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
   }
-};
+}
 
 // Get Proverb
-export const getProverb = (id) => async (dispatch) => {
+export const getProverb = id => async dispatch => {
   try {
     dispatch({
-      type: GET_PROVERB,
-    });
-    const res = await axios.get(`${API_URL}/xxx`); //@not ready
+      type: GET_PROVERB
+    })
+    const res = await axios.get(`${API_URL}/xxx`) //@not ready
 
     dispatch({
       type: GET_PROVERB_SUCCESS,
-      payload: res.data,
-    });
+      payload: res.data
+    })
   } catch (err) {
     dispatch({
       type: GET_PROVERB_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
   }
-};
+}
 
 // Add proverb
-export const addProverb = (formData) => async (dispatch, getState) => {
-  const { isAuthenticated } = getState().auth;
+export const addProverb = formData => async (dispatch, getState) => {
+  const { isAuthenticated } = getState().auth
   try {
     dispatch({
-      type: ADD_PROVERB,
-    });
+      type: ADD_PROVERB
+    })
     const postUrl = isAuthenticated
       ? `${API_URL}/proverbs/post-my-proverb`
-      : `${API_URL}/proverbs/post-proverb`;
-    const res = await axios.post(postUrl, formData);
+      : `${API_URL}/proverbs/post-proverb`
+    const res = await axios.post(postUrl, formData)
 
     dispatch({
       type: ADD_PROVERB_SUCCESS,
-      payload: res.data.proverb,
-    });
+      payload: res.data.proverb
+    })
 
-    toast.success("Proverb added successfully");
+    toast.success('Proverb added successfully')
   } catch (err) {
-    const { errors, msg } = err.response.data;
+    const { errors, msg } = err.response.data
 
     if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
+      errors.forEach(error => toast.error(error.msg))
     }
     if (msg) {
-      toast.error(msg);
+      toast.error(msg)
     }
 
     dispatch({
       type: ADD_PROVERB_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
   }
-};
+}
 
 // Delete proverb
-export const deleteProverb = (id) => async (dispatch) => {
+export const deleteProverb = id => async dispatch => {
   try {
     dispatch({
-      type: DELETE_PROVERB,
-    });
-    await axios.delete(`${API_URL}/proverbs/delete-my-proverb/${id}`);
+      type: DELETE_PROVERB
+    })
+    await axios.delete(`${API_URL}/proverbs/delete-my-proverb/${id}`)
 
     dispatch({
       type: DELETE_PROVERB_SUCCESS,
-      payload: id,
-    });
+      payload: id
+    })
 
-    toast.success("Proverb deleted successfully");
+    toast.success('Proverb deleted successfully')
   } catch (err) {
     dispatch({
       type: DELETE_PROVERB_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
   }
-};
+}
 
 // Update Proverb
-export const updateProverb = (formData, id) => async (dispatch) => {
+export const updateProverb = (formData, id) => async dispatch => {
   try {
     dispatch({
-      type: UPDATE_PROVERB,
-    });
+      type: UPDATE_PROVERB
+    })
     const res = await axios.put(
       `${API_URL}/proverbs/edit-my-proverb/${id}`,
       formData
-    );
+    )
 
     dispatch({
       type: UPDATE_PROVERB_SUCCESS,
-      payload: res.data,
-    });
+      payload: res.data
+    })
 
-    toast.success("Proverb updated successfully");
+    toast.success('Proverb updated successfully')
   } catch (err) {
-    const { errors, msg } = err.response.data;
+    const { errors, msg } = err.response.data
 
     if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
+      errors.forEach(error => toast.error(error.msg))
     }
     if (msg) {
-      toast.error(msg);
+      toast.error(msg)
     }
     dispatch({
       type: UPDATE_PROVERB_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
   }
-};
+}

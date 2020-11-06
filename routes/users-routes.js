@@ -21,7 +21,7 @@ router.post(
   ],
   usersController.signup
 )
-router.post('/social-signup', usersController.socialSignup)
+
 router.post('/login', usersController.login)
 router.use(checkAuth)
 router.get('/get-user', usersController.getUserInfo)

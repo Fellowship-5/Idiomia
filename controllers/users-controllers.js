@@ -170,5 +170,4 @@ const getUserInfo = async (req, res, next) => {
 
 exports.getUserInfo = getUserInfo
 exports.signup = signup
-exports.socialSignup = socialSignup
 exports.login = login
