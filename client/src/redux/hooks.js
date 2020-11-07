@@ -3,6 +3,12 @@ import { useDispatch, shallowEqual, useSelector } from "react-redux";
 import { loadUser, register, login, logout } from "./actions/auth";
 import { setSearch, setSearchTerm } from "./actions/search";
 import { setLocationChanged } from "./actions/location";
+import {
+  setPage,
+  setPageItems,
+  setPageSize,
+  setPageReset,
+} from "./actions/pagination";
 
 import {
   getProverbs,
@@ -13,8 +19,12 @@ import {
   getProverb,
   addUserProverb,
 } from "./actions/proverb";
-import { selectAuth, selectProverb, selectSearch } from "./selectors";
-
+import {
+  selectAuth,
+  selectProverb,
+  selectSearch,
+  selectPagination,
+} from "./selectors";
 
 export function useAuth() {
   const dispatch = useDispatch();
@@ -174,5 +184,48 @@ export function useLocation() {
 
   return {
     setLocationChanged: boundSetLocationChanged,
+  };
+}
+
+export function usePagination() {
+  const dispatch = useDispatch();
+  const { activePage, pageSize, pageOfItems, pageReset } = useSelector(
+    selectPagination,
+    shallowEqual
+  );
+
+  const boundSetPageSize = useCallback(
+    (...args) => {
+      return dispatch(setPageSize(...args));
+    },
+    [dispatch]
+  );
+  const boundSetPage = useCallback(
+    (...args) => {
+      return dispatch(setPage(...args));
+    },
+    [dispatch]
+  );
+  const boundSetPageItems = useCallback(
+    (...args) => {
+      return dispatch(setPageItems(...args));
+    },
+    [dispatch]
+  );
+  const boundSetPageReset = useCallback(
+    (...args) => {
+      return dispatch(setPageReset(...args));
+    },
+    [dispatch]
+  );
+  return {
+    activePage,
+    pageSize,
+    pageOfItems,
+    pageReset,
+    setPageSize: boundSetPageSize,
+    setPage: boundSetPage,
+    setPageItems: boundSetPageItems,
+    setPageReset: boundSetPageReset,
   };
 }
