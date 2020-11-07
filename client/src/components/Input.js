@@ -5,7 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 export default function Input({
   plaintext = false,
   disabled = false,
-  required = false,  
+  required = false,
   pClassName,
   label,
   labelClassName,
@@ -15,6 +15,7 @@ export default function Input({
   inputTextLeft,
   inputTextRight,
   inputTextRightOnClick,
+  inputRef,
   ...props
 }) {
   return (
@@ -33,6 +34,7 @@ export default function Input({
           required={required}
           disabled={disabled}
           plaintext={plaintext}
+          ref={inputRef}
           {...props}
         >
           {children}

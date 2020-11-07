@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import FlexTable from "../../components/FlexTable";
-import { useProverb } from "./../../redux/hooks";
+import { useProverb, useSearch } from "./../../redux/hooks";
 import { homepageTableTitle } from "./../../helpers/flexTableData";
 
 const ProverbList = () => {
   const { proverbs, getProverbs } = useProverb();
-  // Fetch All Proverbs
+  const { filtered, isActive, searchTerm, setSearch } = useSearch();
+
   useEffect(
     function fetchAllProverbs() {
       getProverbs();
@@ -14,10 +15,17 @@ const ProverbList = () => {
     [getProverbs]
   );
 
+  useEffect(
+    function searchProverbs() {
+      searchTerm && setSearch(searchTerm, proverbs);
+    },
+    [searchTerm, setSearch, proverbs]
+  );
+
   return (
     <Container>
       <FlexTable
-        data={proverbs}
+        data={isActive ? filtered : proverbs}
         titleData={homepageTableTitle}
         tableId={"proverb-list-flex-table"}
         tableType="homepage-flexTable"
