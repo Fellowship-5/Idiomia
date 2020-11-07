@@ -1,11 +1,14 @@
 import axios from "axios";
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
-  AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  REGISTER_USER,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_ERROR,
+  GET_USER_INFO,
+  GET_USER_INFO_SUCCESS,
+  GET_USER_INFO_ERROR,
+  LOGIN_USER,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
   LOGOUT,
   CLEAR_PROFILE,
 } from "./types";
@@ -22,15 +25,18 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
+    dispatch({
+      type: GET_USER_INFO,
+    });
     const res = await axios.get(`${API_URL}/users/get-user`);
 
     dispatch({
-      type: USER_LOADED,
+      type: GET_USER_INFO_SUCCESS,
       payload: res.data.current_user,
     });
   } catch (err) {
     dispatch({
-      type: AUTH_ERROR,
+      type: GET_USER_INFO_ERROR,
     });
     localStorage.removeItem("token");
   }
@@ -39,20 +45,23 @@ export const loadUser = () => async (dispatch) => {
 // Register User
 export const register = (data) => async (dispatch) => {
   try {
-    const res = await axios.post(`${API_URL}/users/signup`, data);
-
     dispatch({
-      type: REGISTER_SUCCESS,
+      type: REGISTER_USER,
+    });
+    const res = await axios.post(`${API_URL}/users/signup`, data);
+    localStorage.setItem("token", res.data.token);
+
+    await dispatch(loadUser());
+    dispatch({
+      type: REGISTER_USER_SUCCESS,
       payload: res.data,
     });
-    localStorage.setItem("token", res.data.token);
     toast.success("You have registered successfully");
-    dispatch(loadUser());
   } catch (err) {
     showError(err);
 
     dispatch({
-      type: REGISTER_FAIL,
+      type: REGISTER_USER_ERROR,
     });
     localStorage.removeItem("token");
   }
@@ -61,20 +70,22 @@ export const register = (data) => async (dispatch) => {
 // Login User
 export const login = (data) => async (dispatch) => {
   try {
-    const res = await axios.post(`${API_URL}/users/login`, data);
-
     dispatch({
-      type: LOGIN_SUCCESS,
+      type: LOGIN_USER,
+    });
+    const res = await axios.post(`${API_URL}/users/login`, data);
+    localStorage.setItem("token", res.data.token);
+    await dispatch(loadUser());
+    dispatch({
+      type: LOGIN_USER_SUCCESS,
       payload: res.data,
     });
-    localStorage.setItem("token", res.data.token);
-    dispatch(loadUser());
     toast.success("You have logined successfully");
   } catch (err) {
     showError(err);
 
     dispatch({
-      type: LOGIN_FAIL,
+      type: LOGIN_USER_ERROR,
     });
     localStorage.removeItem("token");
   }
