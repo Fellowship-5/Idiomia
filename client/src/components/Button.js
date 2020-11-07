@@ -18,7 +18,7 @@ export default function Button({
       type={type}
       {...props}
     >
-      {icon && <Icon icon={icon} />}
+      {icon && <Icon icon={icon} data-testid="button-icon" />}
       <span>{text}</span>
     </ButtonBootstrap>
   );
