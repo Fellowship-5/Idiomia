@@ -37,8 +37,6 @@ export const loadUser = () => async dispatch => {
 
 // Register User
 export const register = data => async dispatch => {
-  //   const body = JSON.stringify(data)
-
   try {
     const res = await axios.post(`${API_URL}/users/signup`, data)
     dispatch({
@@ -50,11 +48,12 @@ export const register = data => async dispatch => {
     dispatch(loadUser())
   } catch (err) {
     const errors = err.response.data.errors
-
     if (errors) {
       errors.forEach(error => toast.error(error.msg))
     }
-
+    if (err) {
+      toast.error('Email exists. Try to log in')
+    }
     dispatch({
       type: REGISTER_FAIL
     })
@@ -66,14 +65,14 @@ export const register = data => async dispatch => {
 export const login = data => async dispatch => {
   try {
     const res = await axios.post(`${API_URL}/users/login`, data)
-
+    console.log(res.data)
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
     })
     localStorage.setItem('token', res.data.token)
     dispatch(loadUser())
-    toast.success('You have logined successfully')
+    toast.success('You have logged in successfully')
   } catch (err) {
     const { errors, msg } = err.response.data
 

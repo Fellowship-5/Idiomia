@@ -133,8 +133,8 @@ const login = async (req, res, next) => {
         expiresIn: '1h'
       }
     )
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
     res.status(500).json({
       msg: 'sign up failed. Please try again later'
     })

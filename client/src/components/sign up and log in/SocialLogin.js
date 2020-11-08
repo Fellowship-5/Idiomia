@@ -2,6 +2,7 @@ import React from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login'
 import Button from '../Button'
+import { toast } from 'react-toastify'
 
 export default function SocialLogin (props) {
   return (
@@ -30,7 +31,7 @@ export default function SocialLogin (props) {
           />
         )}
         onSuccess={props.handleGoogleSignUp}
-        // onFailure={toast.error(error)}
+        onFailure={error => toast.error(error)}
         cookiePolicy={'single_host_origin'}
       />
     </div>
