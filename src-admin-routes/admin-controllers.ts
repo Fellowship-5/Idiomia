@@ -94,4 +94,10 @@ const getProverbs = async (req: Request, res: Response, next: NextFunction) => {
     })
 
 }
-export { deleteProverb, editProverb, approveProverb, getProverbs } 
+const getUsers = async (req: Request, res: Response, next: NextFunction) => {
+    res.json({
+        users: res.paginatedResults
+    })
+
+}
+export { deleteProverb, editProverb, approveProverb, getProverbs, getUsers } 

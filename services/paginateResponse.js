@@ -26,7 +26,7 @@ function paginateResponse (model) {
   return async (req, res, next) => {
     const page = parseInt(req.query.page)
     const limit = parseInt(req.query.limit)
-    const order = req.query.sort
+    const sort = req.query.sort
     const approved = req.query.approved
 
     const { results, startIndex } = addNextPreviousTotalObj(
@@ -46,7 +46,7 @@ function paginateResponse (model) {
 
         results.results = await model
           .find({})
-          .sort({ date: order ? `${order}` : null })
+          .sort({ date: sort ? `${sort}` : null })
           .limit(limit)
           .skip(startIndex)
           .exec()
@@ -67,7 +67,7 @@ function paginateResponse (model) {
           .find({
             adminApproval: approved
           })
-          .sort({ date: order ? `${order}` : null })
+          .sort({ date: sort ? `${sort}` : null })
           .limit(limit)
           .skip(startIndex)
           .exec()
