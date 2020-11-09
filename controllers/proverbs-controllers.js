@@ -1,25 +1,15 @@
-const { validationResult } = require('express-validator')
 const mongoose = require('mongoose')
+const { validationResult } = require('express-validator')
+
 const { findEntryById } = require('../services/user_methods.js')
+const { paginateArr } = require('../services/paginateResponse')
+
 const Proverb = require('../models/proverb')
 const User = require('../models/user')
 
 const getProverbs = async (req, res, next) => {
-  let proverbs
-  try {
-    proverbs = await Proverb.find({})
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({
-      msg: 'could not retrieve proverbs from database'
-    })
-    return next(error)
-  }
-  const approvedProverbs = proverbs.filter(proverb => proverb.adminApproval)
   res.json({
-    proverbs: approvedProverbs.map(proverb =>
-      proverb.toObject({ getters: true })
-    )
+    proverbs: res.paginatedResults
   })
 }
 
@@ -92,6 +82,9 @@ const postUserProverb = async (req, res, next) => {
 }
 
 const getProverbsByUserId = async (req, res, next) => {
+  const page = parseInt(req.query.page)
+  const limit = parseInt(req.query.limit)
+
   let userWithProverbs
   try {
     userWithProverbs = await User.findById(req.userData.userId).populate(
@@ -110,11 +103,10 @@ const getProverbsByUserId = async (req, res, next) => {
       msg: 'Could not find proverbs for user'
     })
   }
+  const results = paginateArr(userWithProverbs.proverbs, page, limit)
 
   res.json({
-    user_proverbs: userWithProverbs.proverbs.map(proverb =>
-      proverb.toObject({ getters: true })
-    )
+    user_proverbs: results
   })
 }
 

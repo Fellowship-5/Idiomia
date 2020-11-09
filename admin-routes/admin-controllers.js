@@ -99,17 +99,8 @@ const approveProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.approveProverb = approveProverb;
 const getProverbs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    let proverbs;
-    try {
-        proverbs = yield proverb_js_1.default.find({});
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            msg: 'could not retrieve proverbs from database'
-        });
-        return next(error);
-    }
-    res.json({ proverbs: proverbs.map((proverb) => proverb.toObject({ getters: true })) });
+    res.json({
+        proverbs: res.paginatedResults
+    });
 });
 exports.getProverbs = getProverbs;
