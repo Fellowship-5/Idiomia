@@ -11,6 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_methods_js_1 = require("../services/user_methods.js");
 const checkRole = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.method === 'OPTIONS') {
+        return next();
+    }
     const userId = req.userData.userId;
     const user = yield user_methods_js_1.findEntryById(userId, 'user', 'could not find the user');
     if (user.role === 'admin') {
