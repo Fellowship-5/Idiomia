@@ -37,9 +37,16 @@ const Register = () => {
   useEffect(() => {
     const isFilled = [name, email, password, confirmPassword].every(data =>
       Boolean(data)
+<<<<<<< HEAD
     )
     isFilled ? setDisabled(false) : setDisabled(true)
   }, [formData])
+=======
+    );
+    isFilled ? setDisabled(false) : setDisabled(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData]);
+>>>>>>> 5384a27002b3ea2692c30c85c4243193a12f2dca
 
   const onChange = e => {
     e.preventDefault()

@@ -1,10 +1,13 @@
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
-  AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  REGISTER_USER,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_ERROR,
+  GET_USER_INFO,
+  GET_USER_INFO_SUCCESS,
+  GET_USER_INFO_ERROR,
+  LOGIN_USER,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
   LOGOUT,
 } from "../actions/types";
 
@@ -19,24 +22,31 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case USER_LOADED:
+    case GET_USER_INFO:
+    case REGISTER_USER:
+    case LOGIN_USER:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_USER_INFO_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
         user: payload,
       };
-    case REGISTER_SUCCESS:
-    case LOGIN_SUCCESS:
+    case REGISTER_USER_SUCCESS:
+    case LOGIN_USER_SUCCESS:
       return {
         ...state,
         ...payload,
         isAuthenticated: true,
         loading: false,
       };
-    case REGISTER_FAIL:
-    case AUTH_ERROR:
-    case LOGIN_FAIL:
+    case REGISTER_USER_ERROR:
+    case GET_USER_INFO_ERROR:
+    case LOGIN_USER_ERROR:
     case LOGOUT:
       return {
         token: null,

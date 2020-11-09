@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 import { useDispatch, shallowEqual, useSelector } from "react-redux";
 import { loadUser, register, login, logout } from "./actions/auth";
+import { setSearch, setSearchTerm } from "./actions/search";
+import { setLocationChanged } from "./actions/location";
+
 import {
   getProverbs,
   getUserProverbs,
@@ -8,8 +11,10 @@ import {
   deleteProverb,
   updateProverb,
   getProverb,
+  addUserProverb,
 } from "./actions/proverb";
-import { selectAuth, selectProverb } from "./selectors";
+import { selectAuth, selectProverb, selectSearch } from "./selectors";
+
 
 export function useAuth() {
   const dispatch = useDispatch();
@@ -91,6 +96,13 @@ export function useProverb() {
     [dispatch]
   );
 
+  const boundAddUserProverb = useCallback(
+    (...args) => {
+      return dispatch(addUserProverb(...args));
+    },
+    [dispatch]
+  );
+
   const boundDeleteProverb = useCallback(
     (...args) => {
       return dispatch(deleteProverb(...args));
@@ -115,7 +127,52 @@ export function useProverb() {
     getUserProverbs: boundGetUserProverbs,
     getProverb: boundGetProverb,
     addProverb: boundAddProverb,
+    addUserProverb: boundAddUserProverb,
     deleteProverb: boundDeleteProverb,
     updateProverb: boundUpdateProverb,
+  };
+}
+
+export function useSearch() {
+  const dispatch = useDispatch();
+  const { isActive, searchTerm, filtered } = useSelector(
+    selectSearch,
+    shallowEqual
+  );
+
+  const boundSetSearchTerm = useCallback(
+    (term, type) => {
+      return dispatch(setSearchTerm(term, type));
+    },
+    [dispatch]
+  );
+
+  const boundSetSearch = useCallback(
+    (...args) => {
+      return dispatch(setSearch(...args));
+    },
+    [dispatch]
+  );
+
+  return {
+    filtered,
+    setSearchTerm: boundSetSearchTerm,
+    setSearch: boundSetSearch,
+    isActive,
+    searchTerm,
+  };
+}
+
+export function useLocation() {
+  const dispatch = useDispatch();
+  const boundSetLocationChanged = useCallback(
+    (...args) => {
+      return dispatch(setLocationChanged(...args));
+    },
+    [dispatch]
+  );
+
+  return {
+    setLocationChanged: boundSetLocationChanged,
   };
 }

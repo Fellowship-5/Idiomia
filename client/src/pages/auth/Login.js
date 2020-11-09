@@ -23,10 +23,17 @@ const Login = props => {
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
+<<<<<<< HEAD
   const onSubmit = async e => {
     e.preventDefault()
     loginUser({ email, password })
   }
+=======
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    loginUser({ email, password });
+  };
+>>>>>>> 5384a27002b3ea2692c30c85c4243193a12f2dca
 
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />

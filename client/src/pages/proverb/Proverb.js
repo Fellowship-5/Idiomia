@@ -4,14 +4,24 @@ import Input from "./../../components/Input";
 import Button from "./../../components/Button";
 import { isArabic } from "./../../helpers/functions";
 import { PROVERB_INITIAL_DATA } from "./../../helpers/formData";
-import { useProverb } from "./../../redux/hooks";
+import { useProverb, useAuth } from "./../../redux/hooks";
 
 import "./Proverb.css";
 
 const Proverb = ({ actionType, handleCloseModal }) => {
-  const { addProverb } = useProverb();
+  const { isAuthenticated } = useAuth();
+  const {
+    addProverb,
+    addUserProverb,
+    updateProverb,
+    proverb: proverbObj,
+    loading,
+  } = useProverb();
 
-  const [formData, setFormData] = useState(PROVERB_INITIAL_DATA);
+  const isNewProverb = !loading && actionType === "Add";
+  const proverbFormValues = isNewProverb ? PROVERB_INITIAL_DATA : proverbObj;
+
+  const [formData, setFormData] = useState(proverbFormValues);
   const [disabled, setDisabled] = useState(true);
 
   const { proverb, translation, explanation } = formData;
@@ -23,6 +33,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
     const result = isArabic(proverb);
     const shouldBeDisabled = !isFilled || !result;
     setDisabled(shouldBeDisabled);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
   const handleInputChange = (e) => {
@@ -31,8 +42,18 @@ const Proverb = ({ actionType, handleCloseModal }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    actionType === "Add" && addProverb(formData);
-    handleCloseModal();
+    const proverbAction = isAuthenticated ? addUserProverb : addProverb;
+
+    if (actionType === "Add") {
+      await proverbAction(formData);
+      handleCloseModal();
+      return;
+    }
+    if (actionType === "Update") {
+      await updateProverb(formData, proverbObj._id);
+      handleCloseModal();
+      return;
+    }
   };
 
   return (
@@ -48,6 +69,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
         autoComplete="off"
         labelClassName="input-form-label my-3"
         className="rounded"
+        readOnly={actionType === "Update"}
       />
       <Input
         label="Translation"
@@ -78,7 +100,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
 
       <Button
         variant="info"
-        text="Add"
+        text={actionType}
         onClick={onSubmit}
         color="white"
         type="submit"
