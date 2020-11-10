@@ -28,23 +28,25 @@ import { showError } from './../../helpers/functions'
 const API_URL = process.env.REACT_APP_IDIOMIA_API
 
 // Get All Proverbs for common user
-export const getProverbs = () => async dispatch => {
+export const getProverbs = (page, limit) => async (dispatch) => {
   try {
     dispatch({
-      type: GET_PROVERBS
-    })
-    const res = await axios.get(`${API_URL}/proverbs/all-proverbs`)
+      type: GET_PROVERBS,
+    });
+    const res = await axios.get(
+      `${API_URL}/proverbs/all-proverbs?limit=${limit}&sort=desc&approved=true&page=${page}`
+    );
     dispatch({
       type: GET_PROVERBS_SUCCESS,
-      payload: res.data.proverbs
-    })
+      payload: res.data.proverbs,
+    });
   } catch (err) {
     dispatch({
       type: GET_PROVERBS_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    })
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
-}
+};
 // Get All Proverbs for registered user
 export const getUserProverbs = () => async dispatch => {
   try {

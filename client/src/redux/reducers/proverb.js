@@ -27,6 +27,7 @@ const initialState = {
   proverbs: [],
   userProverbs: [],
   proverb: {},
+  totalPages: null,
   loading: false,
   error: {},
 };
@@ -60,13 +61,15 @@ export default function (state = initialState, action) {
     case GET_PROVERBS_SUCCESS:
       return {
         ...state,
-        proverbs: payload,
+        proverbs: payload.results,
+        totalPages: payload.total_pages,
         loading: false,
       };
     case GET_USER_PROVERBS_SUCCESS:
       return {
         ...state,
-        userProverbs: payload,
+        userProverbs: payload.results,
+        totalPages: payload.total_pages,
         loading: false,
       };
     case GET_PROVERB_SUCCESS:
