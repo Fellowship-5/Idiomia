@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
-const { findEntryById } = require('../services/user_methods')
+const { findEntryBy } = require('../services/user_methods')
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/user')

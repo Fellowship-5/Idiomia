@@ -13,6 +13,7 @@ router.get(
   proverbsController.getProverbs
 )
 router.get('/get-proverb/:pid', proverbsController.getProverbById)
+router.get('/proverb-search', proverbsController.searchProverbs)
 
 router.post(
   '/post-proverb',

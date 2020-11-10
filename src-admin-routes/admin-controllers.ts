@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import Proverb from '../models/proverb.js'
 import mongoose from 'mongoose'
-import { findEntryById } from '../services/user_methods.js'
+import { findEntryByField } from '../services/user_methods.js'
 
 const deleteProverb = async (req: Request, res: Response, next: NextFunction) => {
     const proverbId = req.params.pid;
-    const proverb = await findEntryById(proverbId, 'proverb', 'could not find the proverb');
+    const proverb = await findEntryByField(Proverb, '_id', proverbId);
 
     if (proverb.contributor) {
         let proverbToDelete;
@@ -50,7 +50,7 @@ const editProverb = async (req: Request, res: Response, next: NextFunction) => {
     const proverbId = req.params.pid;
     const { proverb, translation, explanation } = req.body;
 
-    const proverbToEdit = await findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+    const proverbToEdit = await findEntryByField(Proverb, '_id', proverbId);
 
     proverbToEdit.proverb = proverb
     proverbToEdit.translation = translation;
@@ -74,7 +74,7 @@ const approveProverb = async (req: Request, res: Response, next: NextFunction) =
     const proverbId = req.params.pid;
     const { approve } = req.body;
 
-    const proverbToApprove = await findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+    const proverbToApprove = await findEntryByField(Proverb, '_id', proverbId);
 
     proverbToApprove.adminApproval = approve;
     try {
