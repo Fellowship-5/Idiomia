@@ -197,10 +197,7 @@ const getProverbById = async (req, res, next) => {
 }
 
 const searchProverbs = async (req, res, next) => {
-  const searchField = req.query.search_field
-  const searchValue = req.query.search_value
-
-  const proverbsFound = await findWordInField(Proverb, searchField, searchValue)
+  const proverbsFound = await findWordInField(Proverb, req)
 
   if (!proverbsFound) {
     res.status(200).json({

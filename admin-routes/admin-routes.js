@@ -11,6 +11,7 @@ const checkAdmin_1 = __importDefault(require("./checkAdmin"));
 const router = express_1.default.Router();
 router.use(checkAdmin_1.default);
 router.get('/all-proverbs', paginateResponse_1.paginateResponse(proverb_js_1.default), admin_controllers_1.getProverbs);
+router.get('/search', admin_controllers_1.searchUsers);
 router.get('/all-users', paginateResponse_1.paginateResponse(user_js_1.default), admin_controllers_1.getUsers);
 router.delete('/delete-proverb/:pid', admin_controllers_1.deleteProverb);
 router.patch('/edit-proverb/:pid', admin_controllers_1.editProverb);

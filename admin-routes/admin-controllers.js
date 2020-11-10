@@ -12,8 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = exports.getProverbs = exports.approveProverb = exports.editProverb = exports.deleteProverb = void 0;
+exports.searchUsers = exports.getUsers = exports.getProverbs = exports.approveProverb = exports.editProverb = exports.deleteProverb = void 0;
 const proverb_js_1 = __importDefault(require("../models/proverb.js"));
+const user_js_1 = __importDefault(require("../models/user.js"));
+const paginateResponse_js_1 = require("../services/paginateResponse.js");
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_methods_js_1 = require("../services/user_methods.js");
 const deleteProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -110,3 +112,15 @@ const getUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.getUsers = getUsers;
+const searchUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const usersFound = yield user_methods_js_1.findWordInField(user_js_1.default, req);
+    if (!usersFound) {
+        res.status(200).json({
+            msg: 'No users were found'
+        });
+        return next();
+    }
+    const users = paginateResponse_js_1.paginateArr(usersFound, req);
+    res.status(200).json({ users });
+});
+exports.searchUsers = searchUsers;

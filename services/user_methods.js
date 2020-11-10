@@ -12,7 +12,10 @@ const findEntryByField = async (model, field, term) => {
   return entry
 }
 
-const findWordInField = async (model, searchField, searchValue) => {
+const findWordInField = async (model, req) => {
+  const searchField = req.query.search_field
+  const searchValue = req.query.search_value
+
   const queryObj = {}
   if (searchValue !== '' && searchField !== '') {
     queryObj[searchField] = { $regex: searchValue, $options: 'i' }

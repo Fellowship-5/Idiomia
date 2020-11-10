@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import Proverb from '../models/proverb.js'
+import User from '../models/user.js'
+import { paginateArr } from '../services/paginateResponse.js'
 import mongoose from 'mongoose'
-import { findEntryByField } from '../services/user_methods.js'
+import { findEntryByField, findWordInField } from '../services/user_methods.js'
 
 const deleteProverb = async (req: Request, res: Response, next: NextFunction) => {
     const proverbId = req.params.pid;
@@ -100,4 +102,18 @@ const getUsers = async (req: Request, res: Response, next: NextFunction) => {
     })
 
 }
-export { deleteProverb, editProverb, approveProverb, getProverbs, getUsers } 
+const searchUsers = async (req: Request, res: Response, next: NextFunction) => {
+    const usersFound = await findWordInField(User, req);
+
+    if (!usersFound) {
+        res.status(200).json({
+            msg: 'No users were found'
+        })
+        return next()
+    }
+
+    const users = paginateArr(usersFound, req)
+
+    res.status(200).json({ users })
+}
+export { deleteProverb, editProverb, approveProverb, getProverbs, getUsers, searchUsers } 
