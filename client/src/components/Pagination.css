@@ -1,0 +1,57 @@
+.proverb-list-table-pagination {
+  margin-top: 2rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+}
+.proverb-list-table-pagination .page-link {
+  background-color: #ffffff;
+  color: #444;
+  padding: 0.4rem 0.8rem;
+  transition: all 0.25s ease-in;
+  font-weight: 700;
+  border: none;
+}
+
+.proverb-list-table-pagination .page-link:hover {
+  z-index: 2;
+  color: #000;
+  font-family: 700;
+  text-decoration: none;
+  background-color: #e9ecef;
+  border-color: #f7f7f7;
+}
+.proverb-list-table-pagination .page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #111;
+  border-color: #174260;
+}
+
+.proverb-list-table-pagination.pagination {
+  background: transparent;
+}
+
+/* Responsive Pagination
+  ==================================== */
+@media all and (max-width: 750px) {
+  .proverb-list-table-pagination {
+    display: flex;
+    flex-flow: wrap;
+  }
+
+  .proverb-list-table-pagination .page-item:first-child {
+    display: none;
+  }
+
+  .proverb-list-table-pagination .page-item {
+    padding: 2px;
+  }
+
+  .proverb-list-table-pagination .page-link {
+    padding: 5px 10px;
+    text-align: center;
+  }
+  .proverb-list-table-pagination .page-item:last-child {
+    display: none;
+  }
+}
