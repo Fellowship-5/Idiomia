@@ -189,7 +189,7 @@ export function useLocation() {
 
 export function usePagination() {
   const dispatch = useDispatch();
-  const { activePage, pageSize, pageOfItems, pageReset } = useSelector(
+  const { activePage, pageSize, pageItems, pageReset } = useSelector(
     selectPagination,
     shallowEqual
   );
@@ -216,7 +216,7 @@ export function usePagination() {
   return {
     activePage,
     pageSize,
-    pageOfItems,
+    pageItems,
     pageReset,
     setPageSize: boundSetPageSize,
     setPage: boundSetPage,

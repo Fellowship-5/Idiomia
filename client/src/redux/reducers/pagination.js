@@ -9,7 +9,7 @@ import {
 const initialState = {
   activePage: 1,
   pageSize: 10,
-  pageOfItems: [],
+  pageItems: [],
   pageReset: false,
 };
 
@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         activePage: payload.page,
-        pageOfItems: payload.items,
+        pageItems: payload.items,
       };
 
     case SET_PAGINATION_SIZE:

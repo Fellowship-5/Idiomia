@@ -6,13 +6,17 @@ import { useProverb, useSearch, usePagination } from "./../../redux/hooks";
 import { homepageTableTitle } from "./../../helpers/flexTableData";
 
 const ProverbList = () => {
-  const { proverbs, getProverbs, totalPages } = useProverb();
-  const { filtered, isActive, searchTerm, setSearch } = useSearch();
+  const { proverbs: allProverbs, getProverbs, totalPages } = useProverb();
+  const {
+    filtered: filteredProverbs,
+    isActive,
+    searchTerm,
+    setSearch,
+  } = useSearch();
   const {
     activePage,
     pageSize,
-    pageOfItems,
-    setPageItems,
+    pageItems,
     setPage,
     pageReset,
     setPageReset,
@@ -27,41 +31,41 @@ const ProverbList = () => {
 
   useEffect(
     function searchProverbs() {
-      searchTerm && setSearch(searchTerm, proverbs);
+      searchTerm && setSearch(searchTerm, allProverbs);
     },
-    [searchTerm, setSearch, proverbs]
+    [searchTerm, setSearch, allProverbs]
   );
 
   return (
     <Container>
       <Pagination
         id="proverb-list-top-table-pagination"
-        items={isActive ? filtered : proverbs}
+        items={isActive ? filteredProverbs : allProverbs}
         setActivePage={setPage}
         pageSize={pageSize}
         activePage={activePage}
         isSearchActive={isActive}
         paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
-        paginationReset={pageReset}
-        setPaginationReset={setPageReset}
+        shouldResetPagination={pageReset}
+        setShouldResetPagination={setPageReset}
         totalPages={totalPages}
       />
-    <FlexTable
-        data={pageOfItems}
+      <FlexTable
+        data={pageItems}
         titleData={homepageTableTitle}
         tableId={"proverb-list-flex-table"}
         tableType="homepage-flexTable"
       />
       <Pagination
         id="proverb-list-bottom-table-pagination"
-        items={isActive ? filtered : proverbs}
+        items={isActive ? filteredProverbs : allProverbs}
         setActivePage={setPage}
         pageSize={pageSize}
         activePage={activePage}
         isSearchActive={isActive}
         paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
-        paginationReset={pageReset}
-        setPaginationReset={setPageReset}
+        shouldResetPagination={pageReset}
+        setShouldResetPagination={setPageReset}
         totalPages={totalPages}
       />
     </Container>
