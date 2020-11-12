@@ -6,7 +6,12 @@ import { useProverb, useSearch, usePagination } from "./../../redux/hooks";
 import { homepageTableTitle } from "./../../helpers/flexTableData";
 
 const ProverbList = () => {
-  const { proverbs: allProverbs, getProverbs, totalPages } = useProverb();
+  const {
+    approvedProverbs,
+    getApprovedProverbs,
+    allProverbs,
+    totalPages,
+  } = useProverb();
   const {
     filtered: filteredProverbs,
     isActive,
@@ -23,10 +28,10 @@ const ProverbList = () => {
   } = usePagination();
 
   useEffect(
-    function fetchAllProverbs() {
-      getProverbs(activePage, pageSize);
+    function fetchApprovedProverbs() {
+      getApprovedProverbs(activePage, pageSize);
     },
-    [getProverbs, activePage, pageSize]
+    [getApprovedProverbs, activePage, pageSize]
   );
 
   useEffect(
@@ -40,7 +45,7 @@ const ProverbList = () => {
     <Container>
       <Pagination
         id="proverb-list-top-table-pagination"
-        items={isActive ? filteredProverbs : allProverbs}
+        items={isActive ? filteredProverbs : approvedProverbs}
         setActivePage={setPage}
         pageSize={pageSize}
         activePage={activePage}
@@ -58,7 +63,7 @@ const ProverbList = () => {
       />
       <Pagination
         id="proverb-list-bottom-table-pagination"
-        items={isActive ? filteredProverbs : allProverbs}
+        items={isActive ? filteredProverbs : approvedProverbs}
         setActivePage={setPage}
         pageSize={pageSize}
         activePage={activePage}

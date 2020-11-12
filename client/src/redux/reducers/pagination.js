@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   activePage: 1,
-  pageSize: 10,
+  pageSize: 5,
   pageItems: [],
   pageReset: false,
 };
@@ -34,8 +34,14 @@ export default function (state = initialState, action) {
         pageReset: payload,
       };
     case CLEAR_PROFILE:
-    case LOCATION_CHANGED:
       return initialState;
+    case LOCATION_CHANGED:
+      return {
+        ...state,
+        activePage: 1,
+        pageSize: 5,
+        pageReset: false,
+      };
     default:
       return state;
   }

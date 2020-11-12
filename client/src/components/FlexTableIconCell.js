@@ -12,7 +12,7 @@ const FlexTableIconCell = ({ title, item, iconClick }) => {
             key={i}
             icon={'fa' + icon}
             onClick={iconClick}
-            id={item.id}
+            id={item._id}
             size={'1x'}
             fixedWidth
           />

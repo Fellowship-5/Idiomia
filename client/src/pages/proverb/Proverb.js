@@ -4,7 +4,7 @@ import Input from "./../../components/Input";
 import Button from "./../../components/Button";
 import { isArabic } from "./../../helpers/functions";
 import { PROVERB_INITIAL_DATA } from "./../../helpers/formData";
-import { useProverb, useAuth } from "./../../redux/hooks";
+import { useProverb, useAuth, usePagination } from "./../../redux/hooks";
 
 import "./Proverb.css";
 
@@ -16,6 +16,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
     updateProverb,
     proverb: proverbObj,
     loading,
+    updateUserProverb,
   } = useProverb();
 
   const isNewProverb = !loading && actionType === "Add";
@@ -42,15 +43,20 @@ const Proverb = ({ actionType, handleCloseModal }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const proverbAction = isAuthenticated ? addUserProverb : addProverb;
+    const proverbAddAction = isAuthenticated ? addUserProverb : addProverb;
 
     if (actionType === "Add") {
-      await proverbAction(formData);
+      await proverbAddAction(formData);
       handleCloseModal();
       return;
     }
     if (actionType === "Update") {
       await updateProverb(formData, proverbObj._id);
+      handleCloseModal();
+      return;
+    }
+    if (actionType === "AdminUpdate") {
+      await updateUserProverb(formData, proverbObj._id);
       handleCloseModal();
       return;
     }

@@ -7,13 +7,11 @@ const Pagination = ({
   totalPages,
   paginationClass,
   setActivePage,
-  isSearchActive,
   activePage,
   shouldResetPagination,
   setShouldResetPagination,
 }) => {
   const [pages, setPages] = useState([]);
-
   const setPage = useCallback(
     (page) => {
       if (page < 1 || page > totalPages) {
@@ -29,17 +27,21 @@ const Pagination = ({
 
   useEffect(
     function activatePagination() {
-      if ((items && items.length) || isSearchActive) {
-        if (shouldResetPagination) {
-          setPage(1);
-        } else {
-          setPage(activePage);
-        }
+      if (shouldResetPagination) {
+        setPage(1);
+        return;
       }
+      setPage(activePage);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [activePage, isSearchActive, items, setPage]
+    [activePage, setPage, shouldResetPagination, totalPages]
   );
+
+  useEffect(() => {
+    if (items.length === 0 && activePage === totalPages) {
+      return setPage(activePage - 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
 
   const calculateStartAndEndPage = () => {
     const MAX_DISPLAYED_PAGE_NUMBERS = 6;

@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Section from "./../../components/Section";
 import Breadcrumb from "./../../components/Breadcrumb";
 import FlexTable from "./../../components/FlexTable";
+import Pagination from "./../../components/Pagination";
 import Modal from "./../../components/Modal";
 import Button from "./../../components/Button";
 import UpdateProverb from "./../proverb/UpdateProverb";
 import AddProverb from "./../proverb/AddProverb";
 import { userDashboardTitle } from "./../../helpers/flexTableData";
-import { useAuth, useProverb } from "./../../redux/hooks";
+import {
+  useAuth,
+  useProverb,
+  usePagination,
+  useLocation,
+} from "./../../redux/hooks";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -20,27 +26,42 @@ const Dashboard = () => {
     deleteProverb,
     getProverb,
     proverb,
+    totalPages,
   } = useProverb();
+  const {
+    activePage,
+    pageSize,
+    pageItems,
+    setPage,
+    pageReset,
+    setPageReset,
+  } = usePagination();
+  const history = useHistory();
+  const { setLocationChanged } = useLocation();
+
+  useEffect(
+    function listenLocationChanges() {
+      return history.listen(() => {
+        setLocationChanged();
+      });
+    },
+    [setLocationChanged]
+  );
 
   //Modal States
   const [modal, setModal] = useState({
     isOpen: false,
-    type: "",
+    type: undefined,
   });
   //Modal Handlers
-  const handleShowModal = async (type, id) => {
-    const userProverb = userProverbs.find((p) => p._id === id);
+  const handleShowModal = (type) => {
     if (type === "update") {
-      await getProverb(id);
-      userProverb.adminApproval
-        ? toast.error("You cannot update approved proverb")
-        : setModal({
-            isOpen: true,
-            type: "update",
-          });
+      setModal({
+        isOpen: true,
+        type: "update",
+      });
     }
     if (type === "delete") {
-      await getProverb(id);
       setModal({
         isOpen: true,
         type: "delete",
@@ -57,20 +78,25 @@ const Dashboard = () => {
     setModal({ isOpen: false, type: undefined });
   };
 
-  useEffect(() => {
-    getUserProverbs();
-  }, [getUserProverbs]);
+  useEffect(
+    function fetchUserProverbs() {
+      getUserProverbs(activePage, pageSize);
+    },
+    [getUserProverbs, activePage, pageSize]
+  );
 
   // Icon Click Handlers
   const handleIconClick = (e) => {
     const id = e.target?.id;
     const icon = e.target?.textContent;
+    getProverb(id);
+
     switch (icon) {
       case "Edit":
-        handleShowModal("update", id);
+        handleShowModal("update");
         break;
       case "TrashAlt":
-        handleShowModal("delete", id);
+        handleShowModal("delete");
         break;
       default:
         break;
@@ -84,9 +110,34 @@ const Dashboard = () => {
   };
 
   const selectModalChildren = () => {
-    if (modal.type === "update" && !proverb.adminApproval) {
-      return <UpdateProverb handleCloseModal={handleCloseModal} />;
+    if (modal.type === "update") {
+      if (proverb.adminApproval) {
+        return (
+          <div>
+            <p className="lead ml-2">
+              It is not allowed to update approved proverb.
+            </p>
+            <Button
+              variant="info"
+              text="Close"
+              onClick={handleCloseModal}
+              color="white"
+              type="submit"
+              className="button-custom p-2 float-right mb-2 mr-2"
+              id="user-dashboard-modal-confirm-button"
+            />
+          </div>
+        );
+      }
+
+      return (
+        <UpdateProverb
+          handleCloseModal={handleCloseModal}
+          actionType="Update"
+        />
+      );
     }
+
     if (modal.type === "delete") {
       return (
         <div>
@@ -104,7 +155,9 @@ const Dashboard = () => {
       );
     }
     if (modal.type === "add") {
-      return <AddProverb handleCloseModal={handleCloseModal} />;
+      return (
+        <AddProverb handleCloseModal={handleCloseModal} actionType="Add" />
+      );
     }
     return null;
   };
@@ -123,6 +176,7 @@ const Dashboard = () => {
         id="page-title"
         title={!userLoading && `${user?.name} DASHBOARD`}
         containerClass="d-flex justify-content-between mx-5 align-items-center"
+        className={user.role === "admin" ? "d-none" : ""}
       >
         <Breadcrumb activePage="Dashboard" />
       </Section>
@@ -136,9 +190,20 @@ const Dashboard = () => {
         id="user-dashboard-add-proverb-button"
       />
       <Container>
-        {userProverbs.length ? (
+        <Pagination
+          id="proverb-list-top-table-pagination"
+          items={userProverbs}
+          setActivePage={setPage}
+          pageSize={pageSize}
+          activePage={activePage}
+          paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
+          shouldResetPagination={pageReset}
+          setShouldResetPagination={setPageReset}
+          totalPages={totalPages}
+        />
+        {pageItems.length ? (
           <FlexTable
-            data={userProverbs}
+            data={pageItems}
             titleData={userDashboardTitle}
             tableId={"proverb-list-flex-table"}
             iconClick={handleIconClick}
