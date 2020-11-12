@@ -149,13 +149,14 @@ const deleteUserProverb = async (req, res, next) => {
     return next(error)
   }
 
-  if (!proverbToDelete) {
+  if (!proverbToDelete || proverbToDelete.contributor === null) {
     res.status(422).json({
       msg: 'Proverb is not found'
     })
     return next(new Error('No proverb is found'))
   }
 
+  console.log(proverbToDelete._id)
   if (!proverbToDelete.adminApproval) {
     try {
       const session = await mongoose.startSession()
@@ -172,7 +173,8 @@ const deleteUserProverb = async (req, res, next) => {
     }
   } else {
     try {
-      proverbToDelete.contributor.proverbs.pull(proverbToDelete)
+      proverbToDelete.contributor.proverbs.pull({ _id: proverbToDelete._id })
+      await proverbToDelete.contributor.save()
       proverbToDelete.contributor = null
       await proverbToDelete.save()
     } catch (error) {
