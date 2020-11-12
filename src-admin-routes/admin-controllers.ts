@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 import Proverb from '../models/proverb.js'
+import User from '../models/user.js'
+import { paginateArr } from '../services/paginateResponse.js'
 import mongoose from 'mongoose'
-import { findEntryById } from '../services/user_methods.js'
+import { findEntryByField, findWordInField } from '../services/user_methods.js'
 
 const deleteProverb = async (req: Request, res: Response, next: NextFunction) => {
     const proverbId = req.params.pid;
-    const proverb = await findEntryById(proverbId, 'proverb', 'could not find the proverb');
+    const proverb = await findEntryByField(Proverb, '_id', proverbId);
 
     if (proverb.contributor) {
         let proverbToDelete;
@@ -50,7 +52,7 @@ const editProverb = async (req: Request, res: Response, next: NextFunction) => {
     const proverbId = req.params.pid;
     const { proverb, translation, explanation } = req.body;
 
-    const proverbToEdit = await findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+    const proverbToEdit = await findEntryByField(Proverb, '_id', proverbId);
 
     proverbToEdit.proverb = proverb
     proverbToEdit.translation = translation;
@@ -74,7 +76,7 @@ const approveProverb = async (req: Request, res: Response, next: NextFunction) =
     const proverbId = req.params.pid;
     const { approve } = req.body;
 
-    const proverbToApprove = await findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+    const proverbToApprove = await findEntryByField(Proverb, '_id', proverbId);
 
     proverbToApprove.adminApproval = approve;
     try {
@@ -100,4 +102,18 @@ const getUsers = async (req: Request, res: Response, next: NextFunction) => {
     })
 
 }
-export { deleteProverb, editProverb, approveProverb, getProverbs, getUsers } 
+const searchUsers = async (req: Request, res: Response, next: NextFunction) => {
+    const usersFound = await findWordInField(User, req);
+
+    if (!usersFound) {
+        res.status(200).json({
+            msg: 'No users were found'
+        })
+        return next()
+    }
+
+    const users = paginateArr(usersFound, req)
+
+    res.status(200).json({ users })
+}
+export { deleteProverb, editProverb, approveProverb, getProverbs, getUsers, searchUsers } 

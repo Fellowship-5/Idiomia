@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 const { validationResult } = require('express-validator')
 
-const { findEntryById } = require('../services/user_methods.js')
+const {
+  findEntryByField,
+  findWordInField
+} = require('../services/user_methods.js')
 const { paginateArr } = require('../services/paginateResponse')
 
 const Proverb = require('../models/proverb')
@@ -52,11 +55,7 @@ const postUserProverb = async (req, res, next) => {
     date: new Date()
   })
 
-  const user = await findEntryById(
-    req.userData.userId,
-    'user',
-    'could not find user!'
-  )
+  const user = await findEntryByField(User, '_id', req.userData.userId)
 
   if (!user) {
     res.status(500).json({
@@ -82,9 +81,6 @@ const postUserProverb = async (req, res, next) => {
 }
 
 const getProverbsByUserId = async (req, res, next) => {
-  const page = parseInt(req.query.page)
-  const limit = parseInt(req.query.limit)
-
   let userWithProverbs
   try {
     userWithProverbs = await User.findById(req.userData.userId).populate(
@@ -103,7 +99,7 @@ const getProverbsByUserId = async (req, res, next) => {
       msg: 'Could not find proverbs for user'
     })
   }
-  const results = paginateArr(userWithProverbs.proverbs, page, limit)
+  const results = paginateArr(userWithProverbs.proverbs, req)
 
   res.json({
     user_proverbs: results
@@ -114,12 +110,14 @@ const editUserProverb = async (req, res, next) => {
   const { translation, explanation } = req.body
   const proverbId = req.params.pid
 
-  const proverbToEdit = await findEntryById(
-    proverbId,
-    'proverb',
-    'Could not find proverb in database'
-  )
+  const proverbToEdit = await findEntryByField(Proverb, '_id', proverbId)
 
+  if (!proverbToEdit) {
+    res.status(422).json({
+      msg: 'Proverb is not found'
+    })
+    return next(new Error('No proverb is found'))
+  }
   proverbToEdit.translation = translation
   proverbToEdit.explanation = explanation
 
@@ -189,17 +187,27 @@ const deleteUserProverb = async (req, res, next) => {
 }
 const getProverbById = async (req, res, next) => {
   const proverbId = req.params.pid
-  const proverb = await findEntryById(
-    proverbId,
-    'proverb',
-    'Could not find proverb'
-  )
+  const proverb = await findEntryByField(Proverb, '_id', proverbId)
 
   if (proverb) {
     res.status(200).json({ proverb })
   } else {
     res.status(200).json({ msg: 'no proverb was found' })
   }
+}
+
+const searchProverbs = async (req, res, next) => {
+  const proverbsFound = await findWordInField(Proverb, req)
+
+  if (!proverbsFound) {
+    res.status(200).json({
+      msg: 'No proverbs were found'
+    })
+    return next()
+  }
+  const paginatedProverbs = paginateArr(proverbsFound, req)
+
+  res.status(200).json({ paginatedProverbs })
 }
 exports.postProverb = postProverb
 exports.getProverbsByUserId = getProverbsByUserId
@@ -208,3 +216,4 @@ exports.getProverbs = getProverbs
 exports.postUserProverb = postUserProverb
 exports.editUserProverb = editUserProverb
 exports.deleteUserProverb = deleteUserProverb
+exports.searchProverbs = searchProverbs

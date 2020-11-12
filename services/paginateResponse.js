@@ -1,3 +1,5 @@
+const proverb = require('../models/proverb')
+
 function addNextPreviousTotalObj (page, limit, arrLength) {
   const startIndex = (page - 1) * limit
   const endIndex = page * limit
@@ -20,6 +22,15 @@ function addNextPreviousTotalObj (page, limit, arrLength) {
     }
   }
   return { results, startIndex, endIndex }
+}
+function sortArr (arr, direction) {
+  return arr.sort((a, b) => {
+    if (direction === 'asc') {
+      return a.date - b.date
+    } else {
+      return b.date - a.date
+    }
+  })
 }
 
 function paginateResponse (model) {
@@ -55,17 +66,42 @@ function paginateResponse (model) {
       } catch (error) {
         res.status(500).json({ msg: error.message })
       }
+      return
+    }
+    if (approved === 'true') {
+      try {
+        results.total_pages = Math.ceil(
+          (await model
+            .find({ adminApproval: true })
+            .countDocuments()
+            .exec()) / limit
+        )
+
+        results.results = await model
+          .find({
+            adminApproval: true
+          })
+          .sort({ date: sort ? `${sort}` : null })
+          .limit(limit)
+          .skip(startIndex)
+          .exec()
+        res.paginatedResults = results
+        next()
+      } catch (error) {
+        res.status(500).json({ msg: error.message })
+      }
     } else {
       try {
         results.total_pages = Math.ceil(
           (await model
-            .find({ adminApproval: approved })
+            .find({ adminApproval: false })
             .countDocuments()
             .exec()) / limit
         )
+
         results.results = await model
           .find({
-            adminApproval: approved
+            adminApproval: false
           })
           .sort({ date: sort ? `${sort}` : null })
           .limit(limit)
@@ -80,13 +116,37 @@ function paginateResponse (model) {
   }
 }
 
-function paginateArr (resultsArr, page, limit) {
+function paginateArr (resultsArr, req) {
+  const page = parseInt(req.query.page)
+  const limit = parseInt(req.query.limit)
+  const approved = req.query.approved
+  const sort = req.query.sort
+
+  let proverbsToSend
+  if (sort) {
+    proverbsToSend = sortArr(resultsArr, sort)
+  }
+  if (approved === undefined) {
+    const { results, startIndex, endIndex } = addNextPreviousTotalObj(
+      page,
+      limit,
+      resultsArr.length
+    )
+    results.results = resultsArr.slice(startIndex, endIndex)
+    return results
+  }
+
+  if (approved === 'true') {
+    proverbsToSend = resultsArr.filter(proverb => proverb.adminApproval)
+  } else {
+    proverbsToSend = resultsArr.filter(proverb => !proverb.adminApproval)
+  }
   const { results, startIndex, endIndex } = addNextPreviousTotalObj(
     page,
     limit,
-    resultsArr.length
+    proverbsToSend.length
   )
-  results.results = resultsArr.slice(startIndex, endIndex)
+  results.results = proverbsToSend.slice(startIndex, endIndex)
   return results
 }
 exports.paginateResponse = paginateResponse

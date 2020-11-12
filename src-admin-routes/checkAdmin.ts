@@ -1,13 +1,15 @@
 
 import { Request, Response, NextFunction } from 'express'
-import { findEntryById } from '../services/user_methods.js'
+import { findEntryByField } from '../services/user_methods.js'
+import User from '../models/user.js'
 
 const checkRole = async (req: Request, res: Response, next: NextFunction) => {
     if (req.method === 'OPTIONS') {
         return next()
     }
     const userId = req.userData.userId;
-    const user = await findEntryById(userId, 'user', 'could not find the user')
+    const user = await findEntryByField(User, '_id', userId)
+
     if (user.role === 'admin') {
         next();
     } else {
