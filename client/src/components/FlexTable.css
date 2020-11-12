@@ -26,6 +26,7 @@
   margin: 0 0 3em 0;
   padding: 0;
 }
+
 #proverb-list-flex-table.flexTable .flexTable-row {
   width: 100%;
   display: -webkit-box;
@@ -38,7 +39,6 @@
   font-weight: 300;
   position: relative;
 }
-
 #proverb-list-flex-table.flexTable .flexTable-row.flexTable-row--head {
   background-color: white;
   border: none;
@@ -49,7 +49,9 @@
   border: none;
   box-shadow: none;
 }
-
+.row-container{
+  border: red 2px solid; 
+}
 #proverb-list-flex-table.flexTable .flexTable-row:hover {
   background-color: #ebebeb;
   font-weight: 400;
