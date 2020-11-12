@@ -33,7 +33,9 @@ export const getProverbs = () => async dispatch => {
     dispatch({
       type: GET_PROVERBS
     })
+    console.log('yo')
     const res = await axios.get(`${API_URL}/proverbs/all-proverbs`)
+    console.log('hi', res)
     dispatch({
       type: GET_PROVERBS_SUCCESS,
       payload: res.data.proverbs

@@ -61,7 +61,7 @@ function paginateResponse (model) {
           .skip(startIndex)
           .exec()
 
-        return (res.paginatedResults = results)
+        res.paginatedResults = results
         next()
       } catch (error) {
         return res.status(500).json({ msg: error.message })
