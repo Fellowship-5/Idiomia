@@ -6,13 +6,18 @@ import { setLocationChanged } from "./actions/location";
 import { setPage, setPageSize, setPageReset } from "./actions/pagination";
 
 import {
-  getProverbs,
+  getApprovedProverbs,
   getUserProverbs,
+  getAllUserProverbs,
   addProverb,
   deleteProverb,
   updateProverb,
   getProverb,
   addUserProverb,
+  updateUserProverb,
+  approveUserProverb,
+  deleteUserProverb,
+  getProverbAdmin,
 } from "./actions/proverb";
 import {
   selectAuth,
@@ -70,17 +75,18 @@ export function useAuth() {
 export function useProverb() {
   const dispatch = useDispatch();
   const {
-    proverbs,
+    approvedProverbs,
     userProverbs,
+    allProverbs,
     proverb,
     loading,
     error,
     totalPages,
   } = useSelector(selectProverb, shallowEqual);
 
-  const boundGetProverbs = useCallback(
+  const boundGetApprovedProverbs = useCallback(
     (...args) => {
-      return dispatch(getProverbs(...args));
+      return dispatch(getApprovedProverbs(...args));
     },
     [dispatch]
   );
@@ -125,21 +131,58 @@ export function useProverb() {
     },
     [dispatch]
   );
+  const boundGetAllUserProverbs = useCallback(
+    (...args) => {
+      return dispatch(getAllUserProverbs(...args));
+    },
+    [dispatch]
+  );
+  const boundUpdateUserProverb = useCallback(
+    (...args) => {
+      return dispatch(updateUserProverb(...args));
+    },
+    [dispatch]
+  );
 
+  const boundApproveUserProverb = useCallback(
+    (...args) => {
+      return dispatch(approveUserProverb(...args));
+    },
+    [dispatch]
+  );
+
+  const boundDeleteUserProverb = useCallback(
+    (...args) => {
+      return dispatch(deleteUserProverb(...args));
+    },
+    [dispatch]
+  );
+  const boundGetProverbAdmin = useCallback(
+    (...args) => {
+      return dispatch(getProverbAdmin(...args));
+    },
+    [dispatch]
+  );
   return {
-    proverbs,
+    approvedProverbs,
     userProverbs,
+    allProverbs,
     proverb,
     loading,
     error,
     totalPages,
-    getProverbs: boundGetProverbs,
+    getApprovedProverbs: boundGetApprovedProverbs,
     getUserProverbs: boundGetUserProverbs,
     getProverb: boundGetProverb,
     addProverb: boundAddProverb,
     addUserProverb: boundAddUserProverb,
     deleteProverb: boundDeleteProverb,
     updateProverb: boundUpdateProverb,
+    getAllUserProverbs: boundGetAllUserProverbs,
+    updateUserProverb: boundUpdateUserProverb,
+    approveUserProverb: boundApproveUserProverb,
+    deleteUserProverb: boundDeleteUserProverb,
+    getProverbAdmin: boundGetProverbAdmin,
   };
 }
 
