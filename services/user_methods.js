@@ -13,8 +13,7 @@ const findEntryByField = async (model, field, term) => {
 }
 
 const findWordInField = async (model, req) => {
-  const searchField = req.query.search_field
-  const searchValue = req.query.search_value
+  const { search_field: searchField, search_value: searchValue } = req.query
 
   const queryObj = {}
   if (searchValue !== '' && searchField !== '') {

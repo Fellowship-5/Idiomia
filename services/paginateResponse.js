@@ -11,14 +11,14 @@ function addNextPreviousTotalObj (page, limit, arrLength) {
   if (endIndex < arrLength) {
     results.next = {
       page: page + 1,
-      limit: limit
+      limit
     }
   }
 
   if (startIndex > 0) {
     results.previous = {
       page: page - 1,
-      limit: limit
+      limit
     }
   }
   return { results, startIndex, endIndex }
@@ -37,8 +37,7 @@ function paginateResponse (model) {
   return async (req, res, next) => {
     const page = parseInt(req.query.page)
     const limit = parseInt(req.query.limit)
-    const sort = req.query.sort
-    const approved = req.query.approved
+    const { sort, approved } = req.query
 
     const { results, startIndex } = addNextPreviousTotalObj(
       page,
@@ -61,13 +60,14 @@ function paginateResponse (model) {
           .limit(limit)
           .skip(startIndex)
           .exec()
-        res.paginatedResults = results
+
+        return (res.paginatedResults = results)
         next()
       } catch (error) {
-        res.status(500).json({ msg: error.message })
+        return res.status(500).json({ msg: error.message })
       }
-      return
     }
+
     if (approved === 'true') {
       try {
         results.total_pages = Math.ceil(
@@ -90,7 +90,8 @@ function paginateResponse (model) {
       } catch (error) {
         res.status(500).json({ msg: error.message })
       }
-    } else {
+    }
+    if (approved === 'false') {
       try {
         results.total_pages = Math.ceil(
           (await model
@@ -119,8 +120,7 @@ function paginateResponse (model) {
 function paginateArr (resultsArr, req) {
   const page = parseInt(req.query.page)
   const limit = parseInt(req.query.limit)
-  const approved = req.query.approved
-  const sort = req.query.sort
+  const { approved, sort } = req.query
 
   let proverbsToSend
   if (sort) {

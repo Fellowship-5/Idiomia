@@ -10,7 +10,7 @@ const router = express.Router();
 router.use(checkAdmin)
 
 router.get('/all-proverbs', paginateResponse(Proverb), getProverbs);
-router.get('/search', searchUsers);
+router.get('/users/search', searchUsers);
 router.get('/all-users', paginateResponse(User), getUsers);
 router.delete('/delete-proverb/:pid', deleteProverb);
 router.patch('/edit-proverb/:pid', editProverb);
