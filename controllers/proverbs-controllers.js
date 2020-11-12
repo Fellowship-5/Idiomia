@@ -156,7 +156,6 @@ const deleteUserProverb = async (req, res, next) => {
     return next(new Error('No proverb is found'))
   }
 
-  console.log(proverbToDelete._id)
   if (!proverbToDelete.adminApproval) {
     try {
       const session = await mongoose.startSession()
