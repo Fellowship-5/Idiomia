@@ -58,6 +58,7 @@ export const getApprovedProverbs = (page, limit) => async (dispatch) => {
     });
   }
 };
+
 // Get All Proverbs for registered user
 export const getUserProverbs = (page, limit) => async (dispatch) => {
   try {
