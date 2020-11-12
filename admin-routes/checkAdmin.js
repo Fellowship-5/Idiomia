@@ -8,14 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_methods_js_1 = require("../services/user_methods.js");
+const user_js_1 = __importDefault(require("../models/user.js"));
 const checkRole = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.method === 'OPTIONS') {
         return next();
     }
     const userId = req.userData.userId;
-    const user = yield user_methods_js_1.findEntryById(userId, 'user', 'could not find the user');
+    const user = yield user_methods_js_1.findEntryByField(user_js_1.default, '_id', userId);
     if (user.role === 'admin') {
         next();
     }

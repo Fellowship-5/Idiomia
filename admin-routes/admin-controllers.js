@@ -12,13 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProverbs = exports.approveProverb = exports.editProverb = exports.deleteProverb = void 0;
+exports.searchUsers = exports.getUsers = exports.getProverbs = exports.approveProverb = exports.editProverb = exports.deleteProverb = void 0;
 const proverb_js_1 = __importDefault(require("../models/proverb.js"));
+const user_js_1 = __importDefault(require("../models/user.js"));
+const paginateResponse_js_1 = require("../services/paginateResponse.js");
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_methods_js_1 = require("../services/user_methods.js");
 const deleteProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const proverbId = req.params.pid;
-    const proverb = yield user_methods_js_1.findEntryById(proverbId, 'proverb', 'could not find the proverb');
+    const proverb = yield user_methods_js_1.findEntryByField(proverb_js_1.default, '_id', proverbId);
     if (proverb.contributor) {
         let proverbToDelete;
         try {
@@ -63,7 +65,7 @@ exports.deleteProverb = deleteProverb;
 const editProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const proverbId = req.params.pid;
     const { proverb, translation, explanation } = req.body;
-    const proverbToEdit = yield user_methods_js_1.findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+    const proverbToEdit = yield user_methods_js_1.findEntryByField(proverb_js_1.default, '_id', proverbId);
     proverbToEdit.proverb = proverb;
     proverbToEdit.translation = translation;
     proverbToEdit.explanation = explanation;
@@ -83,7 +85,7 @@ exports.editProverb = editProverb;
 const approveProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const proverbId = req.params.pid;
     const { approve } = req.body;
-    const proverbToApprove = yield user_methods_js_1.findEntryById(proverbId, 'proverb', 'Could not find proverb in database');
+    const proverbToApprove = yield user_methods_js_1.findEntryByField(proverb_js_1.default, '_id', proverbId);
     proverbToApprove.adminApproval = approve;
     try {
         yield proverbToApprove.save();
@@ -99,17 +101,26 @@ const approveProverb = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.approveProverb = approveProverb;
 const getProverbs = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    let proverbs;
-    try {
-        proverbs = yield proverb_js_1.default.find({});
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            msg: 'could not retrieve proverbs from database'
-        });
-        return next(error);
-    }
-    res.json({ proverbs: proverbs.map((proverb) => proverb.toObject({ getters: true })) });
+    res.json({
+        proverbs: res.paginatedResults
+    });
 });
 exports.getProverbs = getProverbs;
+const getUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    res.json({
+        users: res.paginatedResults
+    });
+});
+exports.getUsers = getUsers;
+const searchUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const usersFound = yield user_methods_js_1.findWordInField(user_js_1.default, req);
+    if (!usersFound) {
+        res.status(200).json({
+            msg: 'No users were found'
+        });
+        return next();
+    }
+    const users = paginateResponse_js_1.paginateArr(usersFound, req);
+    res.status(200).json({ users });
+});
+exports.searchUsers = searchUsers;
