@@ -176,7 +176,6 @@ const Dashboard = () => {
         id="page-title"
         title={!userLoading && `${user?.name} DASHBOARD`}
         containerClass="d-flex justify-content-between mx-5 align-items-center"
-        className={user.role === "admin" ? "d-none" : ""}
       >
         <Breadcrumb activePage="Dashboard" />
       </Section>

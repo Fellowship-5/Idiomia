@@ -198,12 +198,20 @@ export const updateProverb = (formData, id) => async (dispatch) => {
 //admin actions
 
 // Get All User Proverbs @admin role
-export const getAllUserProverbs = () => async (dispatch) => {
+export const getAllUserProverbs = (page, limit, isApproved = "all") => async (
+  dispatch
+) => {
+  let allUserProverbsUrl = `${API_URL}/admin/all-proverbs?page=${page}&limit=${limit}&sort=asc`;
+
+  if (isApproved !== "all") {
+    allUserProverbsUrl = allUserProverbsUrl + `&approved=${isApproved}`;
+  }
+
   try {
     dispatch({
       type: GET_ALL_USER_PROVERBS,
     });
-    const res = await axios.get(`${API_URL}/admin/all-proverbs`);
+    const res = await axios.get(allUserProverbsUrl);
     dispatch({
       type: GET_ALL_USER_PROVERBS_SUCCESS,
       payload: res.data.proverbs,
@@ -225,7 +233,18 @@ export const getProverbAdmin = (id) => (dispatch) => {
 };
 
 // Approve user proverb for admin
-export const approveUserProverb = (data, id) => async (dispatch) => {
+export const approveUserProverb = (data, id) => async (dispatch, getState) => {
+  const { activePage, pageSize } = getState().pagination;
+  const { value: toggleValue } = getState().toggle;
+
+  let isApproved = "all";
+  if (toggleValue === 1) {
+    isApproved = false;
+  }
+  if (toggleValue === 2) {
+    isApproved = true;
+  }
+
   try {
     dispatch({
       type: APPROVE_USER_PROVERB,
@@ -238,6 +257,7 @@ export const approveUserProverb = (data, id) => async (dispatch) => {
       type: APPROVE_USER_PROVERB_SUCCESS,
       payload: res.data.approved_proverb,
     });
+    await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
 
     toast.success(`Proverb ${data ? "approved" : "disapproved"} successfully`);
   } catch (err) {
@@ -276,7 +296,18 @@ export const updateUserProverb = (formData, id) => async (dispatch) => {
 };
 
 // Delete user proverb for admin
-export const deleteUserProverb = (id) => async (dispatch) => {
+export const deleteUserProverb = (id) => async (dispatch, getState) => {
+  const { activePage, pageSize } = getState().pagination;
+  const { value: toggleValue } = getState().toggle;
+
+  let isApproved = "all";
+  if (toggleValue === 1) {
+    isApproved = false;
+  }
+  if (toggleValue === 2) {
+    isApproved = true;
+  }
+
   try {
     dispatch({
       type: DELETE_USER_PROVERB,
@@ -287,6 +318,7 @@ export const deleteUserProverb = (id) => async (dispatch) => {
       type: DELETE_USER_PROVERB_SUCCESS,
       payload: res.data.deleted_proverb,
     });
+    await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
 
     toast.success("Proverb deleted successfully");
   } catch (err) {

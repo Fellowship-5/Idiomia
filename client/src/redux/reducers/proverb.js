@@ -137,7 +137,8 @@ export default function (state = initialState, action) {
     case GET_ALL_USER_PROVERBS_SUCCESS:
       return {
         ...state,
-        allProverbs: payload,
+        allProverbs: payload.results,
+        totalPages: payload.total_pages,
         loading: false,
       };
     case APPROVE_USER_PROVERB_SUCCESS:

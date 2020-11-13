@@ -14,7 +14,7 @@ import './Login.css'
 import SocialLogin from '../../components/sign up and log in/SocialLogin'
 
 const Login = props => {
-  const { loginUser, isAuthenticated } = useAuth()
+  const { loginUser, isAuthenticated, user } = useAuth()
 
   const [formData, setFormData] = useState(LOGIN_INITIAL_DATA)
 
@@ -28,8 +28,10 @@ const Login = props => {
     loginUser({ email, password })
   }
 
-  if (isAuthenticated) {
-    return <Redirect to='/dashboard' />
+  if (user?.role === "admin") {
+    return <Redirect to="/admin-dashboard" />;
+  } else if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
   }
 
   const handleGoogleSignUp = response => {

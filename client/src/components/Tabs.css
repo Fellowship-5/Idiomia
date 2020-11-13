@@ -1,0 +1,20 @@
+.custom-nav-tabs {
+  border-bottom: 1px solid #ddd;
+  padding: 0 15px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+#nav-tab-link-tab-dashboard,
+#nav-tab-link-tab-admin {
+  display: block;
+  padding: 0 15px;
+  color: #444;
+  height: 50px;
+  line-height: 40px;
+  font-weight: bold;
+}
+
+.custom-nav-tabs .nav-link.active {
+  border-top: 5px solid #3949ab;
+}
