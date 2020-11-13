@@ -38,7 +38,13 @@
   font-weight: 300;
   position: relative;
 }
+.el {
+  color:red; 
 
+}
+.el2{
+  border: solid black 2px;
+}
 #proverb-list-flex-table.flexTable .flexTable-row.flexTable-row--head {
   background-color: white;
   border: none;
