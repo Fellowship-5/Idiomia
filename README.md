@@ -1,8 +1,11 @@
 # Idiomia Web Application
 
 ### Desktop View
+
 <img src="https://imgur.com/Y6VyUj0.jpg" title="Idiomia App Desktop"/>
+
 ### Mobile Views
+
 <img src="https://imgur.com/EvRnPvt.jpg" title="Idiomia App Mobile"/>
 
 The SPA with 7 pages (routes):
