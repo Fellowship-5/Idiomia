@@ -15,6 +15,7 @@ import { REGISTER_INITIAL_DATA } from './../../helpers/formData'
 import { validateEmail, validateForm } from './../../helpers/functions'
 
 import { useAuth } from './../../redux/hooks'
+import { useTranslation } from 'react-i18next'
 
 import './Register.css'
 
@@ -22,6 +23,8 @@ const Register = () => {
   const { registerUser, isAuthenticated } = useAuth()
   const [formData, setFormData] = useState(REGISTER_INITIAL_DATA)
   const [disabled, setDisabled] = useState(true)
+
+  const { t, i18n } = useTranslation('auth')
 
   const {
     name,
@@ -121,34 +124,36 @@ const Register = () => {
       </Section>
       <Container className='register-container'>
         <p className='register-title'>
-          <Icon icon={'faUser'} fixedWidth /> New Sign up? Register for an
-          Account
+          <Icon icon={'faUser'} fixedWidth />
+          {t('New Sign up? Register for an Account')}
         </p>
         <SocialLogin
           handleFacebookSignUp={handleFacebookSignUp}
           handleGoogleSignUp={handleGoogleSignUp}
+          facebookBtnTxt={t('FbLogin')}
+          googleBtnTxt={t('GoogleLogin')}
         />
         <Form>
           <Input
-            label='Name'
+            label={t('Name')}
             id='register-name'
             type='text'
             value={name}
             name='name'
             onChange={onChange}
-            placeholder='Name'
+            placeholder={t('Name')}
             autoComplete='off'
             labelClassName='input-form-label my-3'
             className='rounded'
           />
           <Input
-            label='Email'
+            label={t('email')}
             id='register-email'
             type='email'
             value={email}
             name='email'
             onChange={onChange}
-            placeholder='Email Address'
+            placeholder={t('email')}
             required
             autoComplete='off'
             labelClassName='input-form-label my-3'
@@ -156,26 +161,26 @@ const Register = () => {
           />
 
           <Input
-            label='Password'
+            label={t('password')}
             id='register-password'
             type='password'
             value={password}
             name='password'
             onChange={onChange}
-            placeholder='Create a password'
+            placeholder={t('password')}
             autoComplete='off'
             minLength='6'
             labelClassName='input-form-label my-3'
             className='rounded'
           />
           <Input
-            label='Password'
+            label={t('password')}
             id='register-password-2'
             type='password'
             value={confirmPassword}
             name='confirmPassword'
             onChange={onChange}
-            placeholder='Confirm Password'
+            placeholder={t('Confirm Password')}
             autoComplete='off'
             minLength='6'
             labelClassName='input-form-label my-3'
@@ -185,7 +190,7 @@ const Register = () => {
             as='select'
             size='sm'
             id='country'
-            label='Country'
+            label={t('Country')}
             onChange={onChange}
             value={country}
             name='country'
@@ -204,20 +209,20 @@ const Register = () => {
             </>
           </Input>
           <Input
-            label='Phone'
+            label={t('Phone')}
             id='register-phone'
             type='text'
             value={phone}
             name='phone'
             onChange={onChange}
-            placeholder='Phone Number'
+            placeholder={t('Phone')}
             autoComplete='off'
             labelClassName='input-form-label my-3'
             className='rounded'
           />
           <Checkbox
             id='subscribe-newsletters'
-            label='Subscribe to newsletters'
+            label={t('Subscribe to newsletters')}
             checked={newsletters}
             name='newsletters'
             onChange={onChange}
@@ -226,7 +231,7 @@ const Register = () => {
           <hr className='my-3' />
           <Button
             variant='info'
-            text='Register'
+            text={t('Register')}
             onClick={onSubmit}
             color='white'
             type='submit'
@@ -236,7 +241,8 @@ const Register = () => {
           />
         </Form>
         <p className='my-1'>
-          Already have an account? <Link to='/login'>Sign In</Link>
+          {t('Already have an account?')}{' '}
+          <Link to='/login'>{t('Sign In')}</Link>
         </p>
       </Container>
     </>

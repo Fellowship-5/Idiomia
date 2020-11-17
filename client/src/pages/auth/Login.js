@@ -6,6 +6,7 @@ import Button from './../../components/Button'
 import Icon from './../../components/Icon'
 import Section from './../../components/Section'
 import Breadcrumb from './../../components/Breadcrumb'
+import { useTranslation } from 'react-i18next'
 
 import { Form, Container } from 'react-bootstrap'
 import { LOGIN_INITIAL_DATA } from './../../helpers/formData'
@@ -14,6 +15,7 @@ import './Login.css'
 import SocialLogin from '../../components/sign up and log in/SocialLogin'
 
 const Login = props => {
+  const { t, i18n } = useTranslation('auth')
   const { loginUser, isAuthenticated } = useAuth()
 
   const [formData, setFormData] = useState(LOGIN_INITIAL_DATA)
@@ -53,34 +55,36 @@ const Login = props => {
       <Container className='login-container'>
         <p className='login-title'>
           <Icon icon={'faUnlock'} fixedWidth />
-          {props.loginMsg || 'Login to your Account'}
+          {props.loginMsg || t('login in your account')}
         </p>
         <SocialLogin
           handleFacebookSignUp={handleFacebookSignUp}
           handleGoogleSignUp={handleGoogleSignUp}
+          facebookBtnTxt={t('FbLogin')}
+          googleBtnTxt={t('GoogleLogin')}
         />
         <Form>
           <Input
-            label='email'
+            label={t('email')}
             id='login-email'
             type='email'
             value={email}
             name='email'
             onChange={onChange}
-            placeholder='Email Address'
+            placeholder={t('email_place_holder')}
             required
             autoComplete='off'
             labelClassName='input-form-label my-3'
             className='rounded'
           />
           <Input
-            label='password'
+            label={t('password')}
             id='login-password'
             type='password'
             value={password}
             name='password'
             onChange={onChange}
-            placeholder='Enter your password'
+            placeholder={t('password_place_holder')}
             autoComplete='off'
             minLength='6'
             labelClassName='input-form-label my-3'
@@ -88,7 +92,7 @@ const Login = props => {
           />
           <Button
             variant='info'
-            text='Login'
+            text={t('login')}
             onClick={onSubmit}
             color='white'
             type='submit'

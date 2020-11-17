@@ -15,7 +15,7 @@ export default function SocialLogin (props) {
           <Button
             icon='fa-facebook'
             variant='outline-dark'
-            text='Continue using Facebook'
+            text={props.facebookBtnTxt}
             onClick={renderProps.onClick}
           />
         )}
@@ -27,7 +27,7 @@ export default function SocialLogin (props) {
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
             variant='outline-dark'
-            text='Continue using Google'
+            text={props.googleBtnTxt}
           />
         )}
         onSuccess={props.handleGoogleSignUp}

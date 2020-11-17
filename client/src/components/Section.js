@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Suspense } from 'react'
 import './Section.css'
+import { useTranslation } from 'react-i18next'
 
 const Section = ({ children, title, id, className, containerClass }) => {
   return (
@@ -9,7 +10,7 @@ const Section = ({ children, title, id, className, containerClass }) => {
         {children}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Section;
+export default Section

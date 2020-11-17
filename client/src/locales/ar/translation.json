@@ -1,0 +1,35 @@
+{
+	"homePage": {
+		"home_title": "PROVERBS",
+		"add_proverb": "أضف تعبيرا أو مثلا ",
+		"search_place_holder": "أبحث في الأمثال",
+		"about": "عن مشروعنا",
+		"register": "إنشاء حساب",
+		"dashboard": "Dashboard",
+		"logout": "تسجيل خروج",
+		"login": "تسجيل دخول"
+	},
+	"auth": {
+		"email": "البريد الإلكتربروني",
+		"password": "كلمة الدخول",
+		"login": "تسجيل دخول",
+		"GoogleLogin": "سجل دخول بإستخدام Google ",
+		"FbLogin": "سجل دخول بإستخدام Facebook",
+		"email_place_holder": "البريد الإلكتروني",
+		"password_place_holder": "كلمة الدخول",
+		"login in your account": "سجل دخول",
+		"Name": "الأسم",
+		"Country": "البلد",
+		"Phone": "رقم الهاتف",
+		"Subscribe to newsletters": "أريد ان اشترك بالرسائل الشهرية",
+		"Register": "أنشاء حساب",
+		"Already have an account?": "هل لديك حساب مسبقا؟",
+		"Sign In": "سجل دخول",
+		"Confirm Password": "اعد كتابة كلمة الدخول",
+		"New Sign up? Register for an Account": "انشاء حساب جديد"
+	},
+	"user": {
+		"Add Proverb": "إضف تعبيرا أو مثلا",
+		"You have not added a proverb yet.": "...لم تشارك بعد بأي مثل او تعبير"
+	}
+}
