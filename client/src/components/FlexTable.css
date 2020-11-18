@@ -1,21 +1,22 @@
 /*======================proverb TABLE STYLES =============================== */
 /* Table column sizing
   ================================== */
-#proverb-list-flex-table .proverb-cell {
-  width: 30%;
-}
-
-#proverb-list-flex-table .translation-cell {
-  width: 30%;
-}
-
-#proverb-list-flex-table .explanation-cell {
-  width: 30%;
-}
-
-#proverb-list-flex-table .icon-cell {
-  width: 10%;
-}
+  #proverb-list-flex-table .proverb-cell {
+    width: 25%;
+  }
+  
+  #proverb-list-flex-table .translation-cell {
+    width: 30%;
+  }
+  
+  #proverb-list-flex-table .explanation-cell {
+    width: 30%;
+  }
+  
+  #proverb-list-flex-table .icon-cell {
+    width: 15%;
+  }
+  
 
 /* Apply styles Main Table
     ================================== */

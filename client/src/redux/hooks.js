@@ -4,6 +4,7 @@ import { loadUser, register, login, logout } from "./actions/auth";
 import { setSearch, setSearchTerm } from "./actions/search";
 import { setLocationChanged } from "./actions/location";
 import { setPage, setPageSize, setPageReset } from "./actions/pagination";
+import { setToggle } from "./actions/toggle";
 
 import {
   getApprovedProverbs,
@@ -24,6 +25,7 @@ import {
   selectProverb,
   selectSearch,
   selectPagination,
+  selectToggle,
 } from "./selectors";
 
 export function useAuth() {
@@ -264,5 +266,23 @@ export function usePagination() {
     setPageSize: boundSetPageSize,
     setPage: boundSetPage,
     setPageReset: boundSetPageReset,
+  };
+}
+
+export function useToggle() {
+  const dispatch = useDispatch();
+  const { value, label } = useSelector(selectToggle, shallowEqual);
+
+  const boundSetToggle = useCallback(
+    (...args) => {
+      return dispatch(setToggle(...args));
+    },
+    [dispatch]
+  );
+
+  return {
+    value,
+    label,
+    setToggle: boundSetToggle,
   };
 }

@@ -110,7 +110,7 @@ const Pagination = ({
   };
 
   // don't display pagination if there is only 1 page
-  if (!pages || pages.length <= 1) {
+  if (!pages || pages.length <= 1 || totalPages === 0) {
     return null;
   }
 
