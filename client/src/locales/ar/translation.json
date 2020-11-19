@@ -1,20 +1,26 @@
 {
 	"homePage": {
-		"home_title": "PROVERBS",
+		"home_title": "موسوعة الأمثال",
 		"add_proverb": "أضف تعبيرا أو مثلا ",
 		"search_place_holder": "أبحث في الأمثال",
 		"about": "عن مشروعنا",
 		"register": "إنشاء حساب",
-		"dashboard": "Dashboard",
+		"dashboard": "صفحتي",
 		"logout": "تسجيل خروج",
-		"login": "تسجيل دخول"
+		"login": "تسجيل دخول",
+		"Proverb": "إبحث في الامثال",
+		"Translation": "إبحث في الترجمة",
+		"Explanation": "إبحث في الشرح",
+		"Search in ": "البحث في..",
+		"Home": "الرئيسية"
 	},
 	"auth": {
+		"MY ACCOUNT": "تسجيل الدخول",
 		"email": "البريد الإلكتربروني",
 		"password": "كلمة الدخول",
-		"login": "تسجيل دخول",
-		"GoogleLogin": "سجل دخول بإستخدام Google ",
-		"FbLogin": "سجل دخول بإستخدام Facebook",
+		"Login": "تسجيل دخول",
+		"Continue using Google": "سجل دخول بإستخدام Google ",
+		"Continue using Facebook": "سجل دخول بإستخدام Facebook",
 		"email_place_holder": "البريد الإلكتروني",
 		"password_place_holder": "كلمة الدخول",
 		"login in your account": "سجل دخول",
@@ -30,6 +36,14 @@
 	},
 	"user": {
 		"Add Proverb": "إضف تعبيرا أو مثلا",
-		"You have not added a proverb yet.": "...لم تشارك بعد بأي مثل او تعبير"
+		"You have not added a proverb yet.": "...لم تشارك بعد بأي مثل او تعبير",
+		"ADMIN": "مدير",
+		"Do you want to delete your proverb?": "هل انت متأكد من الحذف؟",
+		"Delete": "أحذف",
+		"It is not allowed to update approved proverb.": "ليس من المسموح لك حذف هذا المثال",
+		"Add Proverb": "إضف تعبيرا أو مثلا"
+	},
+	"about": {
+		"ABOUT IDIOMIA": "ما هو مشروع إيدوميا؟"
 	}
 }

@@ -24,7 +24,7 @@ const Register = () => {
   const [formData, setFormData] = useState(REGISTER_INITIAL_DATA)
   const [disabled, setDisabled] = useState(true)
 
-  const { t, i18n } = useTranslation('auth')
+  const { t } = useTranslation('auth')
 
   const {
     name,
@@ -128,7 +128,7 @@ const Register = () => {
   }
   return (
     <>
-      <Section id='register-section' title='MY ACCOUNT'>
+      <Section id='register-section' title={t('MY ACCOUNT')}>
         <Breadcrumb activePage='Register' />
       </Section>
       <Container className='register-container'>

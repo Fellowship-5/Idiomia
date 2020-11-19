@@ -20,7 +20,6 @@ import {
 import './SocialMediaShare.css'
 
 function SocialMediaShare ({ item }) {
-  console.log('SocialMediaShare -> item', item)
   const { proverb, translation, explanation } = item
   // const shareUrl = `${process.env.APP_BASE_URL}/proverbs/get-proverb/item._id`
   const shareUrl = 'www.facebook.com'

@@ -4,13 +4,14 @@
   border-bottom: 1px solid #eee;
   background-image: url("./../images/backgroun-texture-section.png");
 }
+
 .section-custom h1 {
   padding: 0;
   margin: 0;
   line-height: 1;
   font-weight: 600;
   letter-spacing: 1px;
-  color: #333;
+  color: #0B5B29;
   font-size: 2rem;
   text-transform: uppercase;
 }

@@ -21,7 +21,8 @@ import {
 import './Dashboard.css'
 
 const Dashboard = () => {
-  const { t, i18n } = useTranslation('user')
+  const { t } = useTranslation('user')
+  const [showSocialMediaBtns, setShowSocialMediaBtns] = useState(null)
 
   const { user, loading: userLoading } = useAuth()
   const {
@@ -105,6 +106,11 @@ const Dashboard = () => {
       case 'TrashAlt':
         handleShowModal('delete')
         break
+      case 'Share':
+        showSocialMediaBtns
+          ? setShowSocialMediaBtns(null)
+          : setShowSocialMediaBtns(id)
+        break
       default:
         break
     }
@@ -122,7 +128,7 @@ const Dashboard = () => {
         return (
           <div>
             <p className='lead ml-2'>
-              It is not allowed to update approved proverb.
+              t('It is not allowed to update approved proverb.')
             </p>
             <Button
               variant='info'
@@ -148,10 +154,12 @@ const Dashboard = () => {
     if (modal.type === 'delete') {
       return (
         <div>
-          <p className='lead ml-2'>Do you want to delete your proverb?</p>
+          <p className='lead ml-2'>
+            {t('Do you want to delete your proverb?')}
+          </p>
           <Button
             variant='info'
-            text='Delete'
+            text={t('Delete')}
             onClick={handleDeleteProverb(proverb._id)}
             color='white'
             type='submit'
@@ -207,7 +215,7 @@ const Dashboard = () => {
           />
           <Button
             variant='info'
-            text='Add Proverb'
+            text={t('Add Proverb')}
             onClick={() => handleShowModal('add')}
             color='white'
             type='submit'
@@ -221,6 +229,7 @@ const Dashboard = () => {
             titleData={userDashboardTitle}
             tableId={'proverb-list-flex-table'}
             iconClick={handleIconClick}
+            rowFooter={showSocialMediaBtns}
             tableType='user-dashboard-flexTable'
           />
         ) : (

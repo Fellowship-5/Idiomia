@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import './Section.css'
 
 const Section = ({ children, title, id, className = '', containerClass }) => {

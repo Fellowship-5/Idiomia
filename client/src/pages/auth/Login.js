@@ -15,7 +15,7 @@ import './Login.css'
 import SocialLogin from '../../components/sign up and log in/SocialLogin'
 
 const Login = props => {
-  const { t, i18n } = useTranslation('auth')
+  const { t } = useTranslation('auth')
   const { loginUser, isAuthenticated, user } = useAuth()
 
   const [formData, setFormData] = useState(LOGIN_INITIAL_DATA)
@@ -49,7 +49,7 @@ const Login = props => {
     <>
       <Section
         id='page-title'
-        title={props.title || 'MY ACCOUNT'}
+        title={props.title || t('MY ACCOUNT')}
         containerClass='d-flex justify-content-between mx-5 align-items-center'
       >
         <Breadcrumb activePage='Login' />

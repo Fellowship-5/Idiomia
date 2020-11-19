@@ -2,9 +2,11 @@ import React from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login'
 import Button from '../Button'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 export default function SocialLogin (props) {
+  const { t } = useTranslation('auth')
   return (
     <div className='socialLoginButtons'>
       <FacebookLogin
@@ -15,7 +17,7 @@ export default function SocialLogin (props) {
           <Button
             icon='faUser'
             variant='outline-dark'
-            text='Continue using Facebook'
+            text={t('Continue using Facebook')}
             onClick={renderProps.onClick}
           />
         )}
@@ -28,7 +30,7 @@ export default function SocialLogin (props) {
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
             variant='outline-dark'
-            text='Continue using Google'
+            text={t('Continue using Google')}
           />
         )}
         onSuccess={props.handleGoogleSignUp}

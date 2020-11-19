@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Input from '../../components/Input'
 import Icon from '../../components/Icon'
 import Badge from '../../components/Badge'
 import Checkbox from '../../components/Checkbox'
+
 import {
   useSearch,
   useLocation,
@@ -28,6 +30,7 @@ const Search = () => {
     isClicked: false
   })
   const history = useHistory()
+  const { t } = useTranslation('homePage')
 
   useEffect(
     function listenLocationChanges () {
@@ -62,7 +65,7 @@ const Search = () => {
           <div className='d-flex search-fields'>
             <Checkbox
               id='search-field-proverb'
-              label='Proverb'
+              label={t('Proverb')}
               checked={field === 'proverb'}
               name='proverb'
               onChange={handleSearchFieldChange}
@@ -70,7 +73,7 @@ const Search = () => {
             />
             <Checkbox
               id='search-field-translation'
-              label='Translation'
+              label={t('Translation')}
               checked={field === 'translation'}
               name='translation'
               onChange={handleSearchFieldChange}
@@ -78,7 +81,7 @@ const Search = () => {
             />
             <Checkbox
               id='search-field-explanation'
-              label='Explanation'
+              label={t('Explanation')}
               checked={field === 'explanation'}
               name='explanation'
               onChange={handleSearchFieldChange}
@@ -109,7 +112,7 @@ const Search = () => {
           >
             <Input
               type='text'
-              placeholder={`Search in ${field}`}
+              placeholder={t('Search in ') + `${field}`}
               className='search-bar'
               pClassName='search-bar-container'
               onChange={handleSearchInputChange}

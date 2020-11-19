@@ -2,62 +2,73 @@ import React from 'react'
 import { useAuth } from './../../redux/hooks'
 import NavbarComponent from './../../components/Navbar'
 import IdiomiaLogo from './../../images/idiomia-11.png'
+import { useTranslation } from 'react-i18next'
 
 const Navbar = () => {
   const { isAuthenticated, logoutUser, user } = useAuth()
   const isAdminRole = user?.role === 'admin'
-
+  const { t } = useTranslation(['homePage', 'user', 'auth'])
   const links = [
     {
       className: 'navbar-link',
       to: '/about',
-      title: 'About',
+      title: t('about'),
       isAuth: false
     },
-    { className: 'navbar-link', to: '/login', title: 'Login', isAuth: false },
+    {
+      className: 'navbar-link',
+      to: '/login',
+      title: t('login'),
+      isAuth: false
+    },
     {
       className: 'navbar-link',
       to: '/register',
-      title: 'Register',
+      title: t('register'),
       isAuth: false
     },
     {
       className: 'navbar-link',
       to: '/dashboard',
-      title: 'DASHBOARD',
+      title: t('DASHBOARD'),
       isAuth: true
     },
     {
       className: 'navbar-link',
       to: isAdminRole && '/admin-dashboard',
-      title: isAdminRole && 'ADMIN',
+      title: isAdminRole && t('ADMIN'),
       isAuth: true
     }
   ]
   const dropdownLinks = [
-    { className: 'dropdown-item', to: '/login', title: 'Login', isAuth: false },
+    {
+      className: 'dropdown-item',
+      to: '/login',
+      title: t('login'),
+      isAuth: false
+    },
     {
       className: 'dropdown-item',
       to: '/register',
-      title: 'Register',
+      title: t('register'),
       isAuth: false
     },
     {
       className: 'navbar-link',
       to: '/dashboard',
-      title: 'DASHBOARD',
+      title: t('DASHBOARD'),
       isAuth: true
     },
     {
       className: 'navbar-link',
       to: isAdminRole && '/admin-dashboard',
-      title: isAdminRole && 'ADMIN',
+      title: isAdminRole && t('ADMIN'),
       isAuth: true
     },
     {
       className: 'dropdown-item',
       to: '/',
-      title: 'Logout',
+      title: t('logout'),
       isAuth: true,
       onClick: logoutUser
     }
@@ -73,44 +84,5 @@ const Navbar = () => {
     />
   )
 }
-
-//   const dropdownLinks = [
-//     {
-//       className: 'dropdown-item',
-//       to: '/login',
-//       title: t('login'),
-//       isAuth: false
-//     },
-//     {
-//       className: 'dropdown-item',
-//       to: '/register',
-//       title: t('register'),
-//       isAuth: false
-//     },
-//     {
-//       className: 'dropdown-item',
-//       to: '/dashboard',
-//       title: t('dashboard'),
-//       isAuth: true
-//     },
-//     {
-//       className: 'dropdown-item',
-//       to: '/',
-//       title: t('logout'),
-//       isAuth: true,
-//       onClick: logoutUser
-//     }
-//   ]
-
-//   return (
-//     <NavbarComponent
-//       brandTitle='idiomia'
-//       isAuthenticated={isAuthenticated}
-//       user={user}
-//       links={links}
-//       dropdownLinks={dropdownLinks}
-//     />
-//   )
-// }
 
 export default Navbar

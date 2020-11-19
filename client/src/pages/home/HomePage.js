@@ -5,6 +5,7 @@ import Section from './../../components/Section'
 import Breadcrumb from './../../components/Breadcrumb'
 import Modal from './../../components/Modal'
 import Button from './../../components/Button'
+import ProgressBar from './../../components/ProgressBar'
 import Search from './Search'
 import { useTranslation } from 'react-i18next'
 import { useProverb } from '../../redux/hooks'
@@ -47,14 +48,13 @@ const HomePage = () => {
         )}
       </Modal>
 
-      <Section
-        id='page-title'
-        title={t('home_title')}
-        containerClass='d-flex justify-content-between mx-5 align-items-center'
-      >
+      <Section id='page-title' title={t('home_title')}>
         <Breadcrumb />
       </Section>
-      <div className='homepage-actions-section container'>
+
+      <ProgressBar loading={proverbLoading} />
+
+      <div className='homepage-actions-section container mt-3 d-flex flex-column flex-sm-row flex-lg-row align-items-md-center'>
         <Search />
         <Button
           variant='info'
