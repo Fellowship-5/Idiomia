@@ -1,73 +1,74 @@
-import React, { useState } from "react";
-import ProverbList from "./../proverb/ProverbList";
-import AddProverb from "./../proverb/AddProverb";
-import Section from "./../../components/Section";
-import Breadcrumb from "./../../components/Breadcrumb";
-import Modal from "./../../components/Modal";
-import Button from "./../../components/Button";
-import ProgressBar from "./../../components/ProgressBar";
-import Search from "./Search";
-import { useProverb } from "./../../redux/hooks";
-
-import "./HomePage.css";
+import React, { useState } from 'react'
+import ProverbList from './../proverb/ProverbList'
+import AddProverb from './../proverb/AddProverb'
+import Section from './../../components/Section'
+import Breadcrumb from './../../components/Breadcrumb'
+import Modal from './../../components/Modal'
+import Button from './../../components/Button'
+import Search from './Search'
+import { useTranslation } from 'react-i18next'
+import { useProverb } from '../../redux/hooks'
+import './HomePage.css'
 
 const HomePage = () => {
-  const { loading: proverbLoading } = useProverb();
+  const { loading: proverbLoading } = useProverb()
   //Modal States
   const [modal, setModal] = useState({
     isOpen: false,
-    type: "",
-  });
+    type: ''
+  })
 
   //Modal Handlers
 
-  const handleShowModal = (type) => async (e) => {
-    e.preventDefault();
-    if (type === "add") {
+  const handleShowModal = type => async e => {
+    e.preventDefault()
+    if (type === 'add') {
       setModal({
         isOpen: true,
-        type: "Add",
-      });
+        type: 'Add'
+      })
     }
-  };
+  }
   const handleCloseModal = () => {
-    setModal({ isOpen: false, type: undefined });
-  };
+    setModal({ isOpen: false, type: undefined })
+  }
+  const { t, i18n } = useTranslation('homePage')
+
   return (
     <div>
       <Modal
         isOpen={modal.isOpen}
         modalClose={handleCloseModal}
         centered={true}
-        dialogClassName="add-proverb-modal"
+        dialogClassName='add-proverb-modal'
       >
-        {modal.type === "Add" && (
-          <AddProverb actionType="Add" handleCloseModal={handleCloseModal} />
+        {modal.type === 'Add' && (
+          <AddProverb actionType='Add' handleCloseModal={handleCloseModal} />
         )}
       </Modal>
 
-      <Section id="home-page-section" title="PROVERBS">
+      <Section
+        id='page-title'
+        title={t('home_title')}
+        containerClass='d-flex justify-content-between mx-5 align-items-center'
+      >
         <Breadcrumb />
       </Section>
-
-      <ProgressBar loading={proverbLoading} />
-
-      <div className="homepage-actions-section container mt-3 d-flex flex-column flex-sm-row flex-lg-row align-items-md-center">
+      <div className='homepage-actions-section container'>
         <Search />
         <Button
-          variant="info"
-          text="Add Proverb"
-          onClick={handleShowModal("add")}
-          color="white"
-          type="submit"
-          className="button-custom ml-auto"
-          id="homepage-add-proverb-button"
+          variant='info'
+          text={t('add_proverb')}
+          onClick={handleShowModal('add')}
+          color='white'
+          type='submit'
+          className='button-custom ml-auto'
+          id='homepage-add-proverb-button'
         />
       </div>
-
       <ProverbList />
     </div>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

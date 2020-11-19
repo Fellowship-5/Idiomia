@@ -1,7 +1,7 @@
-import React from "react";
-import "./Section.css";
+import React, { Suspense } from 'react'
+import './Section.css'
 
-const Section = ({ children, title, id, className = "", containerClass }) => {
+const Section = ({ children, title, id, className = '', containerClass }) => {
   return (
     <section id={id} className={`section-custom ${className}`}>
       <div
@@ -11,7 +11,7 @@ const Section = ({ children, title, id, className = "", containerClass }) => {
         {children}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Section;
+export default Section

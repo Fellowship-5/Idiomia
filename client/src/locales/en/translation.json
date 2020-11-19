@@ -1,0 +1,21 @@
+{
+	"homePage": {
+		"home_title": "PROVERBS",
+		"add_proverb": "add proverb",
+		"search_place_holder": "Search Proverbs",
+		"about": "ABOUT",
+		"register": "Register",
+		"dashboard": "Dashboard",
+		"logout": "Logout",
+		"login": "Login"
+	},
+	"auth": {
+		"email": "email",
+		"password": "password",
+		"login": "login",
+		"GoogleLogin": "Continue with Google",
+		"FbLogin": "Continue with Facebook",
+		"email_place_holder": "Email Address",
+		"password_place_holder": "Enter your password"
+	}
+}
