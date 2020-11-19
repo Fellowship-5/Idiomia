@@ -2,6 +2,7 @@ import {
   SET_PAGINATION_PAGE,
   SET_PAGINATION_SIZE,
   SET_PAGINATION_RESET,
+  SET_PAGINATION_ITEMS,
   CLEAR_PROFILE,
   LOCATION_CHANGED,
 } from "./../actions/types";
@@ -19,8 +20,12 @@ export default function (state = initialState, action) {
     case SET_PAGINATION_PAGE:
       return {
         ...state,
-        activePage: payload.page,
-        pageItems: payload.items,
+        activePage: payload,
+      };
+    case SET_PAGINATION_ITEMS:
+      return {
+        ...state,
+        pageItems: payload,
       };
 
     case SET_PAGINATION_SIZE:

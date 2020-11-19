@@ -5,11 +5,14 @@ import Section from "./../../components/Section";
 import Breadcrumb from "./../../components/Breadcrumb";
 import Modal from "./../../components/Modal";
 import Button from "./../../components/Button";
+import ProgressBar from "./../../components/ProgressBar";
 import Search from "./Search";
+import { useProverb } from "./../../redux/hooks";
 
 import "./HomePage.css";
 
 const HomePage = () => {
+  const { loading: proverbLoading } = useProverb();
   //Modal States
   const [modal, setModal] = useState({
     isOpen: false,
@@ -43,14 +46,13 @@ const HomePage = () => {
         )}
       </Modal>
 
-      <Section
-        id="page-title"
-        title="PROVERBS"
-        containerClass="d-flex justify-content-between mx-5 align-items-center"
-      >
+      <Section id="home-page-section" title="PROVERBS">
         <Breadcrumb />
       </Section>
-      <div className="homepage-actions-section container">
+
+      <ProgressBar loading={proverbLoading} />
+
+      <div className="homepage-actions-section container mt-3 d-flex flex-column flex-sm-row flex-lg-row align-items-md-center">
         <Search />
         <Button
           variant="info"
@@ -62,6 +64,7 @@ const HomePage = () => {
           id="homepage-add-proverb-button"
         />
       </div>
+
       <ProverbList />
     </div>
   );

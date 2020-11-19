@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "./../../redux/hooks";
 import NavbarComponent from "./../../components/Navbar";
+import IdiomiaLogo from './../../images/idiomia-11.png'
 
 const Navbar = () => {
   const { isAuthenticated, logoutUser, user } = useAuth();
@@ -63,7 +64,7 @@ const Navbar = () => {
 
   return (
     <NavbarComponent
-      brandTitle="idiomia"
+      brandLogo={IdiomiaLogo}
       isAuthenticated={isAuthenticated}
       user={user}
       links={links}

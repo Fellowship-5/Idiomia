@@ -2,12 +2,20 @@ import {
   SET_PAGINATION_PAGE,
   SET_PAGINATION_SIZE,
   SET_PAGINATION_RESET,
+  SET_PAGINATION_ITEMS,
 } from "./types";
 
-export const setPage = (page, items) => async (dispatch) => {
+export const setPage = (page) => async (dispatch) => {
   dispatch({
     type: SET_PAGINATION_PAGE,
-    payload: { page, items },
+    payload: page,
+  });
+};
+
+export const setPageItems = (items) => async (dispatch) => {
+  dispatch({
+    type: SET_PAGINATION_ITEMS,
+    payload: items,
   });
 };
 

@@ -70,3 +70,33 @@
   .fa-minus {
   display: none;
 }
+
+.admin-actions-section {
+  margin-top: 1rem;
+}
+
+@media all and (max-width: 450px) {
+  .admin-actions-section .search-bar {
+    font-size: 16px;
+  }
+  .admin-actions-section .search-form-container {
+    margin: 0;
+    padding: 0;
+  }
+  .admin-actions-section .search-bar-container .input-group {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .admin-actions-section .custom-toggle-container {
+    position: absolute;
+    right: 0;
+    top: 15rem;
+  }
+
+  .admin-actions-section .search-result-label {
+    position: absolute;
+    right: 0;
+    padding: 0;
+  }
+}

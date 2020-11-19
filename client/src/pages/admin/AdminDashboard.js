@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import FlexTable from "../../components/FlexTable";
@@ -8,6 +8,8 @@ import Pagination from "../../components/Pagination";
 import Section from "../../components/Section";
 import Breadcrumb from "../../components/Breadcrumb";
 import ToggleSwitch from "../../components/ToggleSwitch";
+import Spinner from "../../components/Spinner";
+import ProgressBar from "../../components/ProgressBar";
 import UpdateProverb from "../proverb/UpdateProverb";
 import AddProverb from "../proverb/AddProverb";
 import Search from "../home/Search";
@@ -23,10 +25,13 @@ import {
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
+  const searchTimeOut = useRef(null);
+
   const { loading: userLoading } = useAuth();
 
   const history = useHistory();
   const {
+    loading: proverbLoading,
     getAllUserProverbs,
     allProverbs,
     approveUserProverb,
@@ -34,6 +39,7 @@ const AdminDashboard = () => {
     getProverbAdmin,
     proverb,
     totalPages,
+    searchUserProverbs,
   } = useProverb();
   const {
     activePage,
@@ -42,9 +48,10 @@ const AdminDashboard = () => {
     setPage,
     pageReset,
     setPageReset,
+    setPageItems,
   } = usePagination();
 
-  const { filtered, isActive, searchTerm, setSearch } = useSearch();
+  const { field: searchField, searchTerm } = useSearch();
   const { label, value: toggleValue, setToggle } = useToggle();
   const { setLocationChanged } = useLocation();
 
@@ -89,17 +96,41 @@ const AdminDashboard = () => {
 
   useEffect(
     function fetchAllUserProverbs() {
-      if (toggleValue === 0) {
-        getAllUserProverbs(activePage, pageSize);
-      }
-      if (toggleValue === 1) {
-        getAllUserProverbs(activePage, pageSize, false);
-      }
-      if (toggleValue === 2) {
-        getAllUserProverbs(activePage, pageSize, true);
+      if (!searchTerm) {
+        if (toggleValue === 0) {
+          getAllUserProverbs(activePage, pageSize);
+        }
+        if (toggleValue === 1) {
+          getAllUserProverbs(activePage, pageSize, false);
+        }
+        if (toggleValue === 2) {
+          getAllUserProverbs(activePage, pageSize, true);
+        }
       }
     },
-    [activePage, getAllUserProverbs, pageSize, toggleValue]
+    [activePage, getAllUserProverbs, pageSize, searchTerm, toggleValue]
+  );
+
+  useEffect(
+    function searchProverbs() {
+      searchTimeOut.current = setTimeout(() => {
+        if (searchTerm) {
+          searchUserProverbs(activePage, pageSize, searchTerm, searchField);
+        }
+      }, 500);
+
+      return () => {
+        clearTimeout(searchTimeOut.current);
+      };
+    },
+    [
+      activePage,
+      pageSize,
+      searchField,
+      searchTerm,
+      searchUserProverbs,
+      toggleValue,
+    ]
   );
 
   useEffect(
@@ -108,33 +139,6 @@ const AdminDashboard = () => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [toggleValue]
-  );
-
-  useEffect(
-    function searchProverbs() {
-      if (searchTerm) {
-        if (toggleValue === 0) {
-          setSearch(searchTerm, allProverbs);
-          return;
-        }
-        if (toggleValue === 1) {
-          setSearch(
-            searchTerm,
-            allProverbs.filter((proverb) => !proverb.adminApproval)
-          );
-          return;
-        }
-        if (toggleValue === 2) {
-          setSearch(
-            searchTerm,
-            allProverbs.filter((proverb) => proverb.adminApproval)
-          );
-          return;
-        }
-        return;
-      }
-    },
-    [searchTerm, setSearch, allProverbs, toggleValue]
   );
 
   // Icon Click Handlers
@@ -221,6 +225,14 @@ const AdminDashboard = () => {
     return null;
   };
 
+  if (proverbLoading && allProverbs.length === 0) {
+    return (
+      <div className="position-absolute" style={{ top: "50%", left: "50%" }}>
+        <Spinner animation="grow" />
+      </div>
+    );
+  }
+
   return (
     <>
       <Modal
@@ -232,30 +244,17 @@ const AdminDashboard = () => {
         {selectModalChildren()}
       </Modal>
       <Section
-        id="page-title"
+        id="admin-dashboard-section"
         title={!userLoading && `ADMIN DASHBOARD`}
-        containerClass="d-flex justify-content-between mx-5 align-items-center"
       >
         <Breadcrumb activePage="Admin" />
       </Section>
+      <ProgressBar loading={proverbLoading} />
 
       <Container>
-        <div className="d-flex justify-content-between">
-          <Search />
-          <Pagination
-            id="admin-dashboard-top-pagination"
-            items={allProverbs}
-            setActivePage={setPage}
-            pageSize={pageSize}
-            activePage={activePage}
-            isSearchActive={isActive}
-            paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
-            shouldResetPagination={pageReset}
-            setShouldResetPagination={setPageReset}
-            totalPages={totalPages}
-          />
-
-          <div className="d-flex align-items-center">
+        <div className="d-flex justify-content-between admin-actions-section flex-column">
+          <div className="d-flex flex-lg-row justify-content-between">
+            <Search />
             <ToggleSwitch
               value={toggleValue}
               label={label}
@@ -265,27 +264,30 @@ const AdminDashboard = () => {
               secondOption="Approved"
             />
           </div>
+          <div>
+            <Pagination
+              id="admin-dashboard-top-pagination"
+              items={allProverbs}
+              setActivePage={setPage}
+              setActivePageItems={setPageItems}
+              pageSize={pageSize}
+              activePage={activePage}
+              paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
+              shouldResetPagination={pageReset}
+              setShouldResetPagination={setPageReset}
+              totalPages={totalPages}
+            />
+          </div>
         </div>
-
-        <FlexTable
-          data={pageItems}
-          titleData={adminDashboardTitle}
-          tableId={"proverb-list-flex-table"}
-          tableType="user-dashboard-flexTable"
-          iconClick={handleIconClick}
-        />
-        {/* <Pagination
-          id="admin-dashboard-top-pagination"
-          items={paginationItems}
-          setActivePage={setPage}
-          pageSize={pageSize}
-          activePage={activePage}
-          isSearchActive={isActive}
-          paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
-          shouldResetPagination={pageReset}
-          setShouldResetPagination={setPageReset}
-          totalPages={totalPages}
-        /> */}
+        {totalPages > 0 && (
+          <FlexTable
+            data={pageItems}
+            titleData={adminDashboardTitle}
+            tableId={"proverb-list-flex-table"}
+            tableType="user-dashboard-flexTable"
+            iconClick={handleIconClick}
+          />
+        )}
       </Container>
     </>
   );

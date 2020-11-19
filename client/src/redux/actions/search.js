@@ -1,4 +1,4 @@
-import { SET_SEARCH_TERM, SET_SEARCH } from "./types";
+import { SET_SEARCH_FIELD, SET_SEARCH_TERM } from "./types";
 
 export const setSearchTerm = (term) => async (dispatch) => {
   dispatch({
@@ -7,22 +7,9 @@ export const setSearchTerm = (term) => async (dispatch) => {
   });
 };
 
-export const setSearch = (term, data) => async (dispatch) => {
-  const searchFields = (arr, value, fields) => {
-    const searchValue = value.toLowerCase().trim();
-    return arr.filter((item) =>
-      fields.some((field) =>
-        item[field].toLowerCase().includes(searchValue)
-      )
-    );
-  };
-
+export const setSearchField = (field) => async (dispatch) => {
   dispatch({
-    type: SET_SEARCH,
-    payload: searchFields(data, term, [
-      "proverb",
-      "explanation",
-      "translation",
-    ]),
+    type: SET_SEARCH_FIELD,
+    payload: field,
   });
 };

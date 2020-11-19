@@ -56,7 +56,7 @@ const ToggleSwitch = ({
     }
   };
   return (
-    <div>
+    <div className='custom-toggle-container'>
       {label}
       <div className="custom-toggle-switch">
         <div className="segment left" onClick={handleLeftClick}></div>

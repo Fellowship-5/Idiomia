@@ -1,3 +1,9 @@
+.section-custom {
+  padding: 4rem 0;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #eee;
+  background-image: url("./../images/backgroun-texture-section.png");
+}
 .section-custom h1 {
   padding: 0;
   margin: 0;

@@ -32,6 +32,12 @@ import {
   UPDATE_USER_PROVERB,
   UPDATE_USER_PROVERB_SUCCESS,
   UPDATE_USER_PROVERB_ERROR,
+  SEARCH_APPROVED_PROVERBS,
+  SEARCH_APPROVED_PROVERBS_SUCCESS,
+  SEARCH_APPROVED_PROVERBS_ERROR,
+  SEARCH_USER_PROVERBS,
+  SEARCH_USER_PROVERBS_SUCCESS,
+  SEARCH_USER_PROVERBS_ERROR,
 } from "./types";
 import { toast } from "react-toastify";
 import { showError } from "./../../helpers/functions";
@@ -130,7 +136,16 @@ export const addProverb = (formData) => async (dispatch) => {
       payload: res.data.proverb,
     });
 
-    toast.success("Proverb will be approved by admin");
+    toast("Proverb will be approved by the Admin!", {
+      className: "toast-user-proverb",
+      position: "top-left",
+      autoClose: false,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   } catch (err) {
     showError(err);
 
@@ -195,6 +210,31 @@ export const updateProverb = (formData, id) => async (dispatch) => {
   }
 };
 
+// Search user proverbs for common user on homepage
+export const searchApprovedProverbs = (page, limit, term, field) => async (
+  dispatch
+) => {
+  try {
+    dispatch({
+      type: SEARCH_APPROVED_PROVERBS,
+    });
+    const res = await axios.get(
+      `${API_URL}/proverbs/proverb-search?search_field=${field}&search_value=${term}&page=${page}&limit=${limit}&approved=true`
+    );
+
+    dispatch({
+      type: SEARCH_APPROVED_PROVERBS_SUCCESS,
+      payload: res.data.paginatedProverbs,
+    });
+    //  await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
+  } catch (err) {
+    dispatch({
+      type: SEARCH_APPROVED_PROVERBS_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 //admin actions
 
 // Get All User Proverbs @admin role
@@ -236,6 +276,7 @@ export const getProverbAdmin = (id) => (dispatch) => {
 export const approveUserProverb = (data, id) => async (dispatch, getState) => {
   const { activePage, pageSize } = getState().pagination;
   const { value: toggleValue } = getState().toggle;
+  const { isActive: isSearchActive, searchTerm, field } = getState().search;
 
   let isApproved = "all";
   if (toggleValue === 1) {
@@ -257,7 +298,13 @@ export const approveUserProverb = (data, id) => async (dispatch, getState) => {
       type: APPROVE_USER_PROVERB_SUCCESS,
       payload: res.data.approved_proverb,
     });
-    await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
+    if (isSearchActive) {
+      await dispatch(
+        searchUserProverbs(activePage, pageSize, searchTerm, field)
+      );
+    } else {
+      await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
+    }
 
     toast.success(`Proverb ${data ? "approved" : "disapproved"} successfully`);
   } catch (err) {
@@ -299,6 +346,7 @@ export const updateUserProverb = (formData, id) => async (dispatch) => {
 export const deleteUserProverb = (id) => async (dispatch, getState) => {
   const { activePage, pageSize } = getState().pagination;
   const { value: toggleValue } = getState().toggle;
+  const { isActive: isSearchActive, searchTerm, field } = getState().search;
 
   let isApproved = "all";
   if (toggleValue === 1) {
@@ -318,12 +366,52 @@ export const deleteUserProverb = (id) => async (dispatch, getState) => {
       type: DELETE_USER_PROVERB_SUCCESS,
       payload: res.data.deleted_proverb,
     });
-    await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
+
+    if (isSearchActive) {
+      await dispatch(
+        searchUserProverbs(activePage, pageSize, searchTerm, field)
+      );
+    } else {
+      await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
+    }
 
     toast.success("Proverb deleted successfully");
   } catch (err) {
     dispatch({
       type: DELETE_USER_PROVERB_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+// Search user proverbs for admin
+export const searchUserProverbs = (page, limit, term, field) => async (
+  dispatch,
+  getState
+) => {
+  const { value: toggleValue } = getState().toggle;
+  let searchProverbsUrl = `${API_URL}/proverbs/proverb-search?search_field=${field}&search_value=${term}&page=${page}&limit=${limit}`;
+
+  if (toggleValue === 1) {
+    searchProverbsUrl = searchProverbsUrl + `&approved=false`;
+  }
+  if (toggleValue === 2) {
+    searchProverbsUrl = searchProverbsUrl + `&approved=true`;
+  }
+
+  try {
+    dispatch({
+      type: SEARCH_USER_PROVERBS,
+    });
+    const res = await axios.get(searchProverbsUrl);
+
+    dispatch({
+      type: SEARCH_USER_PROVERBS_SUCCESS,
+      payload: res.data.paginatedProverbs,
+    });
+    //  await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
+  } catch (err) {
+    dispatch({
+      type: SEARCH_USER_PROVERBS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

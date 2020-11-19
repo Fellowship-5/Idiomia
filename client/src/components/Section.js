@@ -1,11 +1,13 @@
 import React from "react";
-import './Section.css'
+import "./Section.css";
 
-const Section = ({ children, title, id, className, containerClass }) => {
+const Section = ({ children, title, id, className = "", containerClass }) => {
   return (
     <section id={id} className={`section-custom ${className}`}>
-      <div className={containerClass}>
-        <h1>{title}</h1>
+      <div
+        className={`d-flex justify-content-between flex-column flex-lg-row mx-5 align-items-center ${containerClass}`}
+      >
+        <h1 className='text-center'>{title}</h1>
         {children}
       </div>
     </section>

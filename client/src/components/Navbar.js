@@ -6,7 +6,7 @@ import NavbarDropdown from "./NavbarDropdown";
 import "./Navbar.css";
 
 const NavbarComponent = ({
-  brandTitle,
+  brandLogo,
   isAuthenticated,
   user,
   links,
@@ -14,18 +14,20 @@ const NavbarComponent = ({
 }) => {
   return (
     <NavbarBootstrap className="navbar-custom" bg="transparent" expand="lg">
-      <NavbarBootstrap.Brand className="navbar-brand-text" as={Link} to="/">
-        {brandTitle}
+      <NavbarBootstrap.Brand className="navbar-brand-logo" as={Link} to="/">
+        <img src={brandLogo} className="navbar-logo" alt="idomia-logo" />
       </NavbarBootstrap.Brand>
-      <NavbarBootstrap.Toggle aria-controls="basic-navbarB-nav" />
+
+      <div className="d-flex flex-row-reverse">
+        <NavbarBootstrap.Toggle aria-controls="basic-navbarB-nav" />
+        <NavbarDropdown
+          isAuthenticated={isAuthenticated}
+          user={user}
+          dropdownLinks={dropdownLinks}
+        />
+      </div>
       <NavbarBootstrap.Collapse id="basic-navbarB-nav">
         <Nav className="ml-auto">
-          <NavbarDropdown
-            isAuthenticated={isAuthenticated}
-            user={user}
-            dropdownLinks={dropdownLinks}
-          />
-
           {links.map((link, i) => {
             if (link.isAuth === isAuthenticated) {
               return (
@@ -37,6 +39,7 @@ const NavbarComponent = ({
                 />
               );
             }
+            return null;
           })}
         </Nav>
       </NavbarBootstrap.Collapse>
