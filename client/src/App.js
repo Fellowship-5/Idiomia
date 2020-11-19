@@ -26,7 +26,19 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <ToastContainer newestOnTop autoClose={2000} />
+        <ToastContainer
+          className="custom-toast-container"
+          toastClassName="custom-toast-wrapper"
+          bodyClassName="custom-toast-body"
+          progressClassName="custom-toast-progress"
+          position="top-left"
+          autoClose={1600}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+        />
         <Navbar />
         <Switch>
           <Route exact path="/" component={HomePage} />

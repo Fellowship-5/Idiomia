@@ -4,7 +4,7 @@ import Input from "./../../components/Input";
 import Button from "./../../components/Button";
 import { isArabic } from "./../../helpers/functions";
 import { PROVERB_INITIAL_DATA } from "./../../helpers/formData";
-import { useProverb, useAuth, usePagination } from "./../../redux/hooks";
+import { useProverb, useAuth } from "./../../redux/hooks";
 
 import "./Proverb.css";
 

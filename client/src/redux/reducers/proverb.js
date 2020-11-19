@@ -32,6 +32,12 @@ import {
   UPDATE_USER_PROVERB,
   UPDATE_USER_PROVERB_SUCCESS,
   UPDATE_USER_PROVERB_ERROR,
+  SEARCH_USER_PROVERBS,
+  SEARCH_USER_PROVERBS_SUCCESS,
+  SEARCH_USER_PROVERBS_ERROR,
+  SEARCH_APPROVED_PROVERBS,
+  SEARCH_APPROVED_PROVERBS_SUCCESS,
+  SEARCH_APPROVED_PROVERBS_ERROR,
 } from "./../actions/types";
 
 const initialState = {
@@ -58,6 +64,8 @@ export default function (state = initialState, action) {
     case APPROVE_USER_PROVERB:
     case DELETE_USER_PROVERB:
     case UPDATE_USER_PROVERB:
+    case SEARCH_USER_PROVERBS:
+    case SEARCH_APPROVED_PROVERBS:
       return {
         ...state,
         loading: true,
@@ -73,6 +81,7 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case GET_APPROVED_PROVERBS_SUCCESS:
+    case SEARCH_APPROVED_PROVERBS_SUCCESS:
       return {
         ...state,
         approvedProverbs: payload.results,
@@ -108,6 +117,8 @@ export default function (state = initialState, action) {
     case APPROVE_USER_PROVERB_ERROR:
     case DELETE_USER_PROVERB_ERROR:
     case UPDATE_USER_PROVERB_ERROR:
+    case SEARCH_APPROVED_PROVERBS_ERROR:
+    case SEARCH_USER_PROVERBS_ERROR:
       return {
         ...state,
         error: payload,
@@ -116,9 +127,9 @@ export default function (state = initialState, action) {
     case DELETE_PROVERB_SUCCESS:
       return {
         ...state,
-        userProverbs: state.userProverbs.filter(
-          (proverb) => proverb._id !== payload
-        ),
+        // userProverbs: state.userProverbs.filter(
+        //   (proverb) => proverb._id !== payload
+        // ),
         loading: false,
       };
     case UPDATE_PROVERB_SUCCESS:
@@ -135,6 +146,7 @@ export default function (state = initialState, action) {
         userProverbs: [],
       };
     case GET_ALL_USER_PROVERBS_SUCCESS:
+    case SEARCH_USER_PROVERBS_SUCCESS:
       return {
         ...state,
         allProverbs: payload.results,

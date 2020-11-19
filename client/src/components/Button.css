@@ -1,5 +1,6 @@
 .button-custom,
-.button-custom:visited .button-custom:active,
+.button-custom:visited,
+.button-custom:active,
 .button-custom:focus {
   background-color: #111;
   border-radius: 3px;
@@ -24,4 +25,11 @@
   background-color: #111 !important;
   color: #fff;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  text-decoration: none;
+  color: #444 !important;
+  background-color: transparent;
 }

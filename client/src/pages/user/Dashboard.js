@@ -5,6 +5,7 @@ import Section from "./../../components/Section";
 import Breadcrumb from "./../../components/Breadcrumb";
 import FlexTable from "./../../components/FlexTable";
 import Pagination from "./../../components/Pagination";
+import Spinner from "./../../components/Spinner";
 import Modal from "./../../components/Modal";
 import Button from "./../../components/Button";
 import UpdateProverb from "./../proverb/UpdateProverb";
@@ -21,6 +22,7 @@ import "./Dashboard.css";
 const Dashboard = () => {
   const { user, loading: userLoading } = useAuth();
   const {
+    loading: proverbLoading,
     getUserProverbs,
     userProverbs,
     deleteProverb,
@@ -35,6 +37,7 @@ const Dashboard = () => {
     setPage,
     pageReset,
     setPageReset,
+    setPageItems,
   } = usePagination();
   const history = useHistory();
   const { setLocationChanged } = useLocation();
@@ -45,6 +48,7 @@ const Dashboard = () => {
         setLocationChanged();
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setLocationChanged]
   );
 
@@ -162,6 +166,14 @@ const Dashboard = () => {
     return null;
   };
 
+  if (proverbLoading && pageItems.length === 0) {
+    return (
+      <div className="position-absolute" style={{ top: "50%", left: "50%" }}>
+        <Spinner animation="grow" />
+      </div>
+    );
+  }
+
   return (
     <>
       <Modal
@@ -175,31 +187,34 @@ const Dashboard = () => {
       <Section
         id="page-title"
         title={!userLoading && `${user?.name} DASHBOARD`}
-        containerClass="d-flex justify-content-between mx-5 align-items-center"
       >
         <Breadcrumb activePage="Dashboard" />
       </Section>
-      <Button
-        variant="info"
-        text="Add Proverb"
-        onClick={() => handleShowModal("add")}
-        color="white"
-        type="submit"
-        className="button-custom float-right m-5"
-        id="user-dashboard-add-proverb-button"
-      />
+
       <Container>
-        <Pagination
-          id="proverb-list-top-table-pagination"
-          items={userProverbs}
-          setActivePage={setPage}
-          pageSize={pageSize}
-          activePage={activePage}
-          paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
-          shouldResetPagination={pageReset}
-          setShouldResetPagination={setPageReset}
-          totalPages={totalPages}
-        />
+        <div className="d-flex justify-content-between flex-column-reverse flex-sm-row">
+          <Pagination
+            id="proverb-list-top-table-pagination"
+            items={userProverbs}
+            setActivePage={setPage}
+            setActivePageItems={setPageItems}
+            pageSize={pageSize}
+            activePage={activePage}
+            paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
+            shouldResetPagination={pageReset}
+            setShouldResetPagination={setPageReset}
+            totalPages={totalPages}
+          />
+          <Button
+            variant="info"
+            text="Add Proverb"
+            onClick={() => handleShowModal("add")}
+            color="white"
+            type="submit"
+            className="button-custom float-right m-5"
+            id="user-dashboard-add-proverb-button"
+          />
+        </div>
         {pageItems.length ? (
           <FlexTable
             data={pageItems}

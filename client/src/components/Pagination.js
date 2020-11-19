@@ -7,6 +7,7 @@ const Pagination = ({
   totalPages,
   paginationClass,
   setActivePage,
+  setActivePageItems,
   activePage,
   shouldResetPagination,
   setShouldResetPagination,
@@ -14,10 +15,11 @@ const Pagination = ({
   const [pages, setPages] = useState([]);
   const setPage = useCallback(
     (page) => {
+      setActivePageItems(items);
       if (page < 1 || page > totalPages) {
         return;
       }
-      setActivePage(page, items);
+      setActivePage(page);
       const newPages = createPages();
       setPages(newPages);
     },
@@ -37,11 +39,11 @@ const Pagination = ({
   );
 
   useEffect(() => {
-    if (items.length === 0 && activePage === totalPages) {
+    if (items.length === 0 && activePage - 1 === totalPages && activePage > 1) {
       return setPage(activePage - 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items.length]);
+  }, [items.length, totalPages]);
 
   const calculateStartAndEndPage = () => {
     const MAX_DISPLAYED_PAGE_NUMBERS = 6;
@@ -93,6 +95,7 @@ const Pagination = ({
       if (i === 6) {
         return { page: totalPages, value: true };
       }
+      return null;
     });
 
     return pages;

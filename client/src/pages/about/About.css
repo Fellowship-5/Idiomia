@@ -1,0 +1,9 @@
+.about-section {
+  padding: 30px 40px;
+}
+.about-section p {
+  line-height: 1.8;
+  font-size: 1.15rem;
+  font-weight: 300;
+  padding: 1rem;
+}

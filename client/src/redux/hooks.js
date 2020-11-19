@@ -1,9 +1,14 @@
 import { useCallback } from "react";
 import { useDispatch, shallowEqual, useSelector } from "react-redux";
 import { loadUser, register, login, logout } from "./actions/auth";
-import { setSearch, setSearchTerm } from "./actions/search";
+import { setSearchTerm, setSearchField } from "./actions/search";
 import { setLocationChanged } from "./actions/location";
-import { setPage, setPageSize, setPageReset } from "./actions/pagination";
+import {
+  setPage,
+  setPageSize,
+  setPageReset,
+  setPageItems,
+} from "./actions/pagination";
 import { setToggle } from "./actions/toggle";
 
 import {
@@ -19,6 +24,8 @@ import {
   approveUserProverb,
   deleteUserProverb,
   getProverbAdmin,
+  searchUserProverbs,
+  searchApprovedProverbs,
 } from "./actions/proverb";
 import {
   selectAuth,
@@ -165,6 +172,18 @@ export function useProverb() {
     },
     [dispatch]
   );
+  const boundSearchUserProverbs = useCallback(
+    (...args) => {
+      return dispatch(searchUserProverbs(...args));
+    },
+    [dispatch]
+  );
+  const boundSearchApprovedProverbs = useCallback(
+    (...args) => {
+      return dispatch(searchApprovedProverbs(...args));
+    },
+    [dispatch]
+  );
   return {
     approvedProverbs,
     userProverbs,
@@ -185,12 +204,14 @@ export function useProverb() {
     approveUserProverb: boundApproveUserProverb,
     deleteUserProverb: boundDeleteUserProverb,
     getProverbAdmin: boundGetProverbAdmin,
+    searchUserProverbs: boundSearchUserProverbs,
+    searchApprovedProverbs: boundSearchApprovedProverbs,
   };
 }
 
 export function useSearch() {
   const dispatch = useDispatch();
-  const { isActive, searchTerm, filtered } = useSelector(
+  const { isActive, searchTerm, field } = useSelector(
     selectSearch,
     shallowEqual
   );
@@ -202,19 +223,19 @@ export function useSearch() {
     [dispatch]
   );
 
-  const boundSetSearch = useCallback(
-    (...args) => {
-      return dispatch(setSearch(...args));
+  const boundSetSearchField = useCallback(
+    (term, type) => {
+      return dispatch(setSearchField(term, type));
     },
     [dispatch]
   );
 
   return {
-    filtered,
     setSearchTerm: boundSetSearchTerm,
-    setSearch: boundSetSearch,
+    setSearchField: boundSetSearchField,
     isActive,
     searchTerm,
+    field,
   };
 }
 
@@ -245,6 +266,12 @@ export function usePagination() {
     },
     [dispatch]
   );
+  const boundSetPageItems = useCallback(
+    (...args) => {
+      return dispatch(setPageItems(...args));
+    },
+    [dispatch]
+  );
   const boundSetPage = useCallback(
     (...args) => {
       return dispatch(setPage(...args));
@@ -265,6 +292,7 @@ export function usePagination() {
     pageReset,
     setPageSize: boundSetPageSize,
     setPage: boundSetPage,
+    setPageItems: boundSetPageItems,
     setPageReset: boundSetPageReset,
   };
 }

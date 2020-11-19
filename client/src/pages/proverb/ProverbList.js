@@ -1,78 +1,85 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
 import FlexTable from "../../components/FlexTable";
 import Pagination from "../../components/Pagination";
+import Spinner from "../../components/Spinner";
 import { useProverb, useSearch, usePagination } from "./../../redux/hooks";
 import { homepageTableTitle } from "./../../helpers/flexTableData";
 
 const ProverbList = () => {
+  const searchTimeOut = useRef(null);
   const {
+    loading,
     approvedProverbs,
     getApprovedProverbs,
-    allProverbs,
     totalPages,
+    searchApprovedProverbs,
   } = useProverb();
-  const {
-    filtered: filteredProverbs,
-    isActive,
-    searchTerm,
-    setSearch,
-  } = useSearch();
+  const { searchTerm, field: searchField } = useSearch();
   const {
     activePage,
     pageSize,
     pageItems,
     setPage,
+    setPageItems,
     pageReset,
     setPageReset,
   } = usePagination();
 
   useEffect(
     function fetchApprovedProverbs() {
-      getApprovedProverbs(activePage, pageSize);
+      if (!searchTerm) {
+        getApprovedProverbs(activePage, pageSize);
+      }
     },
-    [getApprovedProverbs, activePage, pageSize]
+    [getApprovedProverbs, activePage, pageSize, searchTerm]
   );
 
   useEffect(
     function searchProverbs() {
-      searchTerm && setSearch(searchTerm, allProverbs);
+      searchTimeOut.current = setTimeout(() => {
+        if (searchTerm) {
+          searchApprovedProverbs(activePage, pageSize, searchTerm, searchField);
+        }
+      }, 300);
+
+      return () => {
+        clearTimeout(searchTimeOut.current);
+      };
     },
-    [searchTerm, setSearch, allProverbs]
+    [activePage, pageSize, searchField, searchTerm, searchApprovedProverbs]
   );
+
+  if (loading && approvedProverbs.length === 0) {
+    return (
+      <div className="position-absolute" style={{ top: "50%", left: "50%" }}>
+        <Spinner animation="grow" />
+      </div>
+    );
+  }
 
   return (
     <Container>
       <Pagination
         id="proverb-list-top-table-pagination"
-        items={isActive ? filteredProverbs : approvedProverbs}
+        items={approvedProverbs}
         setActivePage={setPage}
+        setActivePageItems={setPageItems}
         pageSize={pageSize}
         activePage={activePage}
-        isSearchActive={isActive}
         paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
         shouldResetPagination={pageReset}
         setShouldResetPagination={setPageReset}
         totalPages={totalPages}
       />
-      <FlexTable
-        data={pageItems}
-        titleData={homepageTableTitle}
-        tableId={"proverb-list-flex-table"}
-        tableType="homepage-flexTable"
-      />
-      <Pagination
-        id="proverb-list-bottom-table-pagination"
-        items={isActive ? filteredProverbs : approvedProverbs}
-        setActivePage={setPage}
-        pageSize={pageSize}
-        activePage={activePage}
-        isSearchActive={isActive}
-        paginationClass="proverb-list-table-pagination d-flex justify-content-center align-items-center"
-        shouldResetPagination={pageReset}
-        setShouldResetPagination={setPageReset}
-        totalPages={totalPages}
-      />
+      {totalPages > 0 && (
+        <FlexTable
+          data={pageItems}
+          titleData={homepageTableTitle}
+          tableId={"proverb-list-flex-table"}
+          tableType="homepage-flexTable"
+        />
+      )}
     </Container>
   );
 };

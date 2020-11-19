@@ -21,6 +21,7 @@ const NavbarDropdown = ({ isAuthenticated, user, dropdownLinks }) => {
             />
           );
         }
+        return null;
       })}
     </NavDropdown>
   );

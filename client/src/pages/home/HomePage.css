@@ -1,3 +1,6 @@
+/* .homepage-actions-section * {
+  border: 1px red solid;
+} */
 .add-proverb-modal .modal-content {
   padding: 3rem;
 }
@@ -6,10 +9,14 @@
   height: 10rem;
 }
 
-.homepage-actions-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px;
-  margin: auto;
+.homepage-actions-section .button-custom {
+  height: 46px;
+}
+
+@media all and (max-width: 450px) {
+  .homepage-actions-section .button-custom {
+    font-size: 10px;
+    padding: 0 10px;
+    height: 35px;
+  }
 }
