@@ -1,3 +1,5 @@
+node_modules
+yarn-error.log
 client/node_modules/
 client/debug.log
-node_modules
+

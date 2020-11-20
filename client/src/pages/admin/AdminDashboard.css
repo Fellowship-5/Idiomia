@@ -1,0 +1,102 @@
+.update-proverb-modal .modal-content {
+  padding: 3rem;
+}
+
+.update-proverb-modal .modal-content #proverb-explanation {
+  height: 10rem;
+}
+
+#proverb-list-flex-table.user-dashboard-flexTable
+  .flexTable-row.flexTable-row-approved::before {
+  position: absolute;
+  bottom: -0.3rem;
+  right: -0.5rem;
+  content: "";
+  background: #000000;
+  height: 39px;
+  width: 15px;
+  transform: rotate(35deg);
+}
+
+#proverb-list-flex-table.user-dashboard-flexTable
+  .flexTable-row.flexTable-row-approved::after {
+  position: absolute;
+  font-size: 12px;
+  content: "Approved";
+  bottom: 0px;
+  right: -14px;
+  padding: 1px;
+  width: 6rem;
+  background: #2a2a2a;
+  color: white;
+  text-align: left;
+  box-shadow: 4px 4px 15px rgba(0, 2, 20, 0.5);
+}
+
+#proverb-list-flex-table.user-dashboard-flexTable
+  .flexTable-row.flexTable-row-pending::after {
+  position: absolute;
+  font-size: 12px;
+  content: "Pending...";
+  bottom: 0px;
+  right: -14px;
+  padding: 1px;
+  width: 6rem;
+  background: #3949ab;
+  color: white;
+  text-align: left;
+  box-shadow: 4px 4px 15px rgba(0, 2, 20, 0.5);
+}
+#proverb-list-flex-table.user-dashboard-flexTable
+  .flexTable-row.flexTable-row-pending::before {
+  position: absolute;
+  bottom: -0.3rem;
+  right: -0.5rem;
+  content: "";
+  background: #283593;
+  height: 39px;
+  width: 15px;
+  transform: rotate(35deg);
+}
+
+#proverb-list-flex-table.user-dashboard-flexTable
+  .flexTable-row.flexTable-row-approved
+  .fa-plus {
+  display: none;
+}
+
+#proverb-list-flex-table.user-dashboard-flexTable
+  .flexTable-row.flexTable-row-pending
+  .fa-minus {
+  display: none;
+}
+
+.admin-actions-section {
+  margin-top: 1rem;
+}
+
+@media all and (max-width: 450px) {
+  .admin-actions-section .search-bar {
+    font-size: 16px;
+  }
+  .admin-actions-section .search-form-container {
+    margin: 0;
+    padding: 0;
+  }
+  .admin-actions-section .search-bar-container .input-group {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .admin-actions-section .custom-toggle-container {
+    position: absolute;
+    right: 0;
+    top: 15rem;
+  }
+
+  .admin-actions-section .search-result-label {
+    position: absolute;
+    right: 0;
+    padding: 0;
+  }
+}

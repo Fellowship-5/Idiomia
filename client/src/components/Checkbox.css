@@ -1,0 +1,63 @@
+input[type="radio"],
+input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.input-form-label.form-check {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.input-form-label .form-check-input {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+  z-index: 2;
+}
+
+.input-form-label.form-check  input[type="checkbox"] {
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(3.5); /* IE */
+  -moz-transform: scale(3.5); /* FF */
+  -webkit-transform: scale(3.5); /* Safari and Chrome */
+  -o-transform: scale(3.5); /* Opera */
+  transform: scale(3.5);
+  padding: 10px;
+}
+
+.input-form-label .form-check-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin: -12px 5px;
+  position: relative;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #555;
+}
+
+.input-form-label .form-check-label:before {
+  content: "";
+  background: #fff;
+  border: 2px solid #ddd;
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  margin-right: 10px;
+  line-height: 1;
+  text-align: center;
+}
+
+.input-form-label .form-check-input:checked + .form-check-label:before {
+  background: #444;
+  box-shadow: inset 0px 0px 0px 3px #fff;
+}

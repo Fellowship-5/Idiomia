@@ -1,0 +1,205 @@
+/*======================proverb TABLE STYLES =============================== */
+/* Table column sizing
+  ================================== */
+  #proverb-list-flex-table .proverb-cell {
+    width: 25%;
+  }
+  
+  #proverb-list-flex-table .translation-cell {
+    width: 30%;
+  }
+  
+  #proverb-list-flex-table .explanation-cell {
+    width: 30%;
+  }
+  
+  #proverb-list-flex-table .icon-cell {
+    width: 15%;
+  }
+  
+  /* Apply styles Main Table
+      ================================== */
+  #proverb-list-flex-table .flexTable {
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 3em 0;
+    padding: 0;
+  }
+  #proverb-list-flex-table.flexTable .flexTable-row {
+    width: 100%;
+    display: -webkit-box;
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    border-radius: 0.4rem;
+    background-color: #f7f7f7;
+    background-image: url("./../images/background-texture-table-row.png");
+  
+    transition: background 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-weight: 300;
+    position: relative;
+  }
+  
+  #proverb-list-flex-table.flexTable .flexTable-row.flexTable-row--head {
+    background-color: white;
+    border: none;
+    transition: none;
+  }
+  #proverb-list-flex-table.flexTable .flexTable-row.flexTable-row--head:hover {
+    background-color: white;
+    border: none;
+    box-shadow: none;
+  }
+  
+  #proverb-list-flex-table.flexTable .flexTable-row:hover {
+    background-color: #ebebeb;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+  
+  #proverb-list-flex-table.flexTable .flexTable-row-deleted {
+    border-left: 5px solid red;
+  }
+  
+  #proverb-list-flex-table.flexTable .flexTable-row .flexTable-cell {
+    box-sizing: border-box;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    padding: 0.8em 1.2em;
+    overflow: hidden;
+    list-style: none;
+  }
+  #proverb-list-flex-table.flexTable
+    .flexTable-row
+    .flexTable-cell.column-heading {
+    background-color: #fff;
+    color:#0B5B29;
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 700;
+    padding: 1em;
+  }
+  
+  #proverb-list-flex-table.flexTable
+    .flexTable-row
+    .flexTable-cell
+    .flexTable-cell--heading {
+    display: none;
+  }
+  
+  #proverb-list-flex-table .icon-content > svg {
+    color: #333a40;
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  #proverb-list-flex-table .icon-content > svg:hover {
+    color: #000;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+  
+  #proverb-list-flex-table.flexTable .flexTable-row-active {
+    border: 2px solid #000;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    background-color: #ebebeb;
+    animation: active-row 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  #proverb-list-flex-table.flexTable .flexTable-row-active.flexTable-row-deleted {
+    border-left: 5px solid red;
+  }
+  
+  #proverb-list-flex-table.flexTable .flexTable-row--head {
+    margin-bottom: 0;
+  }
+  
+  @keyframes active-row {
+    0% {
+      border-color: #fff;
+    }
+  
+    100% {
+      border-color: #333a40;
+    }
+  }
+  
+  /* Responsive proverb Table
+    ==================================== */
+  @media all and (max-width: 750px) {
+    #proverb-list-flex-table.flexTable {
+      display: block;
+      width: 100%;
+      box-shadow: none;
+    }
+    #proverb-list-flex-table .flexTable-row {
+      box-sizing: border-box;
+      width: 100%;
+      display: -webkit-box;
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 2em;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+    }
+  
+    #proverb-list-flex-table .flexTable-row-deleted .flexTable-cell--heading {
+      box-sizing: border-box;
+    }
+    #proverb-list-flex-table .flexTable-row-deleted {
+      color: initial;
+    }
+  
+    #proverb-list-flex-table.flexTable .flexTable-row .flexTable-cell {
+      width: 100% !important;
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      padding: 0;
+      border-bottom: 1.1px solid #706a6a38;
+    }
+    #proverb-list-flex-table.flexTable
+      .flexTable-row
+      .flexTable-cell
+      .flexTable-cell--heading {
+      display: flex;
+      align-items: center;
+      width: 100px;
+      height: 100%;
+      background-color: #fff;
+      color: #000;
+      font-size: 14px;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+  
+    #proverb-list-flex-table.flexTable .flexTable-cell.icon-cell {
+      border: none;
+      order: -1;
+    }
+    #proverb-list-flex-table.flexTable .flexTable-cell--heading {
+      padding: 2.75rem 0.5rem;
+      margin: 0;
+    }
+  
+    #proverb-list-flex-table.flexTable
+      .flexTable-row
+      .flexTable-cell
+      .flexTable-cell--content {
+      -webkit-box-flex: 2;
+      flex: 2;
+      padding-left: 0.5rem;
+      padding-bottom: 16px;
+    }
+  
+    #proverb-list-flex-table.flexTable .icon-content {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    #proverb-list-flex-table.flexTable .icon-content > svg {
+      margin-right: 1rem;
+    }
+  
+    #proverb-list-flex-table.flexTable .flexTable-row--head {
+      display: none;
+    }
+  }
+  
