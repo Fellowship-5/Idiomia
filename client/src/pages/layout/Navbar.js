@@ -1,93 +1,93 @@
-import React from "react";
-import { useAuth, useSearch } from "./../../redux/hooks";
-import NavbarComponent from "./../../components/Navbar";
-import IdiomiaLogo from "./../../images/idiomia-11.png";
-import { useTranslation } from "react-i18next";
+import React from 'react'
+import { useAuth, useSearch } from './../../redux/hooks'
+import NavbarComponent from './../../components/Navbar'
+import IdiomiaLogo from './../../images/idiomia-11.png'
+import { useTranslation } from 'react-i18next'
 
 const Navbar = () => {
-  const { isAuthenticated, logoutUser, user } = useAuth();
-  const { setSearchIconClicked, isButtonClicked } = useSearch();
-  const isAdminRole = user?.role === "admin";
-  const { t } = useTranslation(["homePage", "user", "auth"]);
+  const { isAuthenticated, logoutUser, user } = useAuth()
+  const { setSearchIconClicked, isButtonClicked } = useSearch()
+  const isAdminRole = user?.role === 'admin'
+  const { t } = useTranslation(['homePage', 'user', 'auth'])
   const links = [
     {
-      className: "navbar-link",
-      to: "/about",
-      title: t("about"),
+      className: 'navbar-link',
+      to: '',
+      title: t('Search'),
       isAuth: false,
+      onClick: () => setSearchIconClicked(!isButtonClicked)
     },
     {
-      className: "navbar-link",
-      to: "/login",
-      title: t("login"),
-      isAuth: false,
+      className: 'navbar-link',
+      to: '/about',
+      title: t('about'),
+      isAuth: false
     },
     {
-      className: "navbar-link",
-      to: "/register",
-      title: t("register"),
-      isAuth: false,
+      className: 'navbar-link',
+      to: '/login',
+      title: t('login'),
+      isAuth: false
     },
     {
-      className: "navbar-link",
-      to: "/dashboard",
-      title: t("DASHBOARD"),
+      className: 'navbar-link',
+      to: '/register',
+      title: t('register'),
+      isAuth: false
+    },
+    {
+      className: 'navbar-link',
+      to: '/dashboard',
+      title: t('DASHBOARD'),
+      isAuth: true
+    },
+    {
+      className: isAdminRole ? 'navbar-link' : 'd-none',
+      to: isAdminRole && '/admin-dashboard',
+      title: isAdminRole && t('ADMIN'),
+      isAuth: true
+    },
+    {
+      className: 'navbar-link',
+      to: '/',
+      title: t('logout'),
       isAuth: true,
-    },
-    {
-      className: isAdminRole ? "navbar-link" : "d-none",
-      to: isAdminRole && "/admin-dashboard",
-      title: isAdminRole && t("ADMIN"),
-      isAuth: true,
-    },
-    {
-      className: "navbar-link",
-      to: "",
-      title: t("Search"),
-      isAuth: false,
-      onClick: () => setSearchIconClicked(!isButtonClicked),
-    },
-    {
-      className: "navbar-link",
-      to: "/",
-      title: t("logout"),
-      isAuth: true,
-      onClick: logoutUser,
-    },
-  ];
+      onClick: logoutUser
+    }
+  ]
   const dropdownLinks = [
     {
-      className: "dropdown-item",
-      to: "/login",
-      title: t("login"),
-      isAuth: false,
+      className: 'dropdown-item',
+      to: '/login',
+      title: t('login'),
+      isAuth: false
     },
     {
-      className: "dropdown-item",
-      to: "/register",
-      title: t("register"),
-      isAuth: false,
+      className: 'dropdown-item',
+      to: '/register',
+      title: t('register'),
+      isAuth: false
     },
     {
-      className: "navbar-link",
-      to: "/dashboard",
-      title: t("DASHBOARD"),
+      className: 'navbar-link',
+      to: '/dashboard',
+      title: t('DASHBOARD'),
+      isAuth: true
+    },
+    {
+      className: 'navbar-link',
+      to: isAdminRole && '/admin-dashboard',
+      title: isAdminRole && t('ADMIN'),
+      isAuth: true
+    },
+    {
+      className: 'dropdown-item',
+      to: '/',
+      title: t('logout'),
       isAuth: true,
-    },
-    {
-      className: "navbar-link",
-      to: isAdminRole && "/admin-dashboard",
-      title: isAdminRole && t("ADMIN"),
-      isAuth: true,
-    },
-    {
-      className: "dropdown-item",
-      to: "/",
-      title: t("logout"),
-      isAuth: true,
-      onClick: logoutUser,
-    },
-  ];
+      onClick: logoutUser
+    }
+  ]
 
   return (
     <NavbarComponent
@@ -97,7 +97,7 @@ const Navbar = () => {
       links={links}
       dropdownLinks={dropdownLinks}
     />
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
