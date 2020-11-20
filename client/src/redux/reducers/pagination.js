@@ -39,7 +39,11 @@ export default function (state = initialState, action) {
         pageReset: payload,
       };
     case CLEAR_PROFILE:
-      return initialState;
+      return {
+        ...state,
+        activePage: 1,
+        pageSize: 5,
+      };
     case LOCATION_CHANGED:
       return {
         ...state,

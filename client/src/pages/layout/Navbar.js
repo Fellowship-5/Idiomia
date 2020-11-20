@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { useAuth, useSearch } from "./../../redux/hooks";
 import NavbarComponent from "./../../components/Navbar";
 import IdiomiaLogo from "./../../images/idiomia-11.png";
@@ -7,14 +8,20 @@ import { useTranslation } from "react-i18next";
 const Navbar = () => {
   const { isAuthenticated, logoutUser, user } = useAuth();
   const { setSearchIconClicked, isButtonClicked } = useSearch();
+  const history = useHistory();
   const isAdminRole = user?.role === "admin";
   const { t } = useTranslation(["homePage", "user", "auth"]);
+  const handleSearchClick = (e) => {
+    e.preventDefault();
+    history.push("/");
+    setSearchIconClicked(!isButtonClicked);
+  };
   const links = [
     {
       className: "navbar-link",
       to: "/about",
       title: t("about"),
-      isAuth: false,
+      isAuth: "all",
     },
     {
       className: "navbar-link",
@@ -36,16 +43,16 @@ const Navbar = () => {
     },
     {
       className: isAdminRole ? "navbar-link" : "d-none",
-      to: isAdminRole && "/admin-dashboard",
+      to: isAdminRole ? "/admin-dashboard" : "",
       title: isAdminRole && t("ADMIN"),
       isAuth: true,
     },
     {
       className: "navbar-link",
-      to: "",
+      to: "#",
       title: t("Search"),
-      isAuth: false,
-      onClick: () => setSearchIconClicked(!isButtonClicked),
+      isAuth: "all",
+      onClick: handleSearchClick,
     },
     {
       className: "navbar-link",
@@ -75,8 +82,8 @@ const Navbar = () => {
       isAuth: true,
     },
     {
-      className: "navbar-link",
-      to: isAdminRole && "/admin-dashboard",
+      className: isAdminRole ? "navbar-link" : "d-none",
+      to: isAdminRole ? "/admin-dashboard" : "",
       title: isAdminRole && t("ADMIN"),
       isAuth: true,
     },

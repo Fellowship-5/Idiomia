@@ -30,7 +30,7 @@ const NavbarComponent = ({
       <NavbarBootstrap.Collapse id="basic-navbarB-nav">
         <Nav className="ml-auto">
           {links.map((link, i) => {
-            if (link.isAuth === isAuthenticated) {
+            if (link.isAuth === isAuthenticated || link.isAuth === "all") {
               return (
                 <NavbarLink
                   key={i}
