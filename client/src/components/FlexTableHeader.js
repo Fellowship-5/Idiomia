@@ -6,7 +6,7 @@ const FlexTableHeader = ({ titleData }) => {
       <div className="flexTable-row flexTable-row--head">
         {titleData.map((item, k) => (
           <div
-            key={k}
+            key={"header" + k}
             className={`flexTable-cell ${item.fieldName}-cell column-heading`}
           >
             {" "}

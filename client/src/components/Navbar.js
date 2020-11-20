@@ -33,7 +33,7 @@ const NavbarComponent = ({
             if (link.isAuth === isAuthenticated || link.isAuth === "all") {
               return (
                 <NavbarLink
-                  key={i}
+                  key={"links" + i}
                   to={link.to}
                   className={link.className}
                   title={link.title}

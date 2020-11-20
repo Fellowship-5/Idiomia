@@ -36,15 +36,15 @@ const Navbar = () => {
       isAuth: false,
     },
     {
-      className: "navbar-link",
-      to: "/dashboard",
-      title: t("DASHBOARD"),
-      isAuth: true,
-    },
-    {
       className: isAdminRole ? "navbar-link" : "d-none",
       to: isAdminRole ? "/admin-dashboard" : "",
       title: isAdminRole && t("ADMIN"),
+      isAuth: true,
+    },
+    {
+      className: "navbar-link",
+      to: "/dashboard",
+      title: t("DASHBOARD"),
       isAuth: true,
     },
     {

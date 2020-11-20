@@ -24,17 +24,17 @@ const FlexTable = ({
                 ? 'flexTable-row-pending'
                 : 'flexTable-row-approved'
             }`}
-            key={'row' + i}
+            key={'rows' + i}
           >
             {titleData.map((title, k) => {
               if (item[title.fieldName]) {
                 return (
-                  <FlexTableCell key={'column' + k} title={title} item={item} />
+                  <FlexTableCell key={'columns' + k} title={title} item={item} />
                 )
               }
               return (
                 <FlexTableIconCell
-                  key={`icon${k + k}`}
+                  key={`iconcell${k + k}`}
                   title={title}
                   item={item}
                   iconClick={iconClick}
