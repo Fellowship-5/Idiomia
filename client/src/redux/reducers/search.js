@@ -3,12 +3,14 @@ import {
   SET_SEARCH_FIELD,
   LOCATION_CHANGED,
   CLEAR_PROFILE,
+  SET_SEARCH_ICON_CLICKED,
 } from "./../actions/types";
 
 const initialState = {
   isActive: null,
   searchTerm: "",
   field: "proverb",
+  isButtonClicked: false,
 };
 
 export default function (state = initialState, action) {
@@ -24,6 +26,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         field: payload,
+      };
+    case SET_SEARCH_ICON_CLICKED:
+      return {
+        ...state,
+        isButtonClicked: payload,
       };
     case LOCATION_CHANGED:
     case CLEAR_PROFILE:

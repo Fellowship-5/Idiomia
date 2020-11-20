@@ -1,7 +1,11 @@
 import { useCallback } from "react";
 import { useDispatch, shallowEqual, useSelector } from "react-redux";
 import { loadUser, register, login, logout } from "./actions/auth";
-import { setSearchTerm, setSearchField } from "./actions/search";
+import {
+  setSearchTerm,
+  setSearchField,
+  setSearchIconClicked,
+} from "./actions/search";
 import { setLocationChanged } from "./actions/location";
 import {
   setPage,
@@ -211,21 +215,28 @@ export function useProverb() {
 
 export function useSearch() {
   const dispatch = useDispatch();
-  const { isActive, searchTerm, field } = useSelector(
+  const { isActive, searchTerm, field, isButtonClicked } = useSelector(
     selectSearch,
     shallowEqual
   );
 
   const boundSetSearchTerm = useCallback(
-    (term, type) => {
-      return dispatch(setSearchTerm(term, type));
+    (...args) => {
+      return dispatch(setSearchTerm(...args));
+    },
+    [dispatch]
+  );
+
+  const boundSetSearchIconClicked = useCallback(
+    (...args) => {
+      return dispatch(setSearchIconClicked(...args));
     },
     [dispatch]
   );
 
   const boundSetSearchField = useCallback(
-    (term, type) => {
-      return dispatch(setSearchField(term, type));
+    (...args) => {
+      return dispatch(setSearchField(...args));
     },
     [dispatch]
   );
@@ -233,9 +244,11 @@ export function useSearch() {
   return {
     setSearchTerm: boundSetSearchTerm,
     setSearchField: boundSetSearchField,
+    setSearchIconClicked: boundSetSearchIconClicked,
     isActive,
     searchTerm,
     field,
+    isButtonClicked,
   };
 }
 

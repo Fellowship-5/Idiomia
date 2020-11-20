@@ -34,3 +34,8 @@
 .toast-auth-error:before {
   border-left: 8px solid #f82b2b;
 }
+
+/* Dont display share icon in inapproved proverb */
+.flexTable-row-pending .icon-content .fa-share {
+  display: none;
+}

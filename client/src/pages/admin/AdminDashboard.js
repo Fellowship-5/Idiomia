@@ -14,7 +14,6 @@ import UpdateProverb from '../proverb/UpdateProverb'
 import AddProverb from '../proverb/AddProverb'
 import Search from '../home/Search'
 import { adminDashboardTitle } from '../../helpers/flexTableData'
-import { useTranslation } from 'react-i18next'
 import {
   useProverb,
   useSearch,
@@ -26,7 +25,6 @@ import {
 import './AdminDashboard.css'
 
 const AdminDashboard = () => {
-  const { t } = useTranslation('user')
   const searchTimeOut = useRef(null)
   const [showSocialMediaBtns, setShowSocialMediaBtns] = useState(null)
 
