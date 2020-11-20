@@ -21,10 +21,10 @@ import './SocialMediaShare.css'
 
 function SocialMediaShare ({ item }) {
   const { proverb, translation, explanation } = item
-  // const shareUrl = `${process.env.APP_BASE_URL}/proverbs/get-proverb/item._id`
-  const shareUrl = 'www.facebook.com'
-  const quote = `I found this awesome proverb 
-  It says "${proverb}" which means literary "${translation}" and figuratively "${explanation}"`
+  const shareUrl = 'https://idiomia2020.web.app/'
+  const quote = `
+  I found this awesome proverb. 
+  It says "${proverb}" which means literary "${translation}" and figuratively "${explanation}."`
 
   return (
     <div className='social_media_share'>
