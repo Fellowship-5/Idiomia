@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.270a834c.chunk.css",
+    "main.js": "/static/js/main.c70890fe.chunk.js",
+    "main.js.map": "/static/js/main.c70890fe.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.5e26b8dd.js",
+    "runtime-main.js.map": "/static/js/runtime-main.5e26b8dd.js.map",
+    "static/css/2.d34346ea.chunk.css": "/static/css/2.d34346ea.chunk.css",
+    "static/js/2.49f248ab.chunk.js": "/static/js/2.49f248ab.chunk.js",
+    "static/js/2.49f248ab.chunk.js.map": "/static/js/2.49f248ab.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.aa6f46f05a7f1200bfaeffa47e286354.js": "/precache-manifest.aa6f46f05a7f1200bfaeffa47e286354.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.d34346ea.chunk.css.map": "/static/css/2.d34346ea.chunk.css.map",
+    "static/css/main.270a834c.chunk.css.map": "/static/css/main.270a834c.chunk.css.map",
+    "static/js/2.49f248ab.chunk.js.LICENSE.txt": "/static/js/2.49f248ab.chunk.js.LICENSE.txt",
+    "static/media/Section.css": "/static/media/backgroun-texture-section.c2572617.png",
+    "static/media/FlexTable.css": "/static/media/background-texture-table-row.51931731.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5e26b8dd.js",
+    "static/css/2.d34346ea.chunk.css",
+    "static/js/2.49f248ab.chunk.js",
+    "static/css/main.270a834c.chunk.css",
+    "static/js/main.c70890fe.chunk.js"
+  ]
+}
