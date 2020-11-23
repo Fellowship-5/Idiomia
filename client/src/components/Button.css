@@ -22,7 +22,7 @@
 .button-custom:hover,
 .button-custom:visited:hover {
   opacity: 0.9;
-  background-color: #2bae66ff !important;
+  background-color: #2bae66ff;
   color: #fff;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }

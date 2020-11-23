@@ -4,6 +4,8 @@
 
 #add-proverb-button:disabled,
 #add-proverb-button:disabled:hover,
+#add-proverb-button:disabled:focus,
+#add-proverb-button:disabled:active,
 #add-proverb-button[disabled] {
   background-color: #111;
   border-radius: 3px;
