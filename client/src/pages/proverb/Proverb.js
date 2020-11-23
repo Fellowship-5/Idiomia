@@ -28,6 +28,16 @@ const Proverb = ({ actionType, handleCloseModal }) => {
 
   const { proverb, translation, explanation, errors } = formData;
 
+  useEffect(() => {
+    if (!("errors" in proverbObj)) {
+      proverbObj.errors = {
+        proverb: "",
+        translation: "",
+        explanation: "",
+      };
+    }
+  }, [proverbObj]);
+
   useEffect(
     function shouldButtonBeDisabled() {
       const isFilled = [proverb, translation, explanation].every((data) =>
@@ -42,9 +52,10 @@ const Proverb = ({ actionType, handleCloseModal }) => {
   const handleInputChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
+
     switch (name) {
       case "proverb":
-        const result = isArabic(proverb);
+        const result = isArabic(value);
         errors.proverb =
           value.length < 1 || !result
             ? "Proverb input should be in Arabic"
@@ -56,7 +67,9 @@ const Proverb = ({ actionType, handleCloseModal }) => {
         break;
       case "explanation":
         errors.explanation =
-          value.length < 20 ? "Explanation must be at least 20 characters!" : "";
+          value.length < 10
+            ? "Explanation must be at least 10 characters!"
+            : "";
         break;
       default:
         break;
@@ -67,25 +80,24 @@ const Proverb = ({ actionType, handleCloseModal }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const proverbAddAction = isAuthenticated ? addUserProverb : addProverb;
-
+    if (validateForm(errors)) {
+      Object.values(errors).forEach(
+        (error) =>
+          error &&
+          toast(error, {
+            className: "toast-auth-error",
+            position: "top-left",
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+      );
+      return;
+    }
     if (actionType === "Add") {
-      if (validateForm(errors)) {
-        Object.values(errors).forEach(
-          (error) =>
-            error &&
-            toast(error, {
-              className: "toast-auth-error",
-              position: "top-left",
-              autoClose: false,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            })
-        );
-        return;
-      }
       await proverbAddAction(formData);
       handleCloseModal();
       return;
