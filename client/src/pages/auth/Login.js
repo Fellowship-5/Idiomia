@@ -37,7 +37,7 @@ const Login = props => {
   }
 
   const handleGoogleSignUp = response => {
-    const email = response.tt.$t
+    const email = response.profileObj.email
     const password = response.googleId
     loginUser({ email, password })
   }

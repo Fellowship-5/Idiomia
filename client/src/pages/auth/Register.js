@@ -109,7 +109,7 @@ const Register = () => {
   const countries = [{ code: 'ZERO' }].concat(countryList.getData())
 
   const handleGoogleSignUp = response => {
-    const email = response.tt.$t
+    const email = response.profileObj.email
     const name = response.profileObj.name
     const password = response.googleId
     registerUser({
