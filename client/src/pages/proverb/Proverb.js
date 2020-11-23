@@ -36,6 +36,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
         explanation: "",
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [proverbObj]);
 
   useEffect(
@@ -44,8 +45,8 @@ const Proverb = ({ actionType, handleCloseModal }) => {
         Boolean(data)
       );
       isFilled ? setDisabled(false) : setDisabled(true);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     [formData]
   );
 
