@@ -108,7 +108,7 @@
     z-index: -1;
   }
   .navbar-custom {
-    padding: 0;
+    padding: 10px 0;
     position: relative;
     background-color: #fff;
     border-bottom: 1px solid #f5f5f5;
