@@ -23,4 +23,9 @@ export const PROVERB_INITIAL_DATA = {
   proverb: "",
   translation: "",
   explanation: "",
+  errors: {
+    proverb: "",
+    translation: "",
+    explanation: "",
+  },
 };

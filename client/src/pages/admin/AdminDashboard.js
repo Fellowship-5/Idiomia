@@ -147,7 +147,6 @@ const AdminDashboard = () => {
     const id = e.target?.id
     const icon = e.target?.textContent
     getProverbAdmin(id)
-    console.log(e.target?.adminApproval)
     switch (icon) {
       case 'Edit':
         handleShowModal('update', id)

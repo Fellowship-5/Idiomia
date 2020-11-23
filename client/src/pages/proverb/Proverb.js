@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 import Input from "./../../components/Input";
 import Button from "./../../components/Button";
-import { isArabic } from "./../../helpers/functions";
+import { isArabic, validateForm } from "./../../helpers/functions";
 import { PROVERB_INITIAL_DATA } from "./../../helpers/formData";
 import { useProverb, useAuth } from "./../../redux/hooks";
 
@@ -25,20 +26,42 @@ const Proverb = ({ actionType, handleCloseModal }) => {
   const [formData, setFormData] = useState(proverbFormValues);
   const [disabled, setDisabled] = useState(true);
 
-  const { proverb, translation, explanation } = formData;
+  const { proverb, translation, explanation, errors } = formData;
 
-  useEffect(() => {
-    const isFilled = [proverb, translation, explanation].every((data) =>
-      Boolean(data)
-    );
-    const result = isArabic(proverb);
-    const shouldBeDisabled = !isFilled || !result;
-    setDisabled(shouldBeDisabled);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData]);
+  useEffect(
+    function shouldButtonBeDisabled() {
+      const isFilled = [proverb, translation, explanation].every((data) =>
+        Boolean(data)
+      );
+      isFilled ? setDisabled(false) : setDisabled(true);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [formData]
+  );
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    e.preventDefault();
+    const { name, value } = e.target;
+    switch (name) {
+      case "proverb":
+        const result = isArabic(proverb);
+        errors.proverb =
+          value.length < 1 || !result
+            ? "Proverb input should be in Arabic"
+            : "";
+        break;
+      case "translation":
+        errors.translation =
+          value.length < 1 ? "Translation cannot be empty!" : "";
+        break;
+      case "explanation":
+        errors.explanation =
+          value.length < 20 ? "Explanation must be at least 20 characters!" : "";
+        break;
+      default:
+        break;
+    }
+    setFormData({ ...formData, [name]: value });
   };
 
   const onSubmit = async (e) => {
@@ -46,6 +69,23 @@ const Proverb = ({ actionType, handleCloseModal }) => {
     const proverbAddAction = isAuthenticated ? addUserProverb : addProverb;
 
     if (actionType === "Add") {
+      if (validateForm(errors)) {
+        Object.values(errors).forEach(
+          (error) =>
+            error &&
+            toast(error, {
+              className: "toast-auth-error",
+              position: "top-left",
+              autoClose: false,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+        );
+        return;
+      }
       await proverbAddAction(formData);
       handleCloseModal();
       return;
