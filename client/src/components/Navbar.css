@@ -87,12 +87,15 @@
     display: block;
     width: auto;
   }
+  .navbar-logo {
+    padding: 0;
+    width: 150px;
+    height:80px;
+    overflow: hidden;
+  }
   .navbar-brand-logo {
     padding: 0;
-    margin-left: -10px;
-    margin-right: -20px;
-    width: 200px;
-    overflow: hidden;
+    z-index: -1;
   }
   .navbar-custom {
     padding: 0;

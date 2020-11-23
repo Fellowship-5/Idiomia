@@ -19,4 +19,12 @@
     padding: 0 10px;
     height: 35px;
   }
+  .flexTable-row-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flexTable-row-container .social_media_share {
+    order: -1;
+  }
 }

@@ -17,7 +17,7 @@ const FlexTable = ({
     <div id={tableId} className={`flexTable ${tableType}`}>
       <FlexTableHeader titleData={titleData} />
       {data.map((item, i) => (
-        <div>
+        <div className='flexTable-row-container'>
           <div
             className={`flexTable-row ${
               !item.adminApproval
