@@ -9,6 +9,7 @@ const { paginateArr } = require('../services/paginateResponse')
 
 const Proverb = require('../models/proverb')
 const User = require('../models/user')
+const proverb = require('../models/proverb')
 
 const getProverbs = async (req, res, next) => {
   res.json({
@@ -206,7 +207,7 @@ const searchProverbs = async (req, res, next) => {
     })
     return next()
   }
-  const paginatedProverbs = paginateArr(proverbsFound, req)
+  const paginatedProverbs = {total : proverbsFound.length,...paginateArr(proverbsFound, req)}
 
   res.status(200).json({ paginatedProverbs })
 }

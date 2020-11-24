@@ -111,7 +111,7 @@ const Search = () => {
           label="Found:"
           className="mx-2"
           labelClassName="search-result-label"
-          text={totalPages * pageSize}
+          text={totalPages / pageSize}
         />
       ) : (
         <></>

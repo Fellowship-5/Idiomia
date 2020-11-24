@@ -235,7 +235,7 @@ export const searchApprovedProverbs = (page, limit, term, field) => async (
     const res = await axios.get(
       `${API_URL}/proverbs/proverb-search?search_field=${field}&search_value=${term}&page=${page}&limit=${limit}&approved=true`
     );
-
+console.log('res', res);
     dispatch({
       type: SEARCH_APPROVED_PROVERBS_SUCCESS,
       payload: res.data.paginatedProverbs,
