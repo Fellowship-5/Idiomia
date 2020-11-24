@@ -94,7 +94,7 @@ const Login = props => {
           />
           <Button
             variant='info'
-            text={t('login')}
+            text={t('Login')}
             onClick={onSubmit}
             color='white'
             type='submit'

@@ -6,4 +6,8 @@
   font-size: 1.15rem;
   font-weight: 300;
   padding: 1rem;
+  white-space: pre-wrap;
+}
+.about-section ul {
+  text-decoration: dotted!important;
 }

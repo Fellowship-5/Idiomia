@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
+import {useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 import { Form } from "react-bootstrap";
 import Input from "./../../components/Input";
 import Button from "./../../components/Button";
 import { isArabic } from "./../../helpers/functions";
 import { PROVERB_INITIAL_DATA } from "./../../helpers/formData";
 import { useProverb, useAuth } from "./../../redux/hooks";
-
 import "./Proverb.css";
 
 const Proverb = ({ actionType, handleCloseModal }) => {
+  const {t, i18n  } =useTranslation('proverbs')
   const { isAuthenticated } = useAuth();
   const {
     addProverb,
@@ -18,7 +20,6 @@ const Proverb = ({ actionType, handleCloseModal }) => {
     loading,
     updateUserProverb,
   } = useProverb();
-
   const isNewProverb = !loading && actionType === "Add";
   const proverbFormValues = isNewProverb ? PROVERB_INITIAL_DATA : proverbObj;
 
@@ -65,7 +66,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
   return (
     <Form>
       <Input
-        label="Proverb"
+        label={i18next.t("proverbs:Proverb")}
         id="proverb-proverb"
         type="text"
         value={proverb}
@@ -78,7 +79,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
         readOnly={actionType === "Update"}
       />
       <Input
-        label="Translation"
+        label={i18next.t("proverbs:Translation")}
         id="proverb-translation"
         type="text"
         value={translation}
@@ -91,7 +92,7 @@ const Proverb = ({ actionType, handleCloseModal }) => {
       />
 
       <Input
-        label="Explanation"
+        label={i18next.t("proverbs:Explanation")}
         id="proverb-explanation"
         type="text"
         value={explanation}

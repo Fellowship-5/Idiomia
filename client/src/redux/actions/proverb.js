@@ -1,4 +1,6 @@
 import axios from "axios";
+import i18n from '../../i18n';
+
 import {
   GET_APPROVED_PROVERBS,
   GET_APPROVED_PROVERBS_SUCCESS,
@@ -112,7 +114,18 @@ export const addUserProverb = (formData) => async (dispatch, getState) => {
     });
     dispatch(getUserProverbs(activePage, pageSize));
 
-    toast.success("Proverb will be approved by admin");
+    
+    toast(i18n.t('proverbs:proverb Success'),
+     {
+      className: "toast-user-proverb",
+      position: "top-left",
+      autoClose: false,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   } catch (err) {
     showError(err);
 
@@ -136,7 +149,8 @@ export const addProverb = (formData) => async (dispatch) => {
       payload: res.data.proverb,
     });
 
-    toast("Proverb will be approved by the Admin!", {
+    toast(i18n.t("proverbs:proverb Success"),
+     {
       className: "toast-user-proverb",
       position: "top-left",
       autoClose: false,
@@ -174,7 +188,7 @@ export const deleteProverb = (id) => async (dispatch, getState) => {
     });
     await dispatch(getUserProverbs(activePage, pageSize));
 
-    toast.success("Proverb deleted successfully");
+    toast.success(i18n.t("proverbs:Proverb deleted successfully"));
   } catch (err) {
     dispatch({
       type: DELETE_PROVERB_ERROR,
@@ -199,7 +213,7 @@ export const updateProverb = (formData, id) => async (dispatch) => {
       payload: res.data.edited_proverb,
     });
 
-    toast.success("Proverb updated successfully");
+    toast.success(i18n.t("proverbs:Proverb updated successfully"))
   } catch (err) {
     showError(err);
 
@@ -241,7 +255,7 @@ export const searchApprovedProverbs = (page, limit, term, field) => async (
 export const getAllUserProverbs = (page, limit, isApproved = "all") => async (
   dispatch
 ) => {
-  let allUserProverbsUrl = `${API_URL}/admin/all-proverbs?page=${page}&limit=${limit}&sort=asc`;
+  let allUserProverbsUrl = `${API_URL}/admin/all-proverbs?page=${page}&limit=${limit}&sort=desc`;
 
   if (isApproved !== "all") {
     allUserProverbsUrl = allUserProverbsUrl + `&approved=${isApproved}`;
@@ -331,7 +345,8 @@ export const updateUserProverb = (formData, id) => async (dispatch) => {
       payload: res.data.edited_proverb,
     });
 
-    toast.success("Proverb updated successfully");
+    toast.success(i18n.t("proverbs:Proverb updated successfully"))
+
   } catch (err) {
     showError(err);
 
@@ -374,8 +389,7 @@ export const deleteUserProverb = (id) => async (dispatch, getState) => {
     } else {
       await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
     }
-
-    toast.success("Proverb deleted successfully");
+    toast.success(i18n.t("proverbs:Proverb deleted successfully"))
   } catch (err) {
     dispatch({
       type: DELETE_USER_PROVERB_ERROR,

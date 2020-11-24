@@ -17,5 +17,16 @@
 		"FbLogin": "Continue with Facebook",
 		"email_place_holder": "Email Address",
 		"password_place_holder": "Enter your password"
+	},
+	"proverbs": {
+		"proverb Success": "Thank you for your contribution! \n Your proverb will be checked by the admin and if approved it will be in our collection. \n If you have an account then you can see your proverb status in your Dashboard."
+	},
+	"about": {
+		"What": "Idiomia is a project to collect all of the proverbs and expressions that are used by native speakers of less documented, or undocumented, languages.",
+		"Why": "There are three reasons behind our project:",
+		"first reason": "In our globalized world, many of these languages, accents, and dialects are threatened of disappearing. Idiomia aims to preserve the proverbs and expressions used in these languages because they offer us an insight into how we, and our close ancestors, think and conceive of the world. Keeping them preserves part of our evolving human consciousness",
+		"second reason": "Since these languages are not documented, learning them proposes a challenge for learners. Thus, collecting these proverbs and their translation helps the aforementioned learners.",
+		"third reason": "Collecting all these proverbs might help in translation apps. Most of these, proverbs,  are not literal, and having a glossory of most proverbs can help in this field.",
+		"How": "Any person can, even without logging in, add proverbs to Idiomia. These, in turn, are reviewed by the website admins and if the admins approve the proverb it will be published on the website and later on the website's social accounts."
 	}
 }

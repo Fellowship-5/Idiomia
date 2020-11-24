@@ -1,4 +1,6 @@
 import axios from 'axios'
+import i18n from '../../i18n';
+
 import {
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
@@ -17,6 +19,7 @@ import { toast } from 'react-toastify'
 import { showError } from './../../helpers/functions'
 
 const API_URL = process.env.REACT_APP_IDIOMIA_API
+
 
 // Load User
 export const loadUser = () => async dispatch => {
@@ -56,7 +59,7 @@ export const register = data => async dispatch => {
       type: REGISTER_USER_SUCCESS,
       payload: res.data
     })
-    toast.success('You have registered successfully')
+    toast.success(i18n.t('auth: You have registered successfully'))
   } catch (err) {
     showError(err)
 
@@ -80,7 +83,7 @@ export const login = data => async dispatch => {
       type: LOGIN_USER_SUCCESS,
       payload: res.data
     })
-    toast.success('You have logined successfully')
+    toast.success(i18n.t('auth:You have registered successfully'))
   } catch (err) {
     showError(err)
 

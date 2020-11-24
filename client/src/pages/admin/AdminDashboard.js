@@ -212,7 +212,7 @@ const AdminDashboard = () => {
     if (modal.type === 'delete') {
       return (
         <div>
-          <p className='lead ml-2'>t('Do you want to delete your proverb?')</p>
+          <p className='lead ml-2'>Do you want to delete your proverb?</p>
           <Button
             variant='info'
             text='Delete'

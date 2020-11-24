@@ -19,9 +19,16 @@ const Navbar = () => {
   const links = [
     {
       className: "navbar-link",
+      to: "#",
+      title: t("Search"),
+      isAuth: "all",
+      onClick: handleSearchClick,
+    },
+    {
+      className: "navbar-link",
       to: "/about",
       title: t("about"),
-      isAuth: "all",
+      isAuth: false,
     },
     {
       className: "navbar-link",
@@ -46,13 +53,6 @@ const Navbar = () => {
       to: "/dashboard",
       title: t("DASHBOARD"),
       isAuth: true,
-    },
-    {
-      className: "navbar-link",
-      to: "#",
-      title: t("Search"),
-      isAuth: "all",
-      onClick: handleSearchClick,
     },
     {
       className: "navbar-link",

@@ -1,43 +1,31 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import Section from '../../components/Section'
-import Breadcrumb from '../../components/Breadcrumb'
-import './About.css'
-export default function About (props) {
-  const { t } = useTranslation('about')
+import React from "react";
+import { Container } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import Section from "../../components/Section";
+import Breadcrumb from "../../components/Breadcrumb";
+import "./About.css";
+export default function About(props) {
+  const { t } = useTranslation("about");
   return (
     <div>
-      <Section id='about-section' title={t('ABOUT IDIOMIA')}>
-        <Breadcrumb activePage='About' />
+      <Section id="about-section" title={t("ABOUT IDIOMIA")}>
+        <Breadcrumb activePage="About" />
       </Section>
-      <Container className='about-section'>
-        <p>
-          Thanks to the advancement in technology, our world has become more of
-          a small village. This great achivement has some downsides to it.{' '}
-          <br />
-          <br />
-          One of them is that many of the proverbs and idioms of smaller, less
-          dominating and less documented languages, accents, and dialects are
-          lost. Losing them means that we are losing part of the human
-          consciousness or a way of how the world was perceived .<br />
+      <Container className="about-section">
+        <h3>{t("What is Idiomia?")}</h3>
+        <p>{t("What")}</p>
+        <h3>{t("Why Idiomia?")}</h3>
+        <p> 
+          {t("Why")}
+        <ul>   
+          <li>{t("first reason")}</li>
+          <li>{t("second reason")}</li>
+          <li>{t("third reason")}</li>
+        </ul>
         </p>
-        <p>
-          <strong>Idiomia</strong> is trying to use technology to keep our world
-          colorful and save part of humanity's heritage in one place and then
-          making it available to the world.
-          <br />
-        </p>
-        <p>
-          We are starting with the Arabic language since it is one of the oldest
-          languages in the world. And since the dialects and accents we have
-          nowadays are mostly undocumented{' '}
-          <strong>
-            Idiomia is a project to collect them from the Arabic native
-            speakers.
-          </strong>
-        </p>
+        <h3>{t("How?")}</h3>
+        <p>{t("How")}</p>
       </Container>
     </div>
-  )
+  );
 }
