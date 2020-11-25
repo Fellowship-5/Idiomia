@@ -95,6 +95,7 @@ export function useProverb() {
     loading,
     error,
     totalPages,
+    totalFound,
   } = useSelector(selectProverb, shallowEqual);
 
   const boundGetApprovedProverbs = useCallback(
@@ -196,6 +197,7 @@ export function useProverb() {
     loading,
     error,
     totalPages,
+    totalFound,
     getApprovedProverbs: boundGetApprovedProverbs,
     getUserProverbs: boundGetUserProverbs,
     getProverb: boundGetProverb,

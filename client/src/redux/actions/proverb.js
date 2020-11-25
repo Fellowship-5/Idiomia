@@ -1,5 +1,5 @@
 import axios from "axios";
-import i18n from '../../i18n';
+import i18n from "../../i18n";
 
 import {
   GET_APPROVED_PROVERBS,
@@ -114,9 +114,7 @@ export const addUserProverb = (formData) => async (dispatch, getState) => {
     });
     dispatch(getUserProverbs(activePage, pageSize));
 
-    
-    toast(i18n.t('proverbs:proverb Success'),
-     {
+    toast(i18n.t("proverbs:proverb Success"), {
       className: "toast-user-proverb",
       position: "top-left",
       autoClose: false,
@@ -149,8 +147,7 @@ export const addProverb = (formData) => async (dispatch) => {
       payload: res.data.proverb,
     });
 
-    toast(i18n.t("proverbs:proverb Success"),
-     {
+    toast(i18n.t("proverbs:proverb Success"), {
       className: "toast-user-proverb",
       position: "top-left",
       autoClose: false,
@@ -213,7 +210,7 @@ export const updateProverb = (formData, id) => async (dispatch) => {
       payload: res.data.edited_proverb,
     });
 
-    toast.success(i18n.t("proverbs:Proverb updated successfully"))
+    toast.success(i18n.t("proverbs:Proverb updated successfully"));
   } catch (err) {
     showError(err);
 
@@ -240,7 +237,6 @@ export const searchApprovedProverbs = (page, limit, term, field) => async (
       type: SEARCH_APPROVED_PROVERBS_SUCCESS,
       payload: res.data.paginatedProverbs,
     });
-    //  await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
   } catch (err) {
     dispatch({
       type: SEARCH_APPROVED_PROVERBS_ERROR,
@@ -345,8 +341,7 @@ export const updateUserProverb = (formData, id) => async (dispatch) => {
       payload: res.data.edited_proverb,
     });
 
-    toast.success(i18n.t("proverbs:Proverb updated successfully"))
-
+    toast.success(i18n.t("proverbs:Proverb updated successfully"));
   } catch (err) {
     showError(err);
 
@@ -389,7 +384,7 @@ export const deleteUserProverb = (id) => async (dispatch, getState) => {
     } else {
       await dispatch(getAllUserProverbs(activePage, pageSize, isApproved));
     }
-    toast.success(i18n.t("proverbs:Proverb deleted successfully"))
+    toast.success(i18n.t("proverbs:Proverb deleted successfully"));
   } catch (err) {
     dispatch({
       type: DELETE_USER_PROVERB_ERROR,

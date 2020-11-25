@@ -47,6 +47,7 @@ const initialState = {
   proverb: {},
   totalPages: null,
   loading: false,
+  totalFound: null,
   error: {},
 };
 
@@ -86,6 +87,7 @@ export default function (state = initialState, action) {
         ...state,
         approvedProverbs: payload.results,
         totalPages: payload.total_pages,
+        totalFound: payload.total,
         loading: false,
       };
     case GET_USER_PROVERBS_SUCCESS:
@@ -127,9 +129,6 @@ export default function (state = initialState, action) {
     case DELETE_PROVERB_SUCCESS:
       return {
         ...state,
-        // userProverbs: state.userProverbs.filter(
-        //   (proverb) => proverb._id !== payload
-        // ),
         loading: false,
       };
     case UPDATE_PROVERB_SUCCESS:
@@ -151,6 +150,7 @@ export default function (state = initialState, action) {
         ...state,
         allProverbs: payload.results,
         totalPages: payload.total_pages,
+        totalFound: payload.total,
         loading: false,
       };
     case APPROVE_USER_PROVERB_SUCCESS:

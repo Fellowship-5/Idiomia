@@ -18,8 +18,8 @@ const Search = () => {
     isButtonClicked,
     setSearchField,
   } = useSearch();
-  const { pageSize, setPageReset } = usePagination();
-  const { totalPages } = useProverb();
+  const { setPageReset } = usePagination();
+  const { totalFound } = useProverb();
   const searchInput = useRef(null);
   const { t } = useTranslation("homePage");
 
@@ -111,7 +111,7 @@ const Search = () => {
           label="Found:"
           className="mx-2"
           labelClassName="search-result-label"
-          text={totalPages / pageSize}
+          text={totalFound}
         />
       ) : (
         <></>

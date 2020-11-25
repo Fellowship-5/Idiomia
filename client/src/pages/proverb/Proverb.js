@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {useTranslation } from 'react-i18next'
 import i18next from 'i18next'
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
@@ -11,7 +10,6 @@ import { useProverb, useAuth } from "./../../redux/hooks";
 import "./Proverb.css";
 
 const Proverb = ({ actionType, handleCloseModal }) => {
-  const {t, i18n  } =useTranslation('proverbs')
   const { isAuthenticated } = useAuth();
   const {
     addProverb,
