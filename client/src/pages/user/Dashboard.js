@@ -128,7 +128,7 @@ const Dashboard = () => {
         return (
           <div>
             <p className='lead ml-2'>
-              t('It is not allowed to update approved proverb.')
+              {t('It is not allowed to update an approved proverb.')}
             </p>
             <Button
               variant='info'
