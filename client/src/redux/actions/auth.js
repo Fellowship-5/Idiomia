@@ -83,7 +83,7 @@ export const login = data => async dispatch => {
       type: LOGIN_USER_SUCCESS,
       payload: res.data
     })
-    toast.success(i18n.t('auth:You have registered successfully'))
+    toast.success(i18n.t('auth:You have logined successfully'))
   } catch (err) {
     showError(err)
 
