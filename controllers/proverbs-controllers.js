@@ -200,6 +200,7 @@ const getProverbById = async (req, res, next) => {
 
 const searchProverbs = async (req, res, next) => {
   const proverbsFound = await findWordInField(Proverb, req)
+  console.log('proverbsFound:', proverbsFound)
 
   if (!proverbsFound) {
     res.status(200).json({
@@ -207,7 +208,8 @@ const searchProverbs = async (req, res, next) => {
     })
     return next()
   }
-  const paginatedProverbs = {total : proverbsFound.length,...paginateArr(proverbsFound, req)}
+
+  const paginatedProverbs = paginateArr(proverbsFound, req)
 
   res.status(200).json({ paginatedProverbs })
 }

@@ -7,6 +7,7 @@ function addNextPreviousTotalObj (page, limit, arrLength) {
   const results = {}
 
   results.total_pages = Math.ceil(arrLength / limit)
+  results.total = arrLength
 
   if (endIndex < arrLength) {
     results.next = {
@@ -126,6 +127,7 @@ function paginateArr (resultsArr, req) {
   if (sort) {
     proverbsToSend = sortArr(resultsArr, sort)
   }
+
   if (approved === undefined) {
     const { results, startIndex, endIndex } = addNextPreviousTotalObj(
       page,
@@ -149,5 +151,6 @@ function paginateArr (resultsArr, req) {
   results.results = proverbsToSend.slice(startIndex, endIndex)
   return results
 }
+
 exports.paginateResponse = paginateResponse
 exports.paginateArr = paginateArr

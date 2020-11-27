@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f1dc6d6e20646ef77adf4db0385b1857",
+    "revision": "68e7c2bf37d8ace654871f75dcabba80",
     "url": "/index.html"
   },
   {
-    "revision": "2bf7db2d92a2d62f1ead",
+    "revision": "aa04e767df54531db45b",
     "url": "/static/css/2.d34346ea.chunk.css"
   },
   {
-    "revision": "6bdd40361c1fbc9810d9",
-    "url": "/static/css/main.270a834c.chunk.css"
+    "revision": "3138bbdc4239d2b721db",
+    "url": "/static/css/main.d1611db3.chunk.css"
   },
   {
-    "revision": "2bf7db2d92a2d62f1ead",
-    "url": "/static/js/2.49f248ab.chunk.js"
+    "revision": "aa04e767df54531db45b",
+    "url": "/static/js/2.be54ccb0.chunk.js"
   },
   {
     "revision": "434eeea35bf11e3d22931f972c8fbb4c",
-    "url": "/static/js/2.49f248ab.chunk.js.LICENSE.txt"
+    "url": "/static/js/2.be54ccb0.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6bdd40361c1fbc9810d9",
-    "url": "/static/js/main.c70890fe.chunk.js"
+    "revision": "3138bbdc4239d2b721db",
+    "url": "/static/js/main.6fa39cdf.chunk.js"
   },
   {
     "revision": "835514f2ecfde67f2112",
@@ -34,5 +34,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "51931731f951420e2e9134b67a094892",
     "url": "/static/media/background-texture-table-row.51931731.png"
+  },
+  {
+    "revision": "3987a574f0e778fa701dcfbbeb9b2bbe",
+    "url": "/static/media/idiomia-11.3987a574.png"
   }
 ]);
